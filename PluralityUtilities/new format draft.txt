@@ -1,0 +1,41 @@
+<fields>
+	<field group>
+		group-duplicate
+		<field unique>solo-unique</field>
+		<field group unique>
+			group-unique
+			<field>solo-duplicate</field>
+		</field>
+	</field>
+</fields>
+
+
+<templates>
+	<template>
+		#<solo-duplicate>:<solo-duplicate> <solo-unique>
+	</template>
+	<template manual>
+		::<solo-duplicate>::<solo-duplicate> <solo-unique>
+	</template>
+</templates>
+
+
+<entries>
+	<entry>
+		entry-name
+		<group-duplicate>
+			<solo-unique>value-A</solo-unique>
+			<group-unique>
+				<solo-duplicate>value-B</solo-duplicate>
+				<solo-duplicate>value-C</solo-duplicate>
+			</group-unique>
+		</group-duplicate>
+		<group-duplicate>
+			<solo-unique>value-D</solo-unique>
+			<group-unique>
+				<solo-duplicate>value-E</solo-duplicate>
+				<solo-duplicate>value-F</solo-duplicate>
+			</group-unique>
+		</group-duplicate>
+	<entry>
+</entries>
