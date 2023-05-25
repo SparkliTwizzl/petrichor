@@ -1,41 +1,51 @@
-<fields>
-	<field group>
-		group-duplicate
-		<field unique>solo-unique</field>
-		<field group unique>
+fields:
+{
+	field group:
+	{
+		name: group-duplicate
+		subfields:
+		{
+			field unique: solo-unique
+			field group unique:
+			{
+				name: group-unique
+				subfields:
+				{
+					field: solo-duplicate
+				}
+			}
+		}
+	}
+}
+
+templates:
+{
+	template: #solo-duplicate:solo-duplicate solo-unique
+	template manual: ::solo-duplicate::solo-duplicate solo-unique
+}
+
+entries:
+{
+	entry:
+	{
+		name: entry-name
+		group-duplicate:
+		{
+			solo-unique: value-A
+			group-unique:
+			{
+				solo-duplicate: value-B
+				solo-duplicate: value-C
+			}
+		}
+		group-duplicate:
+		{
+			solo-unique: value-D
 			group-unique
-			<field>solo-duplicate</field>
-		</field>
-	</field>
-</fields>
-
-
-<templates>
-	<template>
-		#<solo-duplicate>:<solo-duplicate> <solo-unique>
-	</template>
-	<template manual>
-		::<solo-duplicate>::<solo-duplicate> <solo-unique>
-	</template>
-</templates>
-
-
-<entries>
-	<entry>
-		entry-name
-		<group-duplicate>
-			<solo-unique>value-A</solo-unique>
-			<group-unique>
-				<solo-duplicate>value-B</solo-duplicate>
-				<solo-duplicate>value-C</solo-duplicate>
-			</group-unique>
-		</group-duplicate>
-		<group-duplicate>
-			<solo-unique>value-D</solo-unique>
-			<group-unique>
-				<solo-duplicate>value-E</solo-duplicate>
-				<solo-duplicate>value-F</solo-duplicate>
-			</group-unique>
-		</group-duplicate>
-	<entry>
-</entries>
+			{
+				solo-duplicate: value-E
+				solo-duplicate: value-F
+			}
+		}
+	}
+}
