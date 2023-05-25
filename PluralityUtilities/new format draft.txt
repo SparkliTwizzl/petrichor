@@ -20,8 +20,8 @@ fields:
 
 templates:
 {
-	template: #solo-duplicate:solo-duplicate solo-unique
-	template manual: ::solo-duplicate::solo-duplicate solo-unique
+	template: {prefix-char}{replace-string}::solo-duplicate solo-unique
+	template manual: ::{replace-string}::solo-duplicate solo-unique
 }
 
 entries:
