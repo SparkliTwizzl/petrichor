@@ -20,7 +20,7 @@ fields:
 
 templates:
 {
-	template: {prefix-char}{replace-string}::{solo-duplicate} {solo-unique}
+	template: {prefix-char}{replace-field}::{solo-duplicate} {solo-unique}
 	template manual: ::{replace-string}::{solo-duplicate} {solo-unique}
 }
 
