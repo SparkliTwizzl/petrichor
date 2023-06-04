@@ -28,9 +28,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public EntryParser? EntryParser;
-		public InputParser? InputParser;
-		public TemplateParser? TemplateParser;
+		public EntryParser EntryParser;
+		public InputParser InputParser;
+		public TemplateParser TemplateParser;
 
 
 		[ TestInitialize ]

@@ -9,36 +9,20 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
 	public class AutoHotkeyScriptGenerator
 	{
-		public string[] GenerateMacrosFromInput( Input input )
+		private InputParser InputParser { get; set; }
+
+
+		public AutoHotkeyScriptGenerator( InputParser inputParser )
 		{
-			var macros = new List< string >();
-			foreach ( var entry in input.Entries )
-			{
-				macros.AddRange( GenerateAllEntryMacrosFromTemplates( input.Templates, entry ) );
-			}
-			return macros.ToArray();
+			InputParser = inputParser;
 		}
 
-		public void GenerateScript( string[] macros, string outputFile )
-		{
-			var outputFolder = GetNormalizedOutputFolder( outputFile );
-			var outputFileName = GetNormalizedOutputFileName( outputFile );
-			var outputFilePath = $"{ outputFolder }{ outputFileName }";
 
-			Log.WriteLineTimestamped( $"started generating output file ({ outputFilePath })" );
-			try
-			{
-				Directory.CreateDirectory( outputFolder );
-				WriteByteOrderMarkToFile( outputFilePath );
-				WriteHeaderToFile( outputFilePath );
-				WriteLinesToFile( outputFilePath, macros );
-			}
-			catch (Exception e)
-			{
-				Log.WriteLineTimestamped( $"failed to generate output file ({ outputFilePath }) with exception: { e.Message }" );
-				throw new Exception( e.Message, e );
-			}
-			Log.WriteLineTimestamped( $"successfully generated output file ({ outputFilePath })" );
+		public void GenerateScriptFromInputFile( string inputFile, string outputFile )
+		{
+			var input = InputParser.ParseInputFile( inputFile );
+			var macros = GenerateMacrosFromInput( input );
+			GenerateScriptFromMacros( outputFile, macros );
 		}
 
 
@@ -77,6 +61,38 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				macro = macro.Replace( $"`{ marker.Value }`", fields[ marker.Value ] );
 			}
 			return macro;
+		}
+
+		private string[] GenerateMacrosFromInput( Input input )
+		{
+			var macros = new List< string >();
+			foreach ( var entry in input.Entries )
+			{
+				macros.AddRange( GenerateAllEntryMacrosFromTemplates( input.Templates, entry ) );
+			}
+			return macros.ToArray();
+		}
+
+		private void GenerateScriptFromMacros( string outputFile, string[] macros )
+		{
+			var outputFolder = GetNormalizedOutputFolder( outputFile );
+			var outputFileName = GetNormalizedOutputFileName( outputFile );
+			var outputFilePath = $"{ outputFolder }{ outputFileName }";
+
+			Log.WriteLineTimestamped( $"started generating output file ({ outputFilePath })" );
+			try
+			{
+				Directory.CreateDirectory( outputFolder );
+				WriteByteOrderMarkToFile( outputFilePath );
+				WriteHeaderToFile( outputFilePath );
+				WriteLinesToFile( outputFilePath, macros );
+			}
+			catch (Exception e)
+			{
+				Log.WriteLineTimestamped( $"failed to generate output file ({ outputFilePath }) with exception: { e.Message }" );
+				throw new Exception( e.Message, e );
+			}
+			Log.WriteLineTimestamped( $"successfully generated output file ({ outputFilePath })" );
 		}
 
 		private string GetNormalizedOutputFolder( string outputFile )

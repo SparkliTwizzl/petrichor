@@ -31,7 +31,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public TemplateParser? TemplateParser;
+		public TemplateParser TemplateParser;
 
 
 		[ TestInitialize ]

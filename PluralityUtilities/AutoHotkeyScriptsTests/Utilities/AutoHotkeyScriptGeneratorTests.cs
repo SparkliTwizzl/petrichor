@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluralityUtilities.AutoHotkeyScripts.Containers;
-using PluralityUtilities.Logging;
 using PluralityUtilities.TestCommon;
 using PluralityUtilities.TestCommon.Utilities;
 
@@ -38,43 +37,31 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public AutoHotkeyScriptGenerator? ScriptGenerator;
+		public AutoHotkeyScriptGenerator ScriptGenerator { get; set; }
+		public EntryParser EntryParser { get; set; }
+		public InputParser InputParser { get; set; }
+		public TemplateParser TemplateParser { get; set; }
 
 
 		[TestInitialize ]
 		public void Setup()
 		{
 			TestUtilities.InitializeLoggingForTests();
-			ScriptGenerator = new AutoHotkeyScriptGenerator();
+
+			EntryParser = new EntryParser();
+			TemplateParser = new TemplateParser();
+			InputParser = new InputParser( EntryParser, TemplateParser );
+			ScriptGenerator = new AutoHotkeyScriptGenerator( InputParser );
 		}
 
 
 		[ TestMethod ]
-		public void GenerateMacrosFromTemplatesTest_Success()
+		[ DataRow( "AutoHotkeyScriptGenerator_Valid.txt" ) ]
+		public void GenerateScriptFromInputFileTest_Success( string fileName )
 		{
-			var expected = TestData.Macros;
-			var actual = ScriptGenerator.GenerateMacrosFromInput( TestData.Input ).ToArray();
-
-			Log.WriteLine( "expected:" );
-			foreach ( var line in expected )
-			{
-				Log.WriteLine( $"[{ line }]" );
-			}
-			Log.WriteLine();
-			Log.WriteLine( "actual:" );
-			foreach ( var line in actual )
-			{
-				Log.WriteLine( $"[{ line }]" );
-			}
-
-			CollectionAssert.AreEqual( expected, actual );
-		}
-
-		[ TestMethod ]
-		public void GenerateScriptTest_Success()
-		{
-			var outputFile = $"{ TestDirectories.TestOutputDir }{ nameof( AutoHotkeyScriptGenerator ) }_{ nameof( GenerateScriptTest_Success ) }.ahk";
-			ScriptGenerator.GenerateScript( TestData.Macros, outputFile );
+			var inputFile = TestUtilities.LocateInputFile( fileName );
+			var outputFile = $"{ TestDirectories.TestOutputDir }{ nameof( AutoHotkeyScriptGenerator ) }_{ nameof( GenerateScriptFromInputFileTest_Success ) }.ahk";
+			ScriptGenerator.GenerateScriptFromInputFile( inputFile, outputFile );
 
 			var expected = TestData.GeneratedOutputFileContents;
 			var actual = File.ReadAllLines( outputFile );

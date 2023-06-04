@@ -130,7 +130,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 
 		public int i;
-		public EntryParser? EntryParser;
+		public EntryParser EntryParser;
 
 
 		[ TestInitialize ]

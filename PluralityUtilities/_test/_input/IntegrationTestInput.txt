@@ -1,22 +1,23 @@
 entries:
 {
 	{
-		% #Sam# @sm
-		% #Sammy# @smy
-		$they/them
-		&-> a person
+		% #name1# @tag1
+		% #name2# @tag2
+		$pronoun1
+		&decoration1
 	}
 	{
-		% #ALEX# @AX
-		$IT/ITS
-		&[A PERSON TOO]
+		% #name3# @tag3
+		% #name4# @tag4
+		$pronoun3
+		&decoration3
 	}
 }
 
 templates:
 {
-	::\@@:: \##
-	::\@@-:: \## \$($)
-	::\@@/:: \## \&&
-	::\@@-/:: \## \$($) \&&
+	::\@@:: #
+	::-@:: # $
+	::/@:: # &
+	::-/@:: # $ &
 }
