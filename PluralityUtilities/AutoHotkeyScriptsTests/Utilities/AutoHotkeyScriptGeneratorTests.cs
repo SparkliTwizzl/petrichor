@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using PluralityUtilities.AutoHotkeyScripts.Containers;
 using PluralityUtilities.TestCommon;
 using PluralityUtilities.TestCommon.Utilities;
@@ -21,7 +22,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				"::@`tag`:: `name`",
 				"::@$&`tag`:: `name` `pronoun` `decoration`",
 			};
-			public static readonly Input Input = new Input( Entries, Templates );
+			public static readonly Input Input = new( Entries, Templates );
 			public static readonly string[] Macros = new string[]
 			{
 				"::@tag:: name",
@@ -37,11 +38,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public AutoHotkeyScriptGenerator ScriptGenerator { get; set; }
-		public EntryParser EntryParser { get; set; }
-		public FieldParser FieldParser { get; set; }
-		public InputParser InputParser { get; set; }
-		public TemplateParser TemplateParser { get; set; }
+		public Mock< InputParser > InputParserMock { get; set; } = new Mock< InputParser >();
+		public AutoHotkeyScriptGenerator? ScriptGenerator { get; set; }
 
 
 		[TestInitialize ]
@@ -49,11 +47,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			TestUtilities.InitializeLoggingForTests();
 
-			FieldParser = new FieldParser();
-			EntryParser = new EntryParser();
-			TemplateParser = new TemplateParser();
-			InputParser = new InputParser( FieldParser, TemplateParser, EntryParser );
-			ScriptGenerator = new AutoHotkeyScriptGenerator( InputParser );
+			InputParserMock = new Mock< InputParser >();
+			ScriptGenerator = new AutoHotkeyScriptGenerator( InputParserMock.Object );
 		}
 
 
@@ -63,7 +58,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			var inputFile = TestUtilities.LocateInputFile( fileName );
 			var outputFile = $"{ TestDirectories.TestOutputDir }{ nameof( AutoHotkeyScriptGenerator ) }_{ nameof( GenerateScriptFromInputFileTest_Success ) }.ahk";
-			ScriptGenerator.GenerateScriptFromInputFile( inputFile, outputFile );
+			ScriptGenerator?.GenerateScriptFromInputFile( inputFile, outputFile );
 
 			var expected = TestData.GeneratedOutputFileContents;
 			var actual = File.ReadAllLines( outputFile );

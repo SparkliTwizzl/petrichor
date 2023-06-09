@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using PluralityUtilities.AutoHotkeyScripts.Containers;
 using PluralityUtilities.Logging;
 using PluralityUtilities.TestCommon.Utilities;
@@ -11,7 +12,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 	{
 		public static class TestData
 		{
-			public static Entry[] Entries { get; set; } = new Entry[]
+			public static readonly Entry[] Entries = new Entry[]
 					{
 						new Entry
 						(
@@ -23,15 +24,15 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 							""
 						),
 					};
-			public static string[] Templates { get; set; } = Array.Empty< string >();
-			public static Input ParsedInput { get; set; } = new( Entries, Templates );
+			public static readonly string[] Templates = Array.Empty< string >();
+			public static readonly Input ParsedInput = new( Entries, Templates );
 		}
 
 
-		public EntryParser EntryParser { get; set; }
-		public FieldParser FieldParser { get; set; }
-		public InputParser InputParser { get; set; }
-		public TemplateParser TemplateParser { get; set; }
+		public Mock< EntryParser > EntryParserMock { get; set; } = new Mock< EntryParser >();
+		public Mock< FieldParser > FieldParserMock { get; set; } = new Mock< FieldParser >();
+		public Mock< TemplateParser > TemplateParserMock { get; set; } = new Mock< TemplateParser >();
+		public InputParser? InputParser { get; set; }
 
 
 		[ TestInitialize ]
@@ -39,10 +40,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			TestUtilities.InitializeLoggingForTests();
 
-			EntryParser = new EntryParser();
-			FieldParser = new FieldParser();
-			TemplateParser = new TemplateParser();
-			InputParser = new InputParser( FieldParser, TemplateParser, EntryParser );
+			EntryParserMock = new Mock< EntryParser >();
+			FieldParserMock = new Mock< FieldParser >();
+			TemplateParserMock = new Mock< TemplateParser >();
+			InputParser = new InputParser( FieldParserMock.Object, TemplateParserMock.Object, EntryParserMock.Object );
 		}
 
 
@@ -54,7 +55,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			var data = File.ReadAllText( filePath );
 			Log.WriteLineTimestamped( data );
 			var expected = TestData.ParsedInput;
-			var actual = InputParser.ParseInputFile( filePath );
+			var actual = InputParser?.ParseInputFile( filePath );
 			Assert.AreEqual( expected, actual );
 		}
 
@@ -64,7 +65,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		public void ParseInputFileTest_ThrowsFileNotFoundException( string fileName )
 		{
 			var filePath = TestUtilities.LocateInputFile( fileName );
-			_ = InputParser.ParseInputFile( filePath );
+			_ = InputParser?.ParseInputFile( filePath );
 		}
 	}
 }
