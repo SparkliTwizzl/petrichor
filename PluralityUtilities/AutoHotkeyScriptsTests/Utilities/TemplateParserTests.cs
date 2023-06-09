@@ -31,7 +31,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public TemplateParser TemplateParser { get; set; } = new TemplateParser();
+		public TemplateParser? TemplateParser { get; set; }
 
 
 		[ TestInitialize ]
@@ -48,7 +48,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			var expected = TestData.Templates;
 			var i = 0;
-			var actual = TemplateParser.ParseTemplatesFromData( TestData.RawTemplateData_Valid, ref i );
+			var actual = TemplateParser?.ParseTemplatesFromData( TestData.RawTemplateData_Valid, ref i );
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
@@ -57,7 +57,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		public void ParseTemplatesFromFileTest_ThrowsEscapeCharacterMismatchException()
 		{
 			var i = 0;
-			_ = TemplateParser.ParseTemplatesFromData( TestData.RawTemplateData_TrailingEscapeCharacter, ref i );
+			_ = TemplateParser?.ParseTemplatesFromData( TestData.RawTemplateData_TrailingEscapeCharacter, ref i );
 		}
 	}
 }

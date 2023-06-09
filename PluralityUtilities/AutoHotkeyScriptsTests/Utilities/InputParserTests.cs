@@ -29,9 +29,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public Mock< EntryParser > EntryParserMock { get; set; } = new Mock< EntryParser >();
-		public Mock< FieldParser > FieldParserMock { get; set; } = new Mock< FieldParser >();
-		public Mock< TemplateParser > TemplateParserMock { get; set; } = new Mock< TemplateParser >();
+		public Mock< EntryParser >? EntryParserMock { get; set; }
+		public Mock< FieldParser >? FieldParserMock { get; set; }
+		public Mock< TemplateParser >? TemplateParserMock { get; set; }
 		public InputParser? InputParser { get; set; }
 
 

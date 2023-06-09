@@ -130,7 +130,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 
 		public int i;
-		public EntryParser EntryParser { get; set; } = new EntryParser();
+		public EntryParser? EntryParser { get; set; }
 
 
 		[ TestInitialize ]
@@ -146,7 +146,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_Valid ) ]
 		public void ParseEntriesFromDataTest_Success( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -157,7 +157,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_BlankTagField ) ]
 		public void ParseEntriesFromDataTest_ThrowsBlankInputFieldException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -166,7 +166,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_TooManyPronounFields ) ]
 		public void ParseEntriesFromDataTest_ThrowsDuplicateInputFieldException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -174,7 +174,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_EntryNotClosed ) ]
 		public void ParseEntriesFromDataTest_ThrowsInputEntryNotClosedException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -182,7 +182,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_TagFieldContainsSpaces ) ]
 		public void ParseEntriesFromDataTest_ThrowsInvalidInputFieldException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -192,7 +192,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_MissingTagField ) ]
 		public void ParseEntriesFromDataTest_ThrowsMissingInputFieldException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 		[ TestMethod ]
@@ -201,7 +201,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		[ DataRow( TestData.InputData_UnexpectedCharInEntry ) ]
 		public void ParseEntriesFromDataTest_ThrowsUnexpectedCharacterException( string data )
 		{
-			EntryParser.ParseEntriesFromData( SplitDataString( data ), ref i );
+			EntryParser?.ParseEntriesFromData( SplitDataString( data ), ref i );
 		}
 
 

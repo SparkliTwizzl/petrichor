@@ -38,7 +38,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public Mock< InputParser > InputParserMock { get; set; } = new Mock< InputParser >();
+		public Mock< InputParser >? InputParserMock { get; set; }
 		public AutoHotkeyScriptGenerator? ScriptGenerator { get; set; }
 
 
