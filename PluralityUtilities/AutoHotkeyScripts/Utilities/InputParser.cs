@@ -1,22 +1,23 @@
 ﻿using PluralityUtilities.AutoHotkeyScripts.Containers;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
+using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
 using PluralityUtilities.Common.Enums;
 using PluralityUtilities.Logging;
 
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class InputParser
+	public class InputParser : IInputParser
 	{
-		private const string FieldsToken = "fields:";
 		private const string EntriesToken = "entries:";
+		private const string FieldsToken = "fields:";
 		private const string TemplatesToken = "templates:";
-		private FieldParser FieldParser { get; set; }
-		private EntryParser EntryParser { get; set; }
-		private TemplateParser TemplateParser { get; set; }
+		private IEntryParser EntryParser { get; set; }
+		private IFieldParser FieldParser { get; set; }
+		private ITemplateParser TemplateParser { get; set; }
 
 
-		public InputParser( FieldParser fieldParser, TemplateParser templateParser, EntryParser entryParser )
+		public InputParser( IFieldParser fieldParser, ITemplateParser templateParser, IEntryParser entryParser )
 		{
 			FieldParser = fieldParser;
 			TemplateParser = templateParser;
@@ -41,6 +42,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			var expectedTokens = new string[]
 			{
 				EntriesToken,
+				FieldsToken,
 				TemplatesToken,
 			};
 
@@ -56,6 +58,11 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 						{
 							++i;
 							input.Entries = EntryParser.ParseEntriesFromData( data, ref i );
+						}
+						else if ( string.Compare( qualifiedToken.Value, FieldsToken ) == 0 )
+						{
+							++i;
+							//input.Templates = TemplateParser.ParseTemplatesFromData( data, ref i );
 						}
 						else if ( string.Compare( qualifiedToken.Value, TemplatesToken ) == 0 )
 						{
@@ -84,7 +91,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return input;
 		}
 
-		private string[] ReadDataFromFile( string inputFilePath )
+		private static string[] ReadDataFromFile( string inputFilePath )
 		{
 			try
 			{

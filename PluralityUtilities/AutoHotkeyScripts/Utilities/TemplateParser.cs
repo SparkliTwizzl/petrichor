@@ -1,22 +1,23 @@
 ﻿using System.Text;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.AutoHotkeyScripts.LookUpTables;
+using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
 using PluralityUtilities.Common.Enums;
 using PluralityUtilities.Logging;
 
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class TemplateParser
+	public class TemplateParser : ITemplateParser
 	{
-		private TokenParser TokenParser = new TokenParser();
+		private readonly TokenParser TokenParser = new();
 
 
 		public string[] ParseTemplatesFromData( string[] data, ref int i )
 		{
 			Log.WriteLineTimestamped( "started parsing templates from data" );
 			var templates = new List< string >();
-			var expectedTokens = new string[] { };
+			var expectedTokens = Array.Empty< string >();
 			for ( ; i < data.Length; ++i )
 			{
 				var token = TokenParser.ParseToken( data[ i ], expectedTokens);
@@ -47,9 +48,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		}
 
 
-		private string ParseTemplateFromInputLine( string input )
+		private static string ParseTemplateFromInputLine( string input )
 		{
-			StringBuilder template = new StringBuilder();
+			StringBuilder template = new();
 			input = input.Trim();
 			for ( int i = 0; i < input.Length; ++i )
 			{

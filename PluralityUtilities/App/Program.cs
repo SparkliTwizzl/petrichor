@@ -8,15 +8,15 @@ namespace PluralityUtilities.App
 {
 	static class Program
 	{
-		private static string _inputFilePath = string.Empty;
-		private static LogMode _logMode = LogMode.Disabled;
-		private static string _outputFilePath = string.Empty;
-		private static DateTime _startTime;
+		private static string InputFilePath { get; set; } = string.Empty;
+		private static LogMode LogMode { get; set; } = LogMode.Disabled;
+		private static string OutputFilePath { get; set; } = string.Empty;
+		private static DateTime StartTime { get; set; }
 
 
 		static void Main( string[] args )
 		{
-			_startTime = DateTime.Now;
+			StartTime = DateTime.Now;
 			Console.WriteLine( $"PluralityUtilities v{ AppVersion.CurrentVersion }" );
 			if ( args.Length < 1 )
 			{
@@ -30,9 +30,9 @@ namespace PluralityUtilities.App
 			}
 			ParseArgs( args );
 			InitLogging();
-			Log.WriteLineTimestamped( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { _startTime }" );
+			Log.WriteLineTimestamped( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { StartTime }" );
 			CreateAutoHotkeyScript();
-			Log.WriteLineTimestamped( $"execution finished in { ( DateTime.Now - _startTime ).TotalSeconds } seconds" );
+			Log.WriteLineTimestamped( $"execution finished in { ( DateTime.Now - StartTime ).TotalSeconds } seconds" );
 			WaitForUserToExit();
 		}
 
@@ -47,7 +47,7 @@ namespace PluralityUtilities.App
 				var inputParser = new InputParser( fieldParser, templateParser, entryParser );
 				var scriptGenerator = new AutoHotkeyScriptGenerator( inputParser );
 
-				scriptGenerator.GenerateScriptFromInputFile( _inputFilePath, _outputFilePath );
+				scriptGenerator.GenerateScriptFromInputFile( InputFilePath, OutputFilePath );
 				var successMessage = "generating script succeeded";
 				Console.WriteLine( successMessage );
 				Log.WriteLineTimestamped( successMessage );
@@ -55,7 +55,7 @@ namespace PluralityUtilities.App
 			catch ( Exception ex )
 			{
 				var errorMessage = $"generating script failed with error: { ex.Message }";
-				if ( _logMode != LogMode.Verbose )
+				if ( LogMode != LogMode.Verbose )
 				{
 					Console.WriteLine( errorMessage );
 				}
@@ -65,7 +65,7 @@ namespace PluralityUtilities.App
 
 		private static void InitLogging()
 		{
-			switch ( _logMode )
+			switch ( LogMode )
 			{
 				case LogMode.Basic:
 					Log.EnableBasic();
@@ -85,18 +85,18 @@ namespace PluralityUtilities.App
 
 		private static void ParseArgs( string[] args )
 		{
-			_inputFilePath = args[ 0 ];
-			_outputFilePath = args[ 1 ];
+			InputFilePath = args[ 0 ];
+			OutputFilePath = args[ 1 ];
 			if ( args.Length > 2 )
 			{
 				var arg = args[ 2 ];
 				if ( string.Compare( arg, "-l" ) == 0 )
 				{
-					_logMode = LogMode.Basic;
+					LogMode = LogMode.Basic;
 				}
 				else if ( string.Compare( arg, "-v" ) == 0 )
 				{
-					_logMode = LogMode.Verbose;
+					LogMode = LogMode.Verbose;
 				}
 			}
 		}

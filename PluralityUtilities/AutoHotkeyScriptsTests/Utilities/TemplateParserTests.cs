@@ -5,7 +5,7 @@ using PluralityUtilities.TestCommon.Utilities;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 {
-	[ TestClass ]
+    [ TestClass ]
 	public class TemplateParserTests
 	{
 		public static class TestData

@@ -1,5 +1,6 @@
 ﻿using PluralityUtilities.AutoHotkeyScripts.Containers;
 using PluralityUtilities.AutoHotkeyScripts.LookUpTables;
+using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
 using PluralityUtilities.Common;
 using PluralityUtilities.Common.Utilities;
 using PluralityUtilities.Logging;
@@ -7,12 +8,12 @@ using System.Text;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class AutoHotkeyScriptGenerator
+	public class AutoHotkeyScriptGenerator : IAutoHotkeyScriptGenerator
 	{
-		private InputParser InputParser { get; set; }
+		private IInputParser InputParser { get; set; }
 
 
-		public AutoHotkeyScriptGenerator( InputParser inputParser )
+		public AutoHotkeyScriptGenerator( IInputParser inputParser )
 		{
 			InputParser = inputParser;
 		}
@@ -26,7 +27,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		}
 
 
-		private List< string > GenerateAllIdentityMacrosFromTemplates( string[] templates, Identity identity, string pronoun, string decoration )
+		private static List< string > GenerateAllIdentityMacrosFromTemplates( string[] templates, Identity identity, string pronoun, string decoration )
 		{
 			var macros = new List< string >();
 			foreach ( var template in templates )
@@ -36,7 +37,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return macros;
 		}
 
-		private List< string > GenerateAllEntryMacrosFromTemplates( string[] templates, Entry entry )
+		private static List< string > GenerateAllEntryMacrosFromTemplates( string[] templates, Entry entry )
 		{
 			var macros = new List< string >();
 			foreach ( var identity in entry.Identities )
@@ -46,10 +47,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return macros;
 		}
 
-		private string GenerateIdentityMacroFromTemplate( string template, Identity identity, string pronoun, string decoration )
+		private static string GenerateIdentityMacroFromTemplate( string template, Identity identity, string pronoun, string decoration )
 		{
 			var macro = template;
-			Dictionary< string, string > fields = new Dictionary< string, string >()
+			Dictionary< string, string > fields = new()
 			{
 				{ "name", identity.Name },
 				{ "tag", identity.Tag },
@@ -63,7 +64,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return macro;
 		}
 
-		private string[] GenerateMacrosFromInput( Input input )
+		private static string[] GenerateMacrosFromInput( Input input )
 		{
 			var macros = new List< string >();
 			foreach ( var entry in input.Entries )
@@ -73,7 +74,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return macros.ToArray();
 		}
 
-		private void GenerateScriptFromMacros( string outputFile, string[] macros )
+		private static void GenerateScriptFromMacros( string outputFile, string[] macros )
 		{
 			var outputFolder = GetNormalizedOutputFolder( outputFile );
 			var outputFileName = GetNormalizedOutputFileName( outputFile );
@@ -95,7 +96,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			Log.WriteLineTimestamped( $"successfully generated output file ({ outputFilePath })" );
 		}
 
-		private string GetNormalizedOutputFolder( string outputFile )
+		private static string GetNormalizedOutputFolder( string outputFile )
 		{
 			var outputFolder = outputFile.GetDirectory();
 			if ( outputFolder == string.Empty )
@@ -105,24 +106,20 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			return outputFolder;
 		}
 
-		private string GetNormalizedOutputFileName( string outputFile )
+		private static string GetNormalizedOutputFileName( string outputFile )
 		{
 			return $"{ outputFile.GetFileName().RemoveFileExtension() }.ahk";
 		}
 
-		private void WriteByteOrderMarkToFile( string outputFilePath )
+		private static void WriteByteOrderMarkToFile( string outputFilePath )
 		{
 			var encoding = Encoding.UTF8;
-			using ( FileStream stream = new FileStream( outputFilePath, FileMode.Create ) )
-			{
-				using ( BinaryWriter writer = new BinaryWriter( stream, encoding ) )
-				{
-					writer.Write( encoding.GetPreamble() );
-				}
-			}
+			using FileStream stream = new( outputFilePath, FileMode.Create );
+			using BinaryWriter writer = new( stream, encoding );
+			writer.Write(encoding.GetPreamble());
 		}
 
-		private void WriteHeaderToFile( string outputFilePath )
+		private static void WriteHeaderToFile( string outputFilePath )
 		{
 			var header = new string[]
 			{
@@ -132,15 +129,13 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			WriteLinesToFile( outputFilePath, header );
 		}
 
-		private void WriteLineToFile( string outputFilePath, string line = "" )
+		private static void WriteLineToFile( string outputFilePath, string line = "" )
 		{
 			try
 			{
-				using ( StreamWriter writer = File.AppendText( outputFilePath ) )
-				{
-					writer.WriteLine( line );
-					Log.WriteLineTimestamped( $"wrote line to output file: { line }" );
-				}
+				using StreamWriter writer = File.AppendText( outputFilePath );
+				writer.WriteLine(line);
+				Log.WriteLineTimestamped($"wrote line to output file: {line}");
 			}
 			catch ( Exception ex )
 			{
@@ -150,7 +145,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 		}
 
-		private void WriteLinesToFile( string outputFilePath, string[] data )
+		private static void WriteLinesToFile( string outputFilePath, string[] data )
 		{
 			foreach ( string line in data )
 			{

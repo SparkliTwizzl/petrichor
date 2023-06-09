@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using PluralityUtilities.AutoHotkeyScripts.Containers;
+using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
 using PluralityUtilities.TestCommon;
 using PluralityUtilities.TestCommon.Utilities;
 
@@ -19,8 +20,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			};
 			public static readonly string[] Templates = new string[]
 			{
-				"::@`tag`:: `name`",
-				"::@$&`tag`:: `name` `pronoun` `decoration`",
+				"@{tag}::{name}",
+				"::@$&{tag}::{name} {pronoun} {decoration}",
 			};
 			public static readonly Input Input = new( Entries, Templates );
 			public static readonly string[] Macros = new string[]
@@ -38,8 +39,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		public Mock< InputParser >? InputParserMock { get; set; }
-		public AutoHotkeyScriptGenerator? ScriptGenerator { get; set; }
+		public Mock< IInputParser >? InputParserMock { get; set; }
+		public IAutoHotkeyScriptGenerator? ScriptGenerator { get; set; }
 
 
 		[TestInitialize ]
@@ -47,7 +48,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			TestUtilities.InitializeLoggingForTests();
 
-			InputParserMock = new Mock< InputParser >();
+			InputParserMock = new Mock< IInputParser >();
+			InputParserMock.Setup( m => m.ParseInputFile( It.IsAny< string >() ) ).Returns( TestData.Input );
+
 			ScriptGenerator = new AutoHotkeyScriptGenerator( InputParserMock.Object );
 		}
 

@@ -1,35 +1,21 @@
 ﻿using PluralityUtilities.AutoHotkeyScripts.Containers;
 using PluralityUtilities.AutoHotkeyScripts.Enums;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
+using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
 using PluralityUtilities.Common.Enums;
 using PluralityUtilities.Logging;
 
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class EntryParser
+	public class EntryParser : IEntryParser
 	{
-		private TokenParser TokenParser = new TokenParser();
+		private readonly TokenParser TokenParser = new();
 
 
 		public EntryParser() { }
 
 
-		/// <summary>
-		/// throws BlankInputFieldException if file contains a field with no value<para/>
-		/// throws DuplicateInputFieldException if file contains an entry with more than one decoration field<para/>
-		/// throws DuplicateInputFieldException if file contains an entry with more than one pronoun field<para/>
-		/// throws InputEntryNotClosedException if file contains an entry that is not closed<para/>
-		/// throws FileNotFoundException if file data could not be read<para/>
-		/// throws InvalidInputFieldException if file contains a tag field with spaces in it<para/>
-		/// throws MissingInputFieldException if file contains an entry with no identity fields<para/>
-		/// throws MissingInputFieldException if file contains an identity field with no name field<para/>
-		/// throws MissingInputFieldException if file contains an identity field with no tag field<para/>
-		/// throws UnexpectedCharacterException if file contains a line that starts with an unexpected character<para/>
-		/// </summary>
-		/// <param name="data">input data read from file</param>
-		/// <param name="i">index of first open bracket of entries region in the input data</param>
-		/// <returns>parsed entries</returns>
 		public Entry[] ParseEntriesFromData( string[] data, ref int i )
 		{
 			Log.WriteLineTimestamped( "started parsing entries from input data");
@@ -93,7 +79,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		}
 
 
-		private void ParseDecoration( string line, ref Entry entry )
+		private static void ParseDecoration( string line, ref Entry entry )
 		{
 			if ( entry.Decoration != string.Empty )
 			{
@@ -107,18 +93,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				Log.WriteLineTimestamped( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
-			entry.Decoration = line.Substring( 1, line.Length - 1 );
+			entry.Decoration = line[ 1 .. ];
 		}
 
-		private void ParseIdentity( string line, ref Entry entry )
+		private static void ParseIdentity( string line, ref Entry entry )
 		{
-			Identity identity = new Identity();
+			Identity identity = new();
 			ParseName( line, ref identity );
 			ParseTag( line, ref identity );
 			entry.Identities.Add( identity );
 		}
 
-		private LineTypes ParseLine( string line, ref Entry entry )
+		private static LineTypes ParseLine( string line, ref Entry entry )
 		{
 			line = line.TrimStart();
 			var firstChar = line[ 0 ];
@@ -142,7 +128,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 		}
 
-		private void ParseName( string line, ref Identity identity )
+		private static void ParseName( string line, ref Identity identity )
 		{
 			var fieldStart = line.IndexOf( '#' );
 			var fieldEnd = line.LastIndexOf( '#' );
@@ -152,7 +138,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				Log.WriteLineTimestamped( $"error: { errorMessage }" );
 				throw new MissingInputFieldException( errorMessage );
 			}
-			var name = line.Substring( fieldStart + 1, fieldEnd - ( fieldStart + 1 ) );
+			var name = line[ ( fieldStart + 1 ) .. fieldEnd ];
 			if ( name.Length < 1 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank name field";
@@ -166,7 +152,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		{
 			Log.WriteLineTimestamped( "started parsing next entry" );
 			var entry = new Entry();
-			var errorMessage = string.Empty;
+			string? errorMessage;
 			for ( ; i < data.Length; ++i )
 			{
 				var line = data[ i ];
@@ -196,7 +182,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			throw new InputEntryNotClosedException( errorMessage );
 		}
 
-		private void ParsePronoun( string line, ref Entry entry )
+		private static void ParsePronoun( string line, ref Entry entry )
 		{
 			if ( entry.Pronoun != string.Empty )
 			{
@@ -210,10 +196,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				Log.WriteLineTimestamped( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
-			entry.Pronoun = line.Substring( 1, line.Length - 1 );
+			entry.Pronoun = line[ 1 .. ];
 		}
 
-		private void ParseTag( string line, ref Identity identity )
+		private static void ParseTag( string line, ref Identity identity )
 		{
 			var fieldStart = line.IndexOf( '@' );
 			if ( fieldStart < 0 )
@@ -229,7 +215,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				Log.WriteLineTimestamped( $"error: { errorMessage }" );
 				throw new InvalidInputFieldException( errorMessage );
 			}
-			var tag = line.Substring( fieldStart + 1, line.Length - ( fieldStart + 1 ) );
+			var tag = line[ ( fieldStart + 1 ) .. ];
 			if ( tag.Length < 1 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank tag field";

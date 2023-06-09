@@ -1,6 +1,8 @@
-﻿namespace PluralityUtilities.AutoHotkeyScripts.Utilities
+﻿using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
+
+namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class FieldParser
+	public class FieldParser : IFieldParser
 	{
 	}
 }
