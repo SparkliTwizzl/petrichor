@@ -39,6 +39,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		public AutoHotkeyScriptGenerator ScriptGenerator { get; set; }
 		public EntryParser EntryParser { get; set; }
+		public FieldParser FieldParser { get; set; }
 		public InputParser InputParser { get; set; }
 		public TemplateParser TemplateParser { get; set; }
 
@@ -48,9 +49,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			TestUtilities.InitializeLoggingForTests();
 
+			FieldParser = new FieldParser();
 			EntryParser = new EntryParser();
 			TemplateParser = new TemplateParser();
-			InputParser = new InputParser( EntryParser, TemplateParser );
+			InputParser = new InputParser( FieldParser, TemplateParser, EntryParser );
 			ScriptGenerator = new AutoHotkeyScriptGenerator( InputParser );
 		}
 

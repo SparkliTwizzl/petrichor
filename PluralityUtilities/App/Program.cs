@@ -41,10 +41,12 @@ namespace PluralityUtilities.App
 		{
 			try
 			{
-				var entryParser = new EntryParser();
+				var fieldParser = new FieldParser();
 				var templateParser = new TemplateParser();
-				var inputParser = new InputParser( entryParser, templateParser );
+				var entryParser = new EntryParser();
+				var inputParser = new InputParser( fieldParser, templateParser, entryParser );
 				var scriptGenerator = new AutoHotkeyScriptGenerator( inputParser );
+
 				scriptGenerator.GenerateScriptFromInputFile( _inputFilePath, _outputFilePath );
 				var successMessage = "generating script succeeded";
 				Console.WriteLine( successMessage );

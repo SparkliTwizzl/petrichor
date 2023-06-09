@@ -8,16 +8,19 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
 	public class InputParser
 	{
+		private const string FieldsToken = "fields:";
 		private const string EntriesToken = "entries:";
 		private const string TemplatesToken = "templates:";
+		private FieldParser FieldParser { get; set; }
 		private EntryParser EntryParser { get; set; }
 		private TemplateParser TemplateParser { get; set; }
 
 
-		public InputParser( EntryParser entryParser, TemplateParser templateParser )
+		public InputParser( FieldParser fieldParser, TemplateParser templateParser, EntryParser entryParser )
 		{
-			EntryParser = entryParser;
+			FieldParser = fieldParser;
 			TemplateParser = templateParser;
+			EntryParser = entryParser;
 		}
 
 

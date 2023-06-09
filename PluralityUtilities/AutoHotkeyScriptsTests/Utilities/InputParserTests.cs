@@ -6,12 +6,12 @@ using PluralityUtilities.TestCommon.Utilities;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 {
-	[ TestClass ]
+	[TestClass]
 	public class InputParserTests
 	{
 		public static class TestData
 		{
-			public static Entry[] Entries = new Entry[]
+			public static Entry[] Entries { get; set; } = new Entry[]
 					{
 						new Entry
 						(
@@ -23,14 +23,15 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 							""
 						),
 					};
-			public static string[] Templates = new string[] { };
-			public static Input ParsedInput = new Input( Entries, Templates );
+			public static string[] Templates { get; set; } = Array.Empty< string >();
+			public static Input ParsedInput { get; set; } = new( Entries, Templates );
 		}
 
 
-		public EntryParser EntryParser;
-		public InputParser InputParser;
-		public TemplateParser TemplateParser;
+		public EntryParser EntryParser { get; set; }
+		public FieldParser FieldParser { get; set; }
+		public InputParser InputParser { get; set; }
+		public TemplateParser TemplateParser { get; set; }
 
 
 		[ TestInitialize ]
@@ -39,8 +40,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			TestUtilities.InitializeLoggingForTests();
 
 			EntryParser = new EntryParser();
+			FieldParser = new FieldParser();
 			TemplateParser = new TemplateParser();
-			InputParser = new InputParser( EntryParser, TemplateParser );
+			InputParser = new InputParser( FieldParser, TemplateParser, EntryParser );
 		}
 
 
