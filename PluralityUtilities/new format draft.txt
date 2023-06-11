@@ -1,63 +1,49 @@
-fields:
+region: fields
 {
-	field:
+	field: group-duplicate
 	{
-		name: group-duplicate
 		unique: no
-		subfields:
+		field: field-unique
 		{
-			field:
+			unique: yes
+		}
+		field: group-unique
+		{
+			unique: yes
+			field: field-duplicate
 			{
-				name: field-unique
-				unique: yes
-			}
-			field:
-			{
-				name: group-unique
-				unique: yes
-				subfields:
-				{
-					field:
-					{
-						name: field-duplicate
-						unique: no
-					}
-				}
+				unique: no
 			}
 		}
 	}
 }
 
-templates:
+region: templates
 {
 	template: {prefix-char}{replace-field}::{replacement-string}
-	template manual: ::{replace-string}::{replacement-string}
+	template-manual: ::{replace-string}::{replacement-string}
 }
 
-entries:
+region: entries
 {
-	entry:
+	entry: entry-name
 	{
-		name: entry-name
-		fields:
+		group-duplicate: value-1A
 		{
-			group-duplicate: value-1A
+			field-unique: value-1B
+			group-unique: value-1C
 			{
-				field-unique: value-1B
-				group-unique: value-1C
-				{
-					field-duplicate: value-1D
-					field-duplicate: value-1E
-				}
+				field-duplicate: value-1D
+				field-duplicate: value-1E
 			}
-			group-duplicate: value-2A
+		}
+		group-duplicate: value-2A
+		{
+			field-unique: value-2B
+			group-unique: value-2C
 			{
-				field-unique: value-2B
-				group-unique: value-2C
-				{
-					field-duplicate: value-2D
-					field-duplicate: value-2E
-				}
+				field-duplicate: value-2D
+				field-duplicate: value-2E
 			}
 		}
 	}
