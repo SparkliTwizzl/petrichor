@@ -2,18 +2,10 @@ region: fields
 {
 	field: group-duplicate
 	{
-		unique: no
-		field: field-unique
+		field-unique: field-unique
+		field-unique: group-unique
 		{
-			unique: yes
-		}
-		field: group-unique
-		{
-			unique: yes
 			field: field-duplicate
-			{
-				unique: no
-			}
 		}
 	}
 }
