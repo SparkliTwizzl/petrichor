@@ -1,5 +1,6 @@
 ﻿using PluralityUtilities.Common.Enums;
 
+
 namespace PluralityUtilities.Common.Containers
 {
 	public class QualifiedToken
