@@ -1,4 +1,21 @@
-JSON-like option:
+========== JSON-like option ==========
+
+every line is either:
+	- whitespace
+	- token				[[ token-type: token-name ]]
+	- open brace		[[ { ]]
+	- close brace		[[ } ]]
+
+indent level determined by [[ { open brace ]] vs [[ } close brace ]]
+tokens with no open brace between them and the following token are assumed to be self-closing
+	pros:
+		- easy to modify
+	cons:
+		- easier to mess up
+		- easier to lose track of what braces go to what token
+
+========== ↓ example ↓ ==========
+
 
 region: fields
 {
@@ -45,7 +62,24 @@ region: entries
 
 
 
-XAML-like option:
+========== XAML-like option ==========
+
+every line is either:
+	- whitespace
+	- open token			[[ <token-type> token-name ]]
+	- close token			[[ </token-type> ]]
+	- self-closing token	[[ <token-type/> token-name ]]
+
+indent level determined by [[ <open> ]] vs [[ </close> ]] tokens ( [[ <self-closing/> ]] tokens are both open and close and have net zero effect )
+[[ <self-closing/> ]] tokens cannot have sub-tokens
+	pros:
+		- less typing
+		- less visual clutter
+	cons:
+		- annoying to modify
+
+========== ↓ example ↓ ==========
+
 
 <region> fields
 	<field> group-duplicate
