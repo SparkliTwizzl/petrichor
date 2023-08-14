@@ -80,7 +80,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			var outputFileName = GetNormalizedOutputFileName( outputFile );
 			var outputFilePath = $"{ outputFolder }{ outputFileName }";
 
-			Log.WriteLineTimestamped( $"started generating output file ({ outputFilePath })" );
+			Logger.WriteLine( $"started generating output file ({ outputFilePath })" );
 			try
 			{
 				Directory.CreateDirectory( outputFolder );
@@ -90,10 +90,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 			catch (Exception e)
 			{
-				Log.WriteLineTimestamped( $"failed to generate output file ({ outputFilePath }) with exception: { e.Message }" );
+				Logger.WriteLine( $"failed to generate output file ({ outputFilePath }) with exception: { e.Message }" );
 				throw new Exception( e.Message, e );
 			}
-			Log.WriteLineTimestamped( $"successfully generated output file ({ outputFilePath })" );
+			Logger.WriteLine( $"successfully generated output file ({ outputFilePath })" );
 		}
 
 		private static string GetNormalizedOutputFolder( string outputFile )
@@ -135,12 +135,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			{
 				using StreamWriter writer = File.AppendText( outputFilePath );
 				writer.WriteLine(line);
-				Log.WriteLineTimestamped($"wrote line to output file: {line}");
+				Logger.WriteLine($"wrote line to output file: {line}");
 			}
 			catch ( Exception ex )
 			{
 				var errorMessage = "failed to write to output file";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new FileLoadException( errorMessage, ex );
 			}
 		}

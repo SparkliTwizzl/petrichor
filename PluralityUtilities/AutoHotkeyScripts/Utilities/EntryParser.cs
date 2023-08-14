@@ -2,7 +2,6 @@
 using PluralityUtilities.AutoHotkeyScripts.Enums;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
-using PluralityUtilities.Common.Enums;
 using PluralityUtilities.Logging;
 
 
@@ -18,63 +17,63 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		public Entry[] ParseEntriesFromData( string[] data, ref int i )
 		{
-			Log.WriteLineTimestamped( "started parsing entries from input data");
+			//Logger.WriteLine( "started parsing entries from input data");
 			var entries = new List< Entry >();
-			var expectedTokens = new string[]
-			{
-				"%",
-				"$",
-				"&",
-			};
+			//var expectedTokens = new string[]
+			//{
+			//	"%",
+			//	"$",
+			//	"&",
+			//};
 
-			string? errorMessage;
-			for ( ; i < data.Length; ++i )
-			{
-				var isParsingFinished = false;
-				var trimmedLine = data[ i ].Trim();
-				var firstChar = trimmedLine.FirstOrDefault();
-				var token = TokenParser.ParseToken( firstChar.ToString(), expectedTokens );
-				switch ( token.Qualifier )
-				{
-					case TokenQualifiers.BlankLine:
-						break;
-					case TokenQualifiers.CloseBracket:
-						if ( TokenParser.IndentLevel == 0 )
-						{
-							isParsingFinished = true;
-						}
-						break;
-					case TokenQualifiers.Unknown:
-						errorMessage = $"parsing entries failed at token # { i } :: input file contains invalid data: a line started with a character ( \"{ firstChar }\" ) that was not expected at this time";
-						Log.WriteLineTimestamped( $"error: { errorMessage }" );
-						throw new UnexpectedCharacterException( errorMessage );
-					default:
-						if ( TokenParser.IndentLevel > 1 )
-						{
-							++i;
-							var entry = ParseEntry( data, ref i );
-							entries.Add( entry );
-							Log.WriteTimestamped( "successfully parsed entry: names/tags [" );
-							foreach ( Identity identity in entry.Identities )
-							{
-								Log.Write( $"{ identity.Name }/{ identity.Tag }, " );
-							}
-							Log.WriteLine( $"], pronoun [{ entry.Pronoun }], decoration [{ entry.Decoration }]" );
-						}
-						break;
-				}
-				if ( isParsingFinished )
-				{
-					break;
-				}
-			}
-			if ( TokenParser.IndentLevel > 0 )
-			{
-				errorMessage = "input file contains invalid data: an entry was not closed";
-				Log.WriteLineTimestamped($"error: { errorMessage }");
-				throw new InputEntryNotClosedException( errorMessage );
-			}
-			Log.WriteLineTimestamped( "finished parsing entries from input data" );
+			//string? errorMessage;
+			//for ( ; i < data.Length; ++i )
+			//{
+			//	var isParsingFinished = false;
+			//	var trimmedLine = data[ i ].Trim();
+			//	var firstChar = trimmedLine.FirstOrDefault();
+			//	var token = TokenParser.ParseToken( firstChar.ToString(), expectedTokens );
+			//	switch ( token.Qualifier )
+			//	{
+			//		case TokenQualifiers.BlankLine:
+			//			break;
+			//		case TokenQualifiers.CloseBracket:
+			//			if ( TokenParser.IndentLevel == 0 )
+			//			{
+			//				isParsingFinished = true;
+			//			}
+			//			break;
+			//		case TokenQualifiers.Unknown:
+			//			errorMessage = $"parsing entries failed at token # { i } :: input file contains invalid data: a line started with a character ( \"{ firstChar }\" ) that was not expected at this time";
+			//			Logger.WriteLine( $"error: { errorMessage }" );
+			//			throw new UnexpectedCharacterException( errorMessage );
+			//		default:
+			//			if ( TokenParser.IndentLevel > 1 )
+			//			{
+			//				++i;
+			//				var entry = ParseEntry( data, ref i );
+			//				entries.Add( entry );
+			//				Logger.Write( "successfully parsed entry: names/tags [" );
+			//				foreach ( Identity identity in entry.Identities )
+			//				{
+			//					Logger.Write( $"{ identity.Name }/{ identity.Tag }, " );
+			//				}
+			//				Logger.WriteLine( $"], pronoun [{ entry.Pronoun }], decoration [{ entry.Decoration }]" );
+			//			}
+			//			break;
+			//	}
+			//	if ( isParsingFinished )
+			//	{
+			//		break;
+			//	}
+			//}
+			//if ( TokenParser.IndentLevel > 0 )
+			//{
+			//	errorMessage = "input file contains invalid data: an entry was not closed";
+			//	Logger.WriteLine($"error: { errorMessage }");
+			//	throw new InputEntryNotClosedException( errorMessage );
+			//}
+			//Logger.WriteLine( "finished parsing entries from input data" );
 			return entries.ToArray();
 		}
 
@@ -84,13 +83,13 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			if ( entry.Decoration != string.Empty )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained more than one decoration field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new DuplicateInputFieldException( errorMessage );
 			}
 			if ( line.Length < 2 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank decoration field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
 			entry.Decoration = line[ 1 .. ];
@@ -135,14 +134,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			if ( fieldStart < 0 )
 			{
 				var errorMessage = "input file contains invalid data: an entry had no name fields";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new MissingInputFieldException( errorMessage );
 			}
 			var name = line[ ( fieldStart + 1 ) .. fieldEnd ];
 			if ( name.Length < 1 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank name field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
 			identity.Name = name;
@@ -150,7 +149,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		private Entry ParseEntry( string[] data, ref int i )
 		{
-			Log.WriteLineTimestamped( "started parsing next entry" );
+			Logger.WriteLine( "started parsing next entry" );
 			var entry = new Entry();
 			string? errorMessage;
 			for ( ; i < data.Length; ++i )
@@ -163,7 +162,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 						if ( entry.Identities.Count < 1 )
 						{
 							errorMessage = $"parsing entries failed at token # { i } :: input file contains invalid data: an entry did not contain any identity fields";
-							Log.WriteLineTimestamped( $"error: { errorMessage }" );
+							Logger.WriteLine( $"error: { errorMessage }" );
 							throw new MissingInputFieldException( errorMessage );
 						}
 						--TokenParser.IndentLevel;
@@ -171,14 +170,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 					case LineTypes.Unknown:
 						var unexpectedChar = line.Trim()[ 0 ];
 						errorMessage = $"parsing entries failed at token # { i } :: input file contains invalid data: a line started with a character ( \"{ unexpectedChar }\" ) that was not expected at this time";
-						Log.WriteLineTimestamped( $"error: { errorMessage }" );
+						Logger.WriteLine( $"error: { errorMessage }" );
 						throw new UnexpectedCharacterException( errorMessage );
 					default:
 						break;
 				}
 			}
 			errorMessage = "input file contains invalid data: last entry was not closed";
-			Log.WriteLineTimestamped( $"error: { errorMessage }" );
+			Logger.WriteLine( $"error: { errorMessage }" );
 			throw new InputEntryNotClosedException( errorMessage );
 		}
 
@@ -187,13 +186,13 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			if ( entry.Pronoun != string.Empty )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained more than one pronoun field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new DuplicateInputFieldException( errorMessage );
 			}
 			if ( line.Length < 2 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank pronoun field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
 			entry.Pronoun = line[ 1 .. ];
@@ -205,21 +204,21 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			if ( fieldStart < 0 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained an identity field without a tag field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new MissingInputFieldException( errorMessage );
 			}
 			var lastSpace = line.LastIndexOf( ' ' );
 			if ( lastSpace >= fieldStart )
 			{
 				var errorMessage = "input file contains invalid data: tag fields cannot contain spaces";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new InvalidInputFieldException( errorMessage );
 			}
 			var tag = line[ ( fieldStart + 1 ) .. ];
 			if ( tag.Length < 1 )
 			{
 				var errorMessage = "input file contains invalid data: an entry contained a blank tag field";
-				Log.WriteLineTimestamped( $"error: { errorMessage }" );
+				Logger.WriteLine( $"error: { errorMessage }" );
 				throw new BlankInputFieldException( errorMessage );
 			}
 			identity.Tag = tag;

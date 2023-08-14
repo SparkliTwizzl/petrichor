@@ -62,7 +62,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			var filePath = TestUtilities.LocateInputFile( fileName );
 			var data = File.ReadAllText( filePath );
-			Log.WriteLineTimestamped( data );
+			Logger.WriteLine( data );
 
 			var expected = TestData.ParsedInput;
 			var actual = InputParser?.ParseInputFile( filePath );

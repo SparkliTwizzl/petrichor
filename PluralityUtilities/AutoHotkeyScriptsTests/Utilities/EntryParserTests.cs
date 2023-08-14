@@ -207,14 +207,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		private static string[] SplitDataString( string data )
 		{
-			Log.WriteLineTimestamped( $"raw data: \"{ data }\"" );
+			Logger.WriteLine( $"raw data: \"{ data }\"" );
 			var tokens = data.Split( '|' );
-			Log.WriteLineTimestamped( "tokenized data:" );
+			Logger.WriteLine( "tokenized data:" );
 			foreach( var token in tokens )
 			{
-				Log.WriteLineTimestamped( $"	\"{ token }\"" );
+				Logger.WriteLine( $"	\"{ token }\"" );
 			}
-			Log.WriteLine();
+			Logger.WriteLine();
 			return tokens;
 		}
 	}

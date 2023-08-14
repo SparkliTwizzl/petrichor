@@ -59,7 +59,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				var result = input.GetDirectory();
 				outputData.Add( result );
-				Log.WriteLine( result );
+				Logger.WriteLine( result );
 			}
 			var actual = outputData.ToArray();
 			CollectionAssert.AreEqual( expected, actual );
@@ -90,7 +90,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				var result = input.GetFileName();
 				outputData.Add( result );
-				Log.WriteLine( result );
+				Logger.WriteLine( result );
 			}
 			var actual = outputData.ToArray();
 			CollectionAssert.AreEqual( expected, actual );
@@ -121,7 +121,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				var result = input.RemoveFileExtension();
 				outputData.Add( result );
-				Log.WriteLine( result );
+				Logger.WriteLine( result );
 			}
 			var actual = outputData.ToArray();
 			CollectionAssert.AreEqual( expected, actual );

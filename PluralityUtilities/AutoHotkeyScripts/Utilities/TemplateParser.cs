@@ -2,7 +2,6 @@
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.AutoHotkeyScripts.LookUpTables;
 using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
-using PluralityUtilities.Common.Enums;
 using PluralityUtilities.Logging;
 
 
@@ -15,35 +14,35 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		public string[] ParseTemplatesFromData( string[] data, ref int i )
 		{
-			Log.WriteLineTimestamped( "started parsing templates from data" );
+			//Logger.WriteLine( "started parsing templates from data" );
 			var templates = new List< string >();
-			var expectedTokens = Array.Empty< string >();
-			for ( ; i < data.Length; ++i )
-			{
-				var token = TokenParser.ParseToken( data[ i ], expectedTokens);
-				var isParsingFinished = false;
-				switch (token.Qualifier)
-				{
-					case TokenQualifiers.BlankLine:
-						break;
-					case TokenQualifiers.OpenBracket:
-						break;
-					case TokenQualifiers.CloseBracket:
-						if ( TokenParser.IndentLevel < 1 )
-						{
-							isParsingFinished = true;
-						}
-						break;
-					default:
-						templates.Add( ParseTemplateFromInputLine( token.Value ) );
-						break;
-				}
-				if ( isParsingFinished )
-				{
-					break;
-				}
-			}
-			Log.WriteLineTimestamped( "finished parsing templates from data" );
+			//var expectedTokens = Array.Empty< string >();
+			//for ( ; i < data.Length; ++i )
+			//{
+			//	var token = TokenParser.ParseToken( data[ i ], expectedTokens);
+			//	var isParsingFinished = false;
+			//	switch (token.Qualifier)
+			//	{
+			//		case TokenQualifiers.BlankLine:
+			//			break;
+			//		case TokenQualifiers.OpenBracket:
+			//			break;
+			//		case TokenQualifiers.CloseBracket:
+			//			if ( TokenParser.IndentLevel < 1 )
+			//			{
+			//				isParsingFinished = true;
+			//			}
+			//			break;
+			//		default:
+			//			templates.Add( ParseTemplateFromInputLine( token.Value ) );
+			//			break;
+			//	}
+			//	if ( isParsingFinished )
+			//	{
+			//		break;
+			//	}
+			//}
+			//Logger.WriteLine( "finished parsing templates from data" );
 			return templates.ToArray();
 		}
 
@@ -66,7 +65,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 					catch ( Exception ex )
 					{
 						var error = "a template contained a trailing escape character ('\\') with no following character to escape";
-						Log.WriteLineTimestamped( $"error: { error }; { ex.Message }" );
+						Logger.WriteLine( $"error: { error }; { ex.Message }" );
 						throw new EscapeCharacterMismatchException( error, ex );
 					}
 				}
@@ -80,7 +79,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				}
 			}
 			var result = template.ToString();
-			Log.WriteLineTimestamped( $"parsed template: { result }" );
+			Logger.WriteLine( $"parsed template: { result }" );
 			return result;
 		}
 	}

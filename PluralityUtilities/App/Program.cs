@@ -9,7 +9,7 @@ namespace PluralityUtilities.App
 	static class Program
 	{
 		private static string InputFilePath { get; set; } = string.Empty;
-		private static LogMode LogMode { get; set; } = LogMode.Disabled;
+		private static LoggingMode LogMode { get; set; } = LoggingMode.Disabled;
 		private static string OutputFilePath { get; set; } = string.Empty;
 		private static DateTime StartTime { get; set; }
 
@@ -30,9 +30,9 @@ namespace PluralityUtilities.App
 			}
 			ParseArgs( args );
 			InitLogging();
-			Log.WriteLineTimestamped( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { StartTime }" );
+			Logger.WriteLine( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { StartTime }" );
 			CreateAutoHotkeyScript();
-			Log.WriteLineTimestamped( $"execution finished in { ( DateTime.Now - StartTime ).TotalSeconds } seconds" );
+			Logger.WriteLine( $"execution finished in { ( DateTime.Now - StartTime ).TotalSeconds } seconds" );
 			WaitForUserToExit();
 		}
 
@@ -50,16 +50,16 @@ namespace PluralityUtilities.App
 				scriptGenerator.GenerateScriptFromInputFile( InputFilePath, OutputFilePath );
 				var successMessage = "generating script succeeded";
 				Console.WriteLine( successMessage );
-				Log.WriteLineTimestamped( successMessage );
+				Logger.WriteLine( successMessage );
 			}
-			catch ( Exception ex )
+			catch ( Exception exception )
 			{
-				var errorMessage = $"generating script failed with error: { ex.Message }";
-				if ( LogMode != LogMode.Verbose )
+				var errorMessage = $"generating script failed with error: { exception.Message }";
+				if ( !Logger.IsLoggingToConsoleEnabled() )
 				{
 					Console.WriteLine( errorMessage );
 				}
-				Log.WriteLineTimestamped( errorMessage );
+				Logger.LogError( exception );
 			}
 		}
 
@@ -67,14 +67,14 @@ namespace PluralityUtilities.App
 		{
 			switch ( LogMode )
 			{
-				case LogMode.Basic:
-					Log.EnableBasic();
-					Log.SetLogFolder( ProjectDirectories.LogDir );
+				case LoggingMode.FileOnly:
+					Logger.EnableFileOnly();
+					Logger.SetLogFolder( ProjectDirectories.LogDir );
 					Console.WriteLine( "logging is enabled" );
 					break;
-				case LogMode.Verbose:
-					Log.EnableVerbose();
-					Log.SetLogFolder( ProjectDirectories.LogDir );
+				case LoggingMode.All:
+					Logger.EnableAll();
+					Logger.SetLogFolder( ProjectDirectories.LogDir );
 					Console.WriteLine( "verbose logging is enabled" );
 					break;
 				default:
@@ -90,13 +90,17 @@ namespace PluralityUtilities.App
 			if ( args.Length > 2 )
 			{
 				var arg = args[ 2 ];
-				if ( string.Compare( arg, "-l" ) == 0 )
+				if ( string.Compare( arg, "-a" ) == 0 )
 				{
-					LogMode = LogMode.Basic;
+					LogMode = LoggingMode.All;
 				}
-				else if ( string.Compare( arg, "-v" ) == 0 )
+				else if ( string.Compare( arg, "-c" ) == 0 )
 				{
-					LogMode = LogMode.Verbose;
+					LogMode = LoggingMode.ConsoleOnly;
+				}
+				else if ( string.Compare( arg, "-f" ) == 0 )
+				{
+					LogMode = LoggingMode.FileOnly;
 				}
 			}
 		}
