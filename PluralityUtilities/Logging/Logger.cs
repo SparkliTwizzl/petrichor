@@ -42,7 +42,7 @@ namespace PluralityUtilities.Logging
 
 		public static void LogError( Exception exception )
 		{
-			WriteLine( $"AN ERROR OCCURRED : [[ { exception } ]]" );
+			LogError( exception, exception.Message );
 		}
 
 		public static void LogError( Exception exception, string message )
@@ -84,7 +84,7 @@ namespace PluralityUtilities.Logging
 				SetLogFileName( _defaultLogFileName );
 			}
 
-			var timestampedMessage = $"{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss" ) } - { message }";
+			var timestampedMessage = $"[{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss.fff" ) }] { message }";
 			if ( IsLoggingToConsoleEnabled() )
 			{
 				Console.Write( timestampedMessage );

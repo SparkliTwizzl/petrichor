@@ -81,18 +81,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			var outputFilePath = $"{ outputFolder }{ outputFileName }";
 
 			Logger.WriteLine( $"started generating output file ({ outputFilePath })" );
-			try
-			{
-				Directory.CreateDirectory( outputFolder );
-				WriteByteOrderMarkToFile( outputFilePath );
-				WriteHeaderToFile( outputFilePath );
-				WriteLinesToFile( outputFilePath, macros );
-			}
-			catch (Exception e)
-			{
-				Logger.WriteLine( $"failed to generate output file ({ outputFilePath }) with exception: { e.Message }" );
-				throw new Exception( e.Message, e );
-			}
+			Directory.CreateDirectory( outputFolder );
+			WriteByteOrderMarkToFile( outputFilePath );
+			WriteHeaderToFile( outputFilePath );
+			WriteLinesToFile( outputFilePath, macros );
 			Logger.WriteLine( $"successfully generated output file ({ outputFilePath })" );
 		}
 
@@ -134,14 +126,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			try
 			{
 				using StreamWriter writer = File.AppendText( outputFilePath );
-				writer.WriteLine(line);
-				Logger.WriteLine($"wrote line to output file: {line}");
+				writer.WriteLine( line );
+				Logger.WriteLine( $"wrote line to output file: { line }" );
 			}
-			catch ( Exception ex )
+			catch ( Exception e )
 			{
-				var errorMessage = "failed to write to output file";
-				Logger.WriteLine( $"error: { errorMessage }" );
-				throw new FileLoadException( errorMessage, ex );
+				throw new FileLoadException( "failed to write to output file", e );
 			}
 		}
 

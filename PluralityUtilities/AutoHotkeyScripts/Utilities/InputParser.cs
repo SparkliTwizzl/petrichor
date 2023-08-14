@@ -69,9 +69,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			//			}
 			//			if ( tokenParser.IndentLevel > 0 )
 			//			{
-			//				errorMessage = $"input file contains invalid data: a region was not closed properly when parsing token \"{ qualifiedToken.Value }\"";
-			//				Logger.WriteLine($"error: {errorMessage}");
-			//				throw new RegionNotClosedException(errorMessage);
+			//				throw new RegionNotClosedException( $"input file contains invalid data: a region was not closed properly when parsing token \"{ qualifiedToken.Value }\"" );
 			//			}
 			//			break;
 
@@ -80,9 +78,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 			//		case TokenQualifiers.Unknown:
 			//		default:
-			//			errorMessage = $"input file contains invalid data: an unknown token ( \"{ qualifiedToken.Value }\" ) was read when a region name was expected";
-			//			Logger.WriteLine($"error: {errorMessage}");
-			//			throw new UnknownTokenException(errorMessage);
+			//			throw new UnknownTokenException( $"input file contains invalid data: an unknown token ( \"{ qualifiedToken.Value }\" ) was read when a region name was expected" );
 			//	}
 			//}
 
@@ -97,11 +93,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 				Logger.WriteLine( "successfully read data from input file" );
 				return data;
 			}
-			catch ( Exception ex )
+			catch ( Exception e )
 			{
-				var errorMessage = "failed to read data from input file";
-				Logger.WriteLine( $"error: { errorMessage }; { ex.Message }" );
-				throw new FileNotFoundException( errorMessage, ex );
+				throw new FileNotFoundException( "failed to read data from input file", e );
 			}
 		}
 	}

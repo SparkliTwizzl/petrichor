@@ -49,17 +49,19 @@ namespace PluralityUtilities.App
 
 				scriptGenerator.GenerateScriptFromInputFile( InputFilePath, OutputFilePath );
 				var successMessage = "generating script succeeded";
-				Console.WriteLine( successMessage );
-				Logger.WriteLine( successMessage );
-			}
-			catch ( Exception exception )
-			{
-				var errorMessage = $"generating script failed with error: { exception.Message }";
 				if ( !Logger.IsLoggingToConsoleEnabled() )
 				{
-					Console.WriteLine( errorMessage );
+					Console.WriteLine(successMessage);
 				}
-				Logger.LogError( exception );
+				Logger.WriteLine( successMessage );
+			}
+			catch ( Exception e )
+			{
+				if ( !Logger.IsLoggingToConsoleEnabled() )
+				{
+					Console.WriteLine( $"generating script failed with error: { e.Message }" );
+				}
+				Logger.LogError( e );
 			}
 		}
 
@@ -67,20 +69,26 @@ namespace PluralityUtilities.App
 		{
 			switch ( LogMode )
 			{
-				case LoggingMode.FileOnly:
-					Logger.EnableFileOnly();
-					Logger.SetLogFolder( ProjectDirectories.LogDir );
-					Console.WriteLine( "logging is enabled" );
-					break;
 				case LoggingMode.All:
 					Logger.EnableAll();
 					Logger.SetLogFolder( ProjectDirectories.LogDir );
-					Console.WriteLine( "verbose logging is enabled" );
+					Console.WriteLine( "logging to console and file is enabled" );
+					break;
+				case LoggingMode.ConsoleOnly:
+					Logger.EnableConsoleOnly();
+					Logger.SetLogFolder( ProjectDirectories.LogDir );
+					Console.WriteLine( "logging to console is enabled" );
+					break;
+				case LoggingMode.FileOnly:
+					Logger.EnableFileOnly();
+					Logger.SetLogFolder( ProjectDirectories.LogDir );
+					Console.WriteLine( "logging to file is enabled" );
 					break;
 				default:
 					Console.WriteLine( "logging is disabled" );
 					break;
 			}
+			Console.WriteLine();
 		}
 
 		private static void ParseArgs( string[] args )
@@ -107,7 +115,7 @@ namespace PluralityUtilities.App
 
 		private static void WaitForUserToExit()
 		{
-			Console.Write( "press any key to exit" );
+			Console.Write( "\npress any key to exit" );
 			Console.ReadKey( true );
 		}
 	}
