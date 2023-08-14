@@ -4,8 +4,8 @@ region: fields
 {
 	field: group-duplicate
 	{
-		field-unique: field-unique
-		field-unique: group-unique
+		field: field-unique
+		field: group-unique
 		{
 			field: field-duplicate
 		}
@@ -49,10 +49,10 @@ XAML-like option:
 
 <region> fields
 	<field> group-duplicate
-		<field-unique/> field-unique
-		<field-unique> group-unique
+		<field/> field-unique
+		<field> group-unique
 			<field/> field-duplicate
-		</field-unique>
+		</field>
 	</field>
 </region>
 
