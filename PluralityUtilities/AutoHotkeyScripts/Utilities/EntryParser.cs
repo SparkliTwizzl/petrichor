@@ -150,7 +150,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 						{
 							throw new MissingInputFieldException( $"parsing entries failed at token # { i } :: input file contains invalid data: an entry did not contain any identity fields" );
 						}
-						--TokenParser.IndentLevel;
 						return entry;
 					case LineTypes.Unknown:
 						var unexpectedChar = line.Trim()[ 0 ];
