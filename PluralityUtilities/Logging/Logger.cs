@@ -5,11 +5,11 @@ using PluralityUtilities.Logging.Enums;
 
 namespace PluralityUtilities.Logging
 {
-	public static class Log
+	public static class Logger
 	{
 		private static readonly string _defaultLogFolder = $"{ Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ) }/log/";
 		private static readonly string _defaultLogFileName = $"{ DateTime.Now.ToString( "yyyy-MM-dd_HH-mm-ss" ) }.log";
-		private static LogMode _mode = LogMode.Disabled;
+		private static LoggingMode _mode = LoggingMode.Disabled;
 		private static string _logFolder = string.Empty;
 		private static string _logFileName = string.Empty;
 		private static string _logFilePath = string.Empty;
@@ -17,17 +17,27 @@ namespace PluralityUtilities.Logging
 
 		public static void Disable()
 		{
-			_mode = LogMode.Disabled;
+			_mode = LoggingMode.Disabled;
 		}
 
-		public static void EnableBasic()
+		public static void EnableAll()
 		{
-			_mode = LogMode.Basic;
+			_mode = LoggingMode.All;
 		}
 
-		public static void EnableVerbose()
+		public static void EnableConsoleOnly()
 		{
-			_mode = LogMode.Verbose;
+			_mode = LoggingMode.ConsoleOnly;
+		}
+
+		public static void EnableFileOnly()
+		{
+			_mode = LoggingMode.FileOnly;
+		}
+
+		public static void LogError( Exception exception, string message )
+		{
+			WriteLine( $"AN ERROR OCCURRED : { message } [[ { exception } ]]" );
 		}
 
 		public static void SetLogFileName( string filename )
@@ -50,40 +60,37 @@ namespace PluralityUtilities.Logging
 
 		public static void Write( string message = "" )
 		{
-			if ( _mode != LogMode.Disabled )
+			if (_mode == LoggingMode.Disabled)
 			{
-				if ( _logFolder == "" )
-				{
-					SetLogFolder( _defaultLogFolder );
-				}
-				if ( _logFileName == "" )
-				{
-					SetLogFileName( _defaultLogFileName );
-				}
+				return;
+			}
+
+			if ( _logFolder == "" )
+			{
+				SetLogFolder( _defaultLogFolder );
+			}
+			if ( _logFileName == "" )
+			{
+				SetLogFileName( _defaultLogFileName );
+			}
+
+			var timestampedMessage = $"{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss" ) } - { message }";
+			if ( _mode == LoggingMode.FileOnly || _mode == LoggingMode.All )
+			{
 				using ( StreamWriter logFile = File.AppendText( _logFilePath ) )
 				{
-					logFile.Write( message );
-				}
-				if ( _mode == LogMode.Verbose )
-				{
-					Console.Write( message );
+					logFile.Write( timestampedMessage );
 				}
 			}
-		}
-
-		public static void WriteTimestamped( string message = "" )
-		{
-			Write( $"{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss" ) } - { message }" );
+			if ( _mode == LoggingMode.ConsoleOnly || _mode == LoggingMode.All )
+			{
+				Console.Write( timestampedMessage );
+			}
 		}
 
 		public static void WriteLine( string message = "" )
 		{
 			Write( $"{ message }\n" );
-		}
-
-		public static void WriteLineTimestamped( string message = "" )
-		{
-			WriteTimestamped( $"{ message }\n" );
 		}
 
 

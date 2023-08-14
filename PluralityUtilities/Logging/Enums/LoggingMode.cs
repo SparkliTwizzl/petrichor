@@ -1,9 +1,10 @@
 ﻿namespace PluralityUtilities.Logging.Enums
 {
-	public enum LogMode
+	public enum LoggingMode
 	{
+		All,
+		ConsoleOnly,
 		Disabled,
-		Basic,
-		Verbose,
+		FileOnly,
 	}
 }
