@@ -10,10 +10,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		public TokenParser() { }
 
 
-		//TODO write test case for valid data
-		//TODO write test case for invalid name
-		//TODO write test case for missing name
-		//TODO write test case for missing value
 		public static Token ParseTokenFromString( string text )
 		{
 			var trimmedText = text.Trim();
