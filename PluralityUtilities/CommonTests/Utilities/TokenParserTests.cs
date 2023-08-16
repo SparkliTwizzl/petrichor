@@ -15,7 +15,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			TestUtilities.InitializeLoggingForTests();
 		}
 
-		[ TestMethod() ]
+		[ TestMethod ]
 		[ DynamicData( nameof( GetTestSuccessData ), DynamicDataSourceType.Method ) ]
 		public void ParseTokenFromStringTest_Success( string input, Token expected )
 		{
@@ -23,12 +23,40 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			Assert.AreEqual( expected, actual );
 		}
 
-		[ TestMethod() ]
+		[ TestMethod ]
 		[ ExpectedException( typeof( InvalidTokenException ) ) ]
 		[ DynamicData( nameof( GetThrowsInvalidTokenExceptionData ), DynamicDataSourceType.Method ) ]
 		public void ParseTokenFromStringTest_ThrowsInvalidTokenException( string input )
 		{
 			_ = TokenParser.ParseTokenFromString( input );
+		}
+
+
+		private static IEnumerable<object[]> GetTestSuccessData()
+		{
+			yield return new TestData.TestSuccessDataContainer
+			{
+				Input = TestData.ValidInput,
+				Expected = TestData.ValidToken,
+			}.ToObjectArray();
+		}
+
+		private static IEnumerable<object[]> GetThrowsInvalidTokenExceptionData()
+		{
+			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			{
+				Input = TestData.InvalidInput_InvalidTokenName,
+			}.ToObjectArray();
+
+			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			{
+				Input = TestData.InvalidInput_MissingTokenName,
+			}.ToObjectArray();
+
+			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			{
+				Input = TestData.InvalidInput_MissingTokenValue,
+			}.ToObjectArray();
 		}
 
 
@@ -45,54 +73,27 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Name = ValidTokenName,
 				Value = ValidTokenValue,
 			};
-		}
 
 
-		private static IEnumerable<object[]> GetTestSuccessData()
-		{
-			yield return new GetTestSuccessDataType
+			public struct TestSuccessDataContainer
 			{
-				Input = TestData.ValidInput,
-				Expected = TestData.ValidToken,
-			}.ToObjectArray();
-		}
+				public string Input { get; set; }
+				public Token Expected { get; set; }
 
-		private struct GetTestSuccessDataType
-		{
-			public string Input { get; set; }
-			public Token Expected { get; set; }
-
-			public object[] ToObjectArray()
-			{
-				return new object[] { Input, Expected };
+				public object[] ToObjectArray()
+				{
+					return new object[] { Input, Expected };
+				}
 			}
-		}
 
-		private static IEnumerable<object[]> GetThrowsInvalidTokenExceptionData()
-		{
-			yield return new GetThrowsInvalidTokenExceptionDataType
+			public struct ThrowsInvalidTokenExceptionDataContainer
 			{
-				Input = TestData.InvalidInput_InvalidTokenName,
-			}.ToObjectArray();
+				public string Input { get; set; }
 
-			yield return new GetThrowsInvalidTokenExceptionDataType
-			{
-				Input = TestData.InvalidInput_MissingTokenName,
-			}.ToObjectArray();
-
-			yield return new GetThrowsInvalidTokenExceptionDataType
-			{
-				Input = TestData.InvalidInput_MissingTokenValue,
-			}.ToObjectArray();
-		}
-
-		private struct GetThrowsInvalidTokenExceptionDataType
-		{
-			public string Input { get; set; }
-
-			public object[] ToObjectArray()
-			{
-				return new object[] { Input };
+				public object[] ToObjectArray()
+				{
+					return new object[] { Input };
+				}
 			}
 		}
 	}
