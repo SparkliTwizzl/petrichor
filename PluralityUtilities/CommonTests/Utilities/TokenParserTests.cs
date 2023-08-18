@@ -16,7 +16,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetTestSuccessData ), DynamicDataSourceType.Method ) ]
+		[ DynamicData( nameof( GetTestData_Success ), DynamicDataSourceType.Method ) ]
 		public void ParseTokenFromStringTest_Success( Token expected, string input )
 		{
 			var actual = TokenParser.ParseTokenFromString( input );
@@ -25,14 +25,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[ TestMethod ]
 		[ ExpectedException( typeof( InvalidTokenException ) ) ]
-		[ DynamicData( nameof( GetThrowsInvalidTokenExceptionData ), DynamicDataSourceType.Method ) ]
+		[ DynamicData( nameof( GetTestData_ThrowsInvalidTokenException ), DynamicDataSourceType.Method ) ]
 		public void ParseTokenFromStringTest_ThrowsInvalidTokenException( string input )
 		{
 			_ = TokenParser.ParseTokenFromString( input );
 		}
 
 
-		private static IEnumerable<object[]> GetTestSuccessData()
+		private static IEnumerable<object[]> GetTestData_Success()
 		{
 			yield return new TestData.TestSuccessDataContainer
 			{
@@ -41,7 +41,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetThrowsInvalidTokenExceptionData()
+		private static IEnumerable<object[]> GetTestData_ThrowsInvalidTokenException()
 		{
 			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
 			{

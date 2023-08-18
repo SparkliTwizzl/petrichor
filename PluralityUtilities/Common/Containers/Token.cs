@@ -1,6 +1,4 @@
-﻿using PluralityUtilities.Logging;
-
-namespace PluralityUtilities.Common.Containers
+﻿namespace PluralityUtilities.Common.Containers
 {
 	public class Token
 	{
@@ -27,38 +25,20 @@ namespace PluralityUtilities.Common.Containers
 		}
 
 
-		public static bool operator==( Token left, Token right )
+		public override bool Equals( object? obj )
 		{
-			return left.Equals( right );
+			if ( obj is Token )
+			{
+				return Equals( (Token) obj );
+			}
+			return base.Equals( obj );
 		}
 
-		public static bool operator!=( Token left, Token right )
+		public bool Equals( Token other )
 		{
-			return !left.Equals( right );
-		}
-
-		public static bool Equals( Token left, Token right )
-		{
-			Logger.WriteLine( $"[[ { left } ]], [[ { right } ]]" );
-			var leftBody = left.Body.ToArray();
-			var rightBody = right.Body.ToArray();
-			if ( leftBody.Length != rightBody.Length )
-			{
-				return false;
-			}
-
-			var areBodiesEqual = true;
-			for ( var i = 0; i < leftBody.Length; ++i )
-			{
-				if ( leftBody[ i ] != rightBody[ i ] )
-				{
-					areBodiesEqual = false;
-					break;
-				}
-			}
-
-			var areNamesEqual = left.Name == right.Name;
-			var areValuesEqual = left.Value == right.Value;
+			var areBodiesEqual = Body.ToArray() == other.Body.ToArray();
+			var areNamesEqual = Name == other.Name;
+			var areValuesEqual = Value == other.Value;
 			return areBodiesEqual && areNamesEqual && areValuesEqual;
 		}
 	}
