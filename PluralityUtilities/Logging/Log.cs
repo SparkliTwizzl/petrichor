@@ -67,7 +67,7 @@ namespace PluralityUtilities.Logging
 
 		public static void Separator()
 		{
-			WriteToLog(" ---------------------------------------------------------------------------------------------------- ");
+			WriteToLog( "----------------------------------------------------------------------------------------------------" );
 		}
 
 		public static void SetLogFileName( string filename )
