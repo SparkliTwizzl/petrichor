@@ -57,11 +57,15 @@ namespace PluralityUtilities.App
 			}
 			catch ( Exception e )
 			{
+				var failureMessage = "generating script failed";
 				if ( !Log.IsLoggingToConsoleEnabled )
 				{
-					Console.WriteLine( $"generating script failed with error: { e.Message }" );
+					Console.WriteLine( $"an error occurred: { e.Message }" );
+					Console.WriteLine( failureMessage );
 				}
 				Log.Exception( e );
+				Log.Error( failureMessage );
+				throw;
 			}
 		}
 

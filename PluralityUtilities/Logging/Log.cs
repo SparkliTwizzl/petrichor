@@ -47,12 +47,12 @@ namespace PluralityUtilities.Logging
 
 		public static void Exception( Exception exception )
 		{
-			Exception( exception, exception.Message );
+			WriteToLog( $"EXCEPTION : { exception.Message } [[ { exception } ]]" );
 		}
 
 		public static void Exception( Exception exception, string message )
 		{
-			WriteToLog( $"EXCEPTION : { message } [[ { exception } ]]" );
+			WriteToLog( $"EXCEPTION : { message } // { exception.Message } [[ { exception } ]]" );
 		}
 
 		public static void Info( string message )

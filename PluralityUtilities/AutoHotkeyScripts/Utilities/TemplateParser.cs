@@ -64,7 +64,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 					}
 					catch ( Exception e )
 					{
-						throw new EscapeCharacterMismatchException( "a template contained a trailing escape character ('\\') with no following character to escape", e );
+						var rethrow = new EscapeCharacterMismatchException( "a template contained a trailing escape character ('\\') with no following character to escape", e );
+						Log.Exception( rethrow );
+						throw rethrow;
 					}
 				}
 				if ( TemplateMarkers.LookUpTable.TryGetValue( c, out var value ) )

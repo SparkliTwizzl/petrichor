@@ -95,7 +95,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 			catch ( Exception e )
 			{
-				throw new FileNotFoundException( "failed to read data from input file", e );
+				var rethrow = new FileNotFoundException( "failed to read data from input file", e );
+				Log.Exception( rethrow );
+				throw rethrow;
 			}
 		}
 	}

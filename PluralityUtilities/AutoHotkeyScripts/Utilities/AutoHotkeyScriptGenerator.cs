@@ -131,7 +131,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 			catch ( Exception e )
 			{
-				throw new FileLoadException( "failed to write to output file", e );
+				var rethrow = new FileLoadException( "failed to write to output file", e );
+				Log.Exception( rethrow );
+				throw rethrow;
 			}
 		}
 

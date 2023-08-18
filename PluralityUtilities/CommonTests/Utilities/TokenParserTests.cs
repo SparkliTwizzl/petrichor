@@ -20,9 +20,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		public void ParseTokenFromStringTest_Success( Token expected, string input )
 		{
 			var actual = TokenParser.ParseTokenFromString( input );
-			var test = new Token( expected );
-			//Assert.AreEqual( expected, actual );
-			Assert.AreEqual( expected, test );
+			Assert.AreEqual( expected, actual );
 		}
 
 		[ TestMethod ]
