@@ -25,10 +25,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		public Input ParseInputFile( string inputFilePath )
 		{
-			Logger.WriteLine( $"started parsing input file: { inputFilePath }");
+			Log.Info( $"started parsing input file: { inputFilePath }");
 			var data = ReadDataFromFile( inputFilePath );
 			var input = ParseInputData( data );
-			Logger.WriteLine( "finished parsing input file" );
+			Log.Info( "finished parsing input file" );
 			return input;
 		}
 
@@ -90,7 +90,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			try
 			{
 				var data = File.ReadAllLines( inputFilePath );
-				Logger.WriteLine( "successfully read data from input file" );
+				Log.Info( "successfully read data from input file" );
 				return data;
 			}
 			catch ( Exception e )

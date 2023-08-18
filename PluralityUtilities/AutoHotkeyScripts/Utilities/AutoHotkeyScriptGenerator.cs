@@ -80,12 +80,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			var outputFileName = GetNormalizedOutputFileName( outputFile );
 			var outputFilePath = $"{ outputFolder }{ outputFileName }";
 
-			Logger.WriteLine( $"started generating output file ({ outputFilePath })" );
+			Log.Info( $"started generating output file ({ outputFilePath })" );
 			Directory.CreateDirectory( outputFolder );
 			WriteByteOrderMarkToFile( outputFilePath );
 			WriteHeaderToFile( outputFilePath );
 			WriteLinesToFile( outputFilePath, macros );
-			Logger.WriteLine( $"successfully generated output file ({ outputFilePath })" );
+			Log.Info( $"successfully generated output file ({ outputFilePath })" );
 		}
 
 		private static string GetNormalizedOutputFolder( string outputFile )
@@ -127,7 +127,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			{
 				using StreamWriter writer = File.AppendText( outputFilePath );
 				writer.WriteLine( line );
-				Logger.WriteLine( $"wrote line to output file: { line }" );
+				Log.Info( $"wrote line to output file: { line }" );
 			}
 			catch ( Exception e )
 			{

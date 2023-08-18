@@ -17,7 +17,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		public Entry[] ParseEntriesFromData( string[] data, ref int i )
 		{
-			//Logger.WriteLine( "started parsing entries from input data");
+			//Log.Info( "started parsing entries from input data");
 			var entries = new List< Entry >();
 			//var expectedTokens = new string[]
 			//{
@@ -51,12 +51,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			//				++i;
 			//				var entry = ParseEntry( data, ref i );
 			//				entries.Add( entry );
-			//				Logger.Write( "successfully parsed entry: names/tags [" );
+			//				Log.Write( "successfully parsed entry: names/tags [" );
 			//				foreach ( Identity identity in entry.Identities )
 			//				{
-			//					Logger.Write( $"{ identity.Name }/{ identity.Tag }, " );
+			//					Log.Write( $"{ identity.Name }/{ identity.Tag }, " );
 			//				}
-			//				Logger.WriteLine( $"], pronoun [{ entry.Pronoun }], decoration [{ entry.Decoration }]" );
+			//				Log.Info( $"], pronoun [{ entry.Pronoun }], decoration [{ entry.Decoration }]" );
 			//			}
 			//			break;
 			//	}
@@ -69,7 +69,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			//{
 			//	throw new InputEntryNotClosedException( "input file contains invalid data: an entry was not closed" );
 			//}
-			//Logger.WriteLine( "finished parsing entries from input data" );
+			//Log.Info( "finished parsing entries from input data" );
 			return entries.ToArray();
 		}
 
@@ -137,7 +137,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		private Entry ParseEntry( string[] data, ref int i )
 		{
-			Logger.WriteLine( "started parsing next entry" );
+			Log.Info( "started parsing next entry" );
 			var entry = new Entry();
 			for ( ; i < data.Length; ++i )
 			{

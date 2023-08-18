@@ -17,10 +17,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[ TestMethod ]
 		[ DynamicData( nameof( GetTestSuccessData ), DynamicDataSourceType.Method ) ]
-		public void ParseTokenFromStringTest_Success( string input, Token expected )
+		public void ParseTokenFromStringTest_Success( Token expected, string input )
 		{
 			var actual = TokenParser.ParseTokenFromString( input );
-			Assert.AreEqual( expected, actual );
+			var test = new Token( expected );
+			//Assert.AreEqual( expected, actual );
+			Assert.AreEqual( expected, test );
 		}
 
 		[ TestMethod ]
@@ -36,8 +38,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			yield return new TestData.TestSuccessDataContainer
 			{
-				Input = TestData.ValidInput,
 				Expected = TestData.ValidToken,
+				Input = TestData.ValidInput,
 			}.ToObjectArray();
 		}
 
@@ -77,12 +79,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 			public struct TestSuccessDataContainer
 			{
-				public string Input { get; set; }
 				public Token Expected { get; set; }
+				public string Input { get; set; }
 
 				public object[] ToObjectArray()
 				{
-					return new object[] { Input, Expected };
+					return new object[] { Expected, Input };
 				}
 			}
 

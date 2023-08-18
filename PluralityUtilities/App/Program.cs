@@ -30,9 +30,9 @@ namespace PluralityUtilities.App
 			}
 			ParseArgs( args );
 			InitLogging();
-			Logger.WriteLine( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { StartTime }" );
+			Log.Info( $"PluralityUtilities v{ AppVersion.CurrentVersion }; execution started at { StartTime }" );
 			CreateAutoHotkeyScript();
-			Logger.WriteLine( $"execution finished in { ( DateTime.Now - StartTime ).TotalSeconds } seconds" );
+			Log.Info( $"execution finished in { ( DateTime.Now - StartTime ).TotalSeconds } seconds" );
 			WaitForUserToExit();
 		}
 
@@ -49,45 +49,51 @@ namespace PluralityUtilities.App
 
 				scriptGenerator.GenerateScriptFromInputFile( InputFilePath, OutputFilePath );
 				var successMessage = "generating script succeeded";
-				if ( !Logger.IsLoggingToConsoleEnabled() )
+				if ( !Log.IsLoggingToConsoleEnabled )
 				{
 					Console.WriteLine(successMessage);
 				}
-				Logger.WriteLine( successMessage );
+				Log.Info( successMessage );
 			}
 			catch ( Exception e )
 			{
-				if ( !Logger.IsLoggingToConsoleEnabled() )
+				if ( !Log.IsLoggingToConsoleEnabled )
 				{
 					Console.WriteLine( $"generating script failed with error: { e.Message }" );
 				}
-				Logger.LogError( e );
+				Log.Exception( e );
 			}
 		}
 
 		private static void InitLogging()
 		{
+			string loggingEnabledMessage;
 			switch ( LogMode )
 			{
 				case LoggingMode.All:
-					Logger.EnableAll();
-					Logger.SetLogFolder( ProjectDirectories.LogDir );
-					Console.WriteLine( "logging to console and file is enabled" );
+					Log.EnableForAll();
+					Log.SetLogFolder( ProjectDirectories.LogDir );
+					loggingEnabledMessage = "logging to console and file is enabled";
 					break;
 				case LoggingMode.ConsoleOnly:
-					Logger.EnableConsoleOnly();
-					Logger.SetLogFolder( ProjectDirectories.LogDir );
-					Console.WriteLine( "logging to console is enabled" );
+					Log.EnableForConsoleOnly();
+					Log.SetLogFolder( ProjectDirectories.LogDir );
+					loggingEnabledMessage = "logging to console is enabled";
 					break;
 				case LoggingMode.FileOnly:
-					Logger.EnableFileOnly();
-					Logger.SetLogFolder( ProjectDirectories.LogDir );
-					Console.WriteLine( "logging to file is enabled" );
+					Log.EnableForFileOnly();
+					loggingEnabledMessage = "logging to file is enabled";
 					break;
 				default:
-					Console.WriteLine( "logging is disabled" );
+					loggingEnabledMessage = "logging is disabled";
 					break;
 			}
+			if ( Log.IsLoggingEnabled )
+			{
+				Log.SetLogFolder( ProjectDirectories.LogDir );
+			}
+
+			Console.WriteLine( loggingEnabledMessage );
 			Console.WriteLine();
 		}
 

@@ -5,13 +5,8 @@ using PluralityUtilities.Logging.Enums;
 
 namespace PluralityUtilities.Logging
 {
-	public static class Logger
+	public static class Log
 	{
-		public static bool IsLoggingEnabled() => _mode != LoggingMode.Disabled;
-		public static bool IsLoggingToConsoleEnabled() => _mode == LoggingMode.ConsoleOnly || _mode == LoggingMode.All;
-		public static bool IsLoggingToFileEnabled() => _mode == LoggingMode.FileOnly || _mode == LoggingMode.All;
-
-
 		private static readonly string _defaultLogFolder = $"{ Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ) }/log/";
 		private static readonly string _defaultLogFileName = $"{ DateTime.Now.ToString( "yyyy-MM-dd_HH-mm-ss" ) }.log";
 		private static LoggingMode _mode = LoggingMode.Disabled;
@@ -20,34 +15,59 @@ namespace PluralityUtilities.Logging
 		private static string _logFilePath = string.Empty;
 
 
+		public static bool IsLoggingEnabled => _mode != LoggingMode.Disabled;
+		public static bool IsLoggingToConsoleEnabled => _mode == LoggingMode.ConsoleOnly || _mode == LoggingMode.All;
+		public static bool IsLoggingToFileEnabled => _mode == LoggingMode.FileOnly || _mode == LoggingMode.All;
+
+
 		public static void Disable()
 		{
 			_mode = LoggingMode.Disabled;
 		}
 
-		public static void EnableAll()
+		public static void EnableForAll()
 		{
 			_mode = LoggingMode.All;
 		}
 
-		public static void EnableConsoleOnly()
+		public static void EnableForConsoleOnly()
 		{
 			_mode = LoggingMode.ConsoleOnly;
 		}
 
-		public static void EnableFileOnly()
+		public static void EnableForFileOnly()
 		{
 			_mode = LoggingMode.FileOnly;
 		}
 
-		public static void LogError( Exception exception )
+		public static void Error( string message )
 		{
-			LogError( exception, exception.Message );
+			WriteToLog( $"ERROR : { message }" );
 		}
 
-		public static void LogError( Exception exception, string message )
+		public static void Exception( Exception exception )
 		{
-			WriteLine( $"AN ERROR OCCURRED : { message } [[ { exception } ]]" );
+			Exception( exception, exception.Message );
+		}
+
+		public static void Exception( Exception exception, string message )
+		{
+			WriteToLog( $"EXCEPTION : { message } [[ { exception } ]]" );
+		}
+
+		public static void Info( string message )
+		{
+			WriteToLog( $"INFO : { message }" );
+		}
+
+		public static void Warning( string message )
+		{
+			WriteToLog( $"WARNING : { message }" );
+		}
+
+		public static void Separator()
+		{
+			WriteToLog(" ---------------------------------------------------------------------------------------------------- ");
 		}
 
 		public static void SetLogFileName( string filename )
@@ -68,7 +88,13 @@ namespace PluralityUtilities.Logging
 			SetLogFilePath();
 		}
 
-		public static void Write( string message = "" )
+
+		private static void SetLogFilePath()
+		{
+			_logFilePath = $"{ _logFolder }{ _logFileName }";
+		}
+
+		private static void WriteToLog( string message = "" )
 		{
 			if (_mode == LoggingMode.Disabled)
 			{
@@ -84,29 +110,18 @@ namespace PluralityUtilities.Logging
 				SetLogFileName( _defaultLogFileName );
 			}
 
-			var timestampedMessage = $"[{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss.fff" ) }] { message }";
-			if ( IsLoggingToConsoleEnabled() )
+			var timestampedMessage = $"[{ DateTime.Now.ToString( "yyyy-MM-dd:HH:mm:ss.fff" ) }] { message }\n";
+			if ( IsLoggingToConsoleEnabled )
 			{
 				Console.Write( timestampedMessage );
 			}
-			if ( IsLoggingToFileEnabled() )
+			if ( IsLoggingToFileEnabled )
 			{
 				using ( StreamWriter logFile = File.AppendText( _logFilePath ) )
 				{
 					logFile.Write( timestampedMessage );
 				}
 			}
-		}
-
-		public static void WriteLine( string message = "" )
-		{
-			Write( $"{ message }\n" );
-		}
-
-
-		private static void SetLogFilePath()
-		{
-			_logFilePath = $"{ _logFolder }{ _logFileName }";
 		}
 	}
 }

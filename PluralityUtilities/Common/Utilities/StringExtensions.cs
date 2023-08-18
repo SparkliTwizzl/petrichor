@@ -31,8 +31,8 @@
 			{
 				return filePath;
 			}
-			var length = filePath.Length - ( filePath.Length - extensionStart );
-			return filePath.Substring( 0, length );
+			var filepathLength = filePath.Length - ( filePath.Length - extensionStart );
+			return filePath.Substring( 0, filepathLength );
 		}
 	}
 }
