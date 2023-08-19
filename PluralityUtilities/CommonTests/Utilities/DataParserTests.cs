@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluralityUtilities.Common.Containers;
+using PluralityUtilities.Common.Exceptions;
 using PluralityUtilities.TestCommon.Utilities;
 
 
@@ -19,26 +20,49 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetTestData_ParseTokensFromRawData_Success ), DynamicDataSourceType.Method ) ]
-		public void ParseTokensFromRawDataTest_Success( Token expected, string[] inputData )
+		[ DynamicData( nameof( GetCasesFor_ParseRawData_Success ), DynamicDataSourceType.Method ) ]
+		public void Test_ParseRawData_Success( Token expected, string[] inputData )
+		{
+			var actual = dataParser.ParseRawData( inputData );
+			Assert.AreEqual( expected, actual );
+		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( IndentImbalanceException ) ) ]
+		[ DynamicData( nameof( GetCasesFor_ParseRawData_ThrowsIndentImbalanceException ), DynamicDataSourceType.Method ) ]
+		public void Test_ParseRawData_ThrowsIndentImbalanceException( Token expected, string[] inputData )
 		{
 			var actual = dataParser.ParseRawData( inputData );
 			Assert.AreEqual( expected, actual );
 		}
 
 
-		private static IEnumerable<object[]> GetTestData_ParseTokensFromRawData_Success()
+		private static IEnumerable<object[]> GetCasesFor_ParseRawData_Success()
 		{
-			yield return new TestData.DataContainer_ParseTokensFromRawData
+			yield return new TestData.DataContainer_ParseRawData_Success
 			{
 				Expected = TestData.ValidParsedData,
 				InputData = TestData.ValidRawData,
 			}.ToObjectArray();
 		}
 
+		private static IEnumerable<object[]> GetCasesFor_ParseRawData_ThrowsIndentImbalanceException()
+		{
+			yield return new TestData.DataContainer_ParseRawData_Success
+			{
+				InputData = TestData.InvalidRawData_MismatchedIndent,
+			}.ToObjectArray();
+		}
+
 
 		private static class TestData
 		{
+			public static string[] InvalidRawData_MismatchedIndent => new string[]
+			{
+				"a0-name:a0-value",
+				"{",
+				"	b0-name:b0-value",
+			};
 			public static Token ValidParsedData => new Token()
 			{
 				Name = "",
@@ -99,7 +123,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 
 
 
-			public struct DataContainer_ParseTokensFromRawData
+			public struct DataContainer_ParseRawData_Success
 			{
 				public Token Expected { get; set; }
 				public string[] InputData { get; set; }
@@ -107,6 +131,16 @@ namespace PluralityUtilities.Common.Utilities.Tests
 				public object[] ToObjectArray()
 				{
 					return new object[] { Expected, InputData };
+				}
+			}
+
+			public struct DataContainer_ParseRawData_ThrowsException
+			{
+				public string[] InputData { get; set; }
+
+				public object[] ToObjectArray()
+				{
+					return new object[] { InputData };
 				}
 			}
 		}
