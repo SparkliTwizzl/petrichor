@@ -50,18 +50,22 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{
-				InputData = TestData.InvalidRawData_MismatchedIndent,
+				InputData = TestData.InvalidRawData_ImbalancedOpenBracket,
 			}.ToObjectArray();
 		}
 
 
 		private static class TestData
 		{
-			public static string[] InvalidRawData_MismatchedIndent => new string[]
+			public static string[] InvalidRawData_ImbalancedOpenBracket => new string[]
 			{
 				"a0-name:a0-value",
 				"{",
-				"	b0-name:b0-value",
+			};
+			public static string[] InvalidRawData_ImbalancedCloseBracket => new string[]
+			{
+				"a0-name:a0-value",
+				"}",
 			};
 			public static Token ValidParsedData => new Token()
 			{
