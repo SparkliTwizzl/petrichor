@@ -1,0 +1,114 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PluralityUtilities.Common.Containers;
+using PluralityUtilities.TestCommon.Utilities;
+
+
+namespace PluralityUtilities.Common.Utilities.Tests
+{
+	[ TestClass ]
+	public class DataParserTests
+	{
+		DataParser dataParser { get; set; } = new DataParser();
+
+
+		[ TestInitialize ]
+		public void Setup()
+		{
+			TestUtilities.InitializeLoggingForTests();
+			dataParser = new DataParser();
+		}
+
+		[ TestMethod ]
+		[ DynamicData( nameof( GetTestData_ParseTokensFromRawData_Success ), DynamicDataSourceType.Method ) ]
+		public void ParseTokensFromRawDataTest_Success( Token expected, string[] inputData )
+		{
+			var actual = dataParser.ParseRawData( inputData );
+			Assert.AreEqual( expected, actual );
+		}
+
+
+		private static IEnumerable<object[]> GetTestData_ParseTokensFromRawData_Success()
+		{
+			yield return new TestData.DataContainer_ParseTokensFromRawData
+			{
+				Expected = TestData.ValidParsedData,
+				InputData = TestData.ValidRawData,
+			}.ToObjectArray();
+		}
+
+
+		private static class TestData
+		{
+			public static Token ValidParsedData => new Token()
+			{
+				Name = "",
+				Value = "",
+				Body = new List<Token>
+				{
+					new Token()
+					{
+						Name = "a0-name",
+						Value = "a0-value",
+						Body = new List<Token>
+						{
+							new Token()
+							{
+								Name = "b0-name",
+								Value = "b0-value",
+								Body = new List<Token>
+								{
+									new Token()
+									{
+										Name = "c0-name",
+										Value = "c0-value",
+									},
+									new Token()
+									{
+										Name = "c1-name",
+										Value = "c1-value",
+									},
+								},
+							},
+							new Token()
+							{
+								Name = "b1-name",
+								Value = "b1-value",
+							},
+						},
+					},
+					new Token()
+					{
+						Name = "a1-name",
+						Value = "a1-value",
+					},
+				},
+			};
+			public static string[] ValidRawData => new string[]
+			{
+				"a0-name:a0-value",
+				"{",
+				"	b0-name:b0-value",
+				"	{",
+				"		c0-name:c0-value",
+				"		c1-name:c1-value",
+				"	}",
+				"	b1-name:b1-value",
+				"}",
+				"a1-name:a1-value",
+			};
+
+
+
+			public struct DataContainer_ParseTokensFromRawData
+			{
+				public Token Expected { get; set; }
+				public string[] InputData { get; set; }
+
+				public object[] ToObjectArray()
+				{
+					return new object[] { Expected, InputData };
+				}
+			}
+		}
+	}
+}
