@@ -13,18 +13,18 @@ string[] "input_data" =>
 }
 
 
-										top, start -> create "list_top"
-"a0-name:a0-value"							0, default -> parse "token_a0", add to "list_top"
-{											0, open -> increase indent, create "list_a0"
-	"b0-name:b0-value"							1, default -> parse "token_b0", add to "list_a0"
-	{											1, open -> increase indent, create "list_b0"
-		"c0-name:c0-value"							2, default -> parse "token_c0", add to "list_b0"
-		"c1-name:c1-value"							2, default -> parse "token_c1", add to "list_b0"
-	}											2, close -> decrease indent, set "token_b0".Body to "list_b0"
-	"b1-name:b1-value"							1, default -> parse token, add to "list_a0"
-}											1, close -> decrease indent, set "token_a0".Body to "list_a0"
-"a1-name:a1-value"							0, default -> parse "token_a1", add to "list_top"
-										top, end -> return "list_top"
+										---> top, start		---> create "list_top"
+"a0-name:a0-value"						---> 0, default		---> parse "token_a0", add to "list_top"
+"{"										---> 0, open		---> increase indent, create "list_a0"
+	"b0-name:b0-value"					---> 1, default		---> parse "token_b0", add to "list_a0"
+	"{"									---> 1, open		---> increase indent, create "list_b0"
+		"c0-name:c0-value"				---> 2, default		---> parse "token_c0", add to "list_b0"
+		"c1-name:c1-value"				---> 2, default		---> parse "token_c1", add to "list_b0"
+	"}"									---> 2, close		---> decrease indent, set "token_b0".Body to "list_b0"
+	"b1-name:b1-value"					---> 1, default		---> parse token, add to "list_a0"
+"}"										---> 1, close		---> decrease indent, set "token_a0".Body to "list_a0"
+"a1-name:a1-value"						---> 0, default		---> parse "token_a1", add to "list_top"
+										---> top, end		---> return "list_top"
 
 List<Token> "list_top" =>
 {
@@ -39,3 +39,40 @@ List<Token> "list_top" =>
 	} ]],
 	[[ "a1-name", "a1-value", { } ]],
 }
+
+
+
+- create top-level token
+- recursively process data: ( remaining input data, most recently created token )
+	- create token list
+	- iterate over raw input data
+		- if open bracket:
+			- recurse
+		- if close bracket:
+			- set passed token body to list
+			- return
+		- else:
+			- parse new token from line
+			- add new token to list
+
+
+
+										create token "top"
+{										start -> recurse; pass below, "top"
+										{			create token list, iterate over data
+	"a0-name:a0-value",						else --> create token "a0", add to list
+	"{",									open --> recurse; pass below, "a0"
+											{			create token list, iterate over data
+		"b0-name:b0-value",						else --> create token "b0", add to list
+		"{",									open --> recurse; pass below, "b0"
+												{			create token list, iterate over data
+			"c0-name:c0-value",						else --> create token "c0", add to list
+			"c1-name:c1-value",						else --> create token "c1", add to list
+		"}",										close -> set "b0".Body to list, return
+												}
+		"b1-name:b1-value",						else --> create token "b1", add to list
+	"}",										close -> set "a0".Body to list, return
+											}
+	"a1-name:a1-value",						else --> create token "a1", add to list
+}											end ---> set "top".Body to list, return
+										return "top"
