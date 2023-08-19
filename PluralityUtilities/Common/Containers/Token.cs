@@ -7,7 +7,7 @@
 		public string Value { get; set; } = string.Empty;
 
 
-		public static Token Empty => new Token();
+		public static Token Empty => new();
 
 
 		public Token() { }
@@ -40,6 +40,11 @@
 			var areNamesEqual = Name == other.Name;
 			var areValuesEqual = Value == other.Value;
 			return areBodiesEqual && areNamesEqual && areValuesEqual;
+		}
+
+		public override int GetHashCode()
+		{
+			return Body.GetHashCode() ^ Name.GetHashCode() ^ Value.GetHashCode();
 		}
 	}
 }

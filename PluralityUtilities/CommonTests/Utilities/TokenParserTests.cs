@@ -4,7 +4,7 @@ using PluralityUtilities.Common.Exceptions;
 using PluralityUtilities.TestCommon.Utilities;
 
 
-namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
+namespace PluralityUtilities.Common.Utilities.Tests
 {
 	[ TestClass ]
 	public class TokenParserTests
@@ -16,8 +16,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetTestData_Success ), DynamicDataSourceType.Method ) ]
-		public void ParseTokenFromStringTest_Success( Token expected, string input )
+		[ DynamicData( nameof( GetTestData_ParseTokenFromString_Success ), DynamicDataSourceType.Method ) ]
+		public void Test_ParseTokenFromString_Success( Token expected, string input )
 		{
 			var actual = TokenParser.ParseTokenFromString( input );
 			Assert.AreEqual( expected, actual );
@@ -25,35 +25,35 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[ TestMethod ]
 		[ ExpectedException( typeof( InvalidTokenException ) ) ]
-		[ DynamicData( nameof( GetTestData_ThrowsInvalidTokenException ), DynamicDataSourceType.Method ) ]
-		public void ParseTokenFromStringTest_ThrowsInvalidTokenException( string input )
+		[ DynamicData( nameof( GetTestData_ParseTokenFromString_ThrowsInvalidTokenException ), DynamicDataSourceType.Method ) ]
+		public void Test_ParseTokenFromString_ThrowsInvalidTokenException( string input )
 		{
 			_ = TokenParser.ParseTokenFromString( input );
 		}
 
 
-		private static IEnumerable<object[]> GetTestData_Success()
+		private static IEnumerable<object[]> GetTestData_ParseTokenFromString_Success()
 		{
-			yield return new TestData.TestSuccessDataContainer
+			yield return new TestData.DataContainer_ParseTokenFromString
 			{
 				Expected = TestData.ValidToken,
-				Input = TestData.ValidInput,
+				Input = TestData.ValidTokenString,
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetTestData_ThrowsInvalidTokenException()
+		private static IEnumerable<object[]> GetTestData_ParseTokenFromString_ThrowsInvalidTokenException()
 		{
-			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			yield return new TestData.DataContainer_ParseTokenFromString_ThrowsException
 			{
 				Input = TestData.InvalidInput_InvalidTokenName,
 			}.ToObjectArray();
 
-			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			yield return new TestData.DataContainer_ParseTokenFromString_ThrowsException
 			{
 				Input = TestData.InvalidInput_MissingTokenName,
 			}.ToObjectArray();
 
-			yield return new TestData.ThrowsInvalidTokenExceptionDataContainer
+			yield return new TestData.DataContainer_ParseTokenFromString_ThrowsException
 			{
 				Input = TestData.InvalidInput_MissingTokenValue,
 			}.ToObjectArray();
@@ -64,10 +64,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			public static string ValidTokenName => "Token-Name-0";
 			public static string ValidTokenValue => "token : value";
-			public static string InvalidInput_InvalidTokenName => $"token name:{ValidTokenValue}";
-			public static string InvalidInput_MissingTokenName => $":{ValidTokenValue}";
-			public static string InvalidInput_MissingTokenValue => $"{ValidTokenName}:";
-			public static string ValidInput => $"{ValidTokenName}:{ValidTokenValue}";
+			public static string InvalidInput_InvalidTokenName => $"token name:{ ValidTokenValue }";
+			public static string InvalidInput_MissingTokenName => $":{ ValidTokenValue }";
+			public static string InvalidInput_MissingTokenValue => $"{ ValidTokenName }:";
+			public static string ValidTokenString => $"{ ValidTokenName }:{ ValidTokenValue }";
 			public static Token ValidToken => new()
 			{
 				Name = ValidTokenName,
@@ -75,7 +75,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			};
 
 
-			public struct TestSuccessDataContainer
+			public struct DataContainer_ParseTokenFromString
 			{
 				public Token Expected { get; set; }
 				public string Input { get; set; }
@@ -86,7 +86,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				}
 			}
 
-			public struct ThrowsInvalidTokenExceptionDataContainer
+			public struct DataContainer_ParseTokenFromString_ThrowsException
 			{
 				public string Input { get; set; }
 
@@ -97,4 +97,4 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}
 		}
 	}
-}
+ }

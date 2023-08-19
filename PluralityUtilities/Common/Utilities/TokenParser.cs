@@ -3,20 +3,22 @@ using PluralityUtilities.Common.Exceptions;
 using System.Text.RegularExpressions;
 
 
-namespace PluralityUtilities.AutoHotkeyScripts.Utilities
+namespace PluralityUtilities.Common.Utilities
 {
 	public partial class TokenParser
 	{
+
+
 		public TokenParser() { }
 
 
-		public static Token ParseTokenFromString( string text )
+		public static Token ParseTokenFromString( string input )
 		{
-			var trimmedText = text.Trim();
+			var line = input.Trim();
 			var token = new Token
 			{
-				Name = GetTokenNameFromString( trimmedText ),
-				Value = GetTokenValueFromString( trimmedText ),
+				Name = GetTokenNameFromString( line ),
+				Value = GetTokenValueFromString( line ),
 			};
 			return token;
 		}
