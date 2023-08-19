@@ -2,7 +2,7 @@
 {
 	public class Token
 	{
-		public List< Token > Body { get; set; } = new List< Token >();
+		public List<Token> Body { get; set; } = new List<Token>();
 		public string Name { get; set; } = string.Empty;
 		public string Value { get; set; } = string.Empty;
 
@@ -17,13 +17,23 @@
 			Value = other.Value;
 			Body = other.Body;
 		}
-		public Token( string name, string value, List< Token > body )
+		public Token( string name, string value, List<Token> body )
 		{
 			Name = name;
 			Value = value;
 			Body = body;
 		}
 
+
+		public static bool operator ==( Token a, Token b )
+		{
+			return a.Equals( b );
+		}
+
+		public static bool operator !=( Token a, Token b )
+		{
+			return !a.Equals( b );
+		}
 
 		public override bool Equals( object? obj )
 		{
@@ -36,9 +46,25 @@
 
 		public bool Equals( Token other )
 		{
-			var areBodiesEqual = Body.ToArray() == other.Body.ToArray();
+			var areBodiesEqual = true;
+			if ( Body.Count != other.Body.Count )
+			{
+				areBodiesEqual = false;
+			}
+			var thisBodyAsArray = Body.ToArray();
+			var otherBodyAsArray = other.Body.ToArray();
+			for ( var i = 0; i < thisBodyAsArray.Length; ++i )
+			{
+				if (thisBodyAsArray[ i ] != otherBodyAsArray[ i ] )
+				{
+					areBodiesEqual = false;
+					break;
+				}
+			}
+
 			var areNamesEqual = Name == other.Name;
 			var areValuesEqual = Value == other.Value;
+
 			return areBodiesEqual && areNamesEqual && areValuesEqual;
 		}
 
