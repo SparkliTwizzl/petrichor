@@ -16,6 +16,14 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
+		[ DynamicData( nameof( GetCasesFor_FlattenTokenTree_Success ), DynamicDataSourceType.Method ) ]
+		public void Test_FlattenTokenTree_Success( Token[] expected, Token input )
+		{
+			var actual = TokenParser.FlattenTokenTree( input );
+			CollectionAssert.AreEqual( expected, actual );
+		}
+
+		[ TestMethod ]
 		[ DynamicData( nameof( GetCasesFor_ParseTokenFromString_Success ), DynamicDataSourceType.Method ) ]
 		public void Test_ParseTokenFromString_Success( Token expected, string input )
 		{
@@ -32,12 +40,21 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 
+		private static IEnumerable<object[]> GetCasesFor_FlattenTokenTree_Success()
+		{
+			yield return new TestData.DataContainer_FlattenTokenTree_Success()
+			{
+				Expected = TestData.ValidFlattenedTokenTree,
+				Input = TestData.TokenTreeA,
+			}.ToObjectArray();
+		}
+
 		private static IEnumerable<object[]> GetCasesFor_ParseTokenFromString_Success()
 		{
-			yield return new TestData.DataContainer_ParseTokenFromString
+			yield return new TestData.DataContainer_ParseTokenFromString_Success
 			{
-				Expected = TestData.ValidToken,
-				Input = TestData.ValidTokenString,
+				Expected = TestData.ValidParsedToken,
+				Input = TestData.ValidRawToken,
 			}.ToObjectArray();
 		}
 
@@ -62,20 +79,63 @@ namespace PluralityUtilities.Common.Utilities.Tests
 
 		private static class TestData
 		{
-			public static string ValidTokenName => "Token-Name-0";
-			public static string ValidTokenValue => "token : value";
 			public static string InvalidInput_InvalidTokenName => $"token name:{ ValidTokenValue }";
 			public static string InvalidInput_MissingTokenName => $":{ ValidTokenValue }";
 			public static string InvalidInput_MissingTokenValue => $"{ ValidTokenName }:";
-			public static string ValidTokenString => $"{ ValidTokenName }:{ ValidTokenValue }";
-			public static Token ValidToken => new()
+			public static Token TokenTreeA => new()
+			{
+				Name = "b-name",
+				Value = "b-value",
+				Body = new List<Token>()
+				{
+					TokenTreeB,
+				},
+			};
+			public static Token TokenTreeB => new()
+			{
+				Name = "b-name",
+				Value = "b-value",
+				Body = new List<Token>()
+				{
+					TokenTreeC,
+				},
+			};
+			public static Token TokenTreeC => new()
+			{
+				Name = "c-name",
+				Value = "c-value",
+				Body = new List<Token>()
+				{
+				},
+			};
+			public static Token[] ValidFlattenedTokenTree { get; } =
+			{
+				TokenTreeA,
+				TokenTreeB,
+				TokenTreeC,
+			};
+			public static Token ValidParsedToken => new()
 			{
 				Name = ValidTokenName,
 				Value = ValidTokenValue,
 			};
+			public static string ValidTokenName => "Token-Name-0";
+			public static string ValidTokenValue => "token : value";
+			public static string ValidRawToken => $"{ ValidTokenName }:{ ValidTokenValue }";
 
 
-			public struct DataContainer_ParseTokenFromString
+			public struct DataContainer_FlattenTokenTree_Success
+			{
+				public Token[] Expected { get; set; }
+				public Token Input { get; set; }
+
+				public object[] ToObjectArray()
+				{
+					return new object[] { Expected, Input };
+				}
+			}
+
+			public struct DataContainer_ParseTokenFromString_Success
 			{
 				public Token Expected { get; set; }
 				public string Input { get; set; }

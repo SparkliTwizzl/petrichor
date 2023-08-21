@@ -12,6 +12,25 @@ namespace PluralityUtilities.Common.Utilities
 		public TokenParser() { }
 
 
+		public static Token[] FlattenTokenTree( Token token)
+		{
+			var result = new List<Token>()
+			{
+				token
+			};
+
+			for ( var i = 0; i < result.Count; ++i )
+			{
+				var parent = result[ i ];
+				foreach ( var child in parent.Body )
+				{
+					result.Add( child );
+				}
+			}
+
+			return result.ToArray();
+		}
+
 		public static Token ParseTokenFromString( string input )
 		{
 			var line = input.Trim();

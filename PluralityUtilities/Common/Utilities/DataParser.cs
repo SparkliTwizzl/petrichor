@@ -59,7 +59,7 @@ namespace PluralityUtilities.Common.Utilities
 
 			if ( Indent != 0 )
 			{
-				var e = new IndentImbalanceException( "open and close brackets ( \'{\' \'}\' ) must be balanced" );
+				var e = new IndentImbalanceException( "open and close brackets ( '{' '}' ) must be balanced" );
 				Log.Exception( e );
 				throw e;
 			}
