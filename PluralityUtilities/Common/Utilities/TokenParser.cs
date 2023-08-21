@@ -65,7 +65,7 @@ namespace PluralityUtilities.Common.Utilities
 		private static string GetTokenValueFromString( string text )
 		{
 			var tokenValueStartsAtIndex = text.IndexOf( ':' ) + 1;
-			if ( tokenValueStartsAtIndex < 0 || tokenValueStartsAtIndex == text.Length )
+			if ( tokenValueStartsAtIndex < 0 )
 			{
 				throw new InvalidTokenException( $"invalid token [[ { text } ]], tokens must have a name and a value separated by a colon ( : )" );
 			}
