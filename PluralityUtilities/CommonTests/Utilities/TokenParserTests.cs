@@ -103,7 +103,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				Name = "b-name",
 				Value = "b-value",
-				Body = new List<Token>()
+				Body = new()
 				{
 					ValidTokenTreeB,
 				},
@@ -112,7 +112,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				Name = "b-name",
 				Value = "b-value",
-				Body = new List<Token>()
+				Body = new()
 				{
 					ValidTokenTreeC,
 				},
@@ -121,9 +121,6 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				Name = "c-name",
 				Value = "c-value",
-				Body = new List<Token>()
-				{
-				},
 			};
 			public static string ValidRawTokenString => $"{ ValidTokenName }:{ ValidTokenValue }";
 			public static string ValidRawTokenString_BlankTokenValue => $"{ ValidTokenName }:";
