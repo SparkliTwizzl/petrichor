@@ -1,18 +1,51 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.Common.Containers;
+using PluralityUtilities.Logging;
+using PluralityUtilities.TestCommon.Utilities;
+
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 {
 	[TestClass]
 	public class FieldParserTests
 	{
+		[ TestInitialize ]
+		public void Setup()
+		{
+			TestUtilities.InitializeLoggingForTests();
+		}
+
 		[ TestMethod ]
 		[ DynamicData( nameof( GetCasesFor_ParseFieldData_Success ), DynamicDataSourceType.Method ) ]
 		public void Test_ParseFieldData_Success( Dictionary<string, string[]> expected, Token input )
 		{
 			var actual = FieldParser.ParseFieldData( input );
-			Assert.AreEqual( expected, actual );
+			Assert.AreEqual( expected.Count, actual.Count );
+			for ( var i = 0; i < actual.Count; ++i )
+			{
+				var expectedElement = expected.ElementAt( i );
+				var actualElement = actual.ElementAt( i );
+				Log.Info( $"i = { i }" );
+				Log.Info( $"{ nameof( expectedElement ) } =");
+				Log.Info( $"{ expectedElement.Key }, [[" );
+				foreach ( var value in expectedElement.Value )
+				{
+					Log.Info( $"    { value }" );
+				}
+				Log.Info( "]]" );
+				Log.Info( $"{ nameof( actualElement ) } =" );
+				Log.Info( $"{ actualElement.Key }, [[" );
+				foreach ( var value in actualElement.Value )
+				{
+					Log.Info( $"    { value }" );
+				}
+				Log.Info( "]]" );
+				Log.Separator();
+
+				Assert.AreEqual( expectedElement.Key, actualElement.Key );
+				CollectionAssert.AreEqual( expectedElement.Value, actualElement.Value );
+			}
 		}
 
 		[ TestMethod ]
@@ -116,8 +149,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			{
 				{ "fields", new string[] { "a0-value", "a1-value" } },
 				{ "a0-value", new string[] { "b0-value" } },
-				{ "a1-value", new string[] { } },
-				{ "b0-value", new string[] { } },
+				{ "a1-value", Array.Empty<string>() },
+				{ "b0-value", Array.Empty<string>() },
 			};
 			public static Token ValidTokenTree => new()
 			{
