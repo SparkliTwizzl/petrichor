@@ -16,7 +16,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_FlattenTokenTree_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_FlattenTokenTree_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_FlattenTokenTree_Success( Token[] expected, Token input )
 		{
 			var actual = TokenParser.FlattenTokenTree( input );
@@ -24,7 +26,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_ParseTokenFromString_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ParseTokenFromString_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ParseTokenFromString_Success( Token expected, string input )
 		{
 			var actual = TokenParser.ParseTokenFromString( input );
@@ -33,14 +37,16 @@ namespace PluralityUtilities.Common.Utilities.Tests
 
 		[ TestMethod ]
 		[ ExpectedException( typeof( InvalidTokenException ) ) ]
-		[ DynamicData( nameof( GetCasesFor_ParseTokenFromString_ThrowsInvalidTokenException ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ParseTokenFromString_ThrowsInvalidTokenException ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ParseTokenFromString_ThrowsInvalidTokenException( string input )
 		{
 			_ = TokenParser.ParseTokenFromString( input );
 		}
 
 
-		private static IEnumerable<object[]> GetCasesFor_FlattenTokenTree_Success()
+		private static IEnumerable<object[]> Data_FlattenTokenTree_Success()
 		{
 			yield return new TestData.DataContainer_FlattenTokenTree_Success()
 			{
@@ -49,7 +55,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ParseTokenFromString_Success()
+		private static IEnumerable<object[]> Data_ParseTokenFromString_Success()
 		{
 			yield return new TestData.DataContainer_ParseTokenFromString_Success
 			{
@@ -64,7 +70,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ParseTokenFromString_ThrowsInvalidTokenException()
+		private static IEnumerable<object[]> Data_ParseTokenFromString_ThrowsInvalidTokenException()
 		{
 			yield return new TestData.DataContainer_ParseTokenFromString_ThrowsException
 			{
@@ -130,6 +136,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				public Token[] Expected { get; set; }
 				public Token Input { get; set; }
+
 
 				public object[] ToObjectArray()
 				{

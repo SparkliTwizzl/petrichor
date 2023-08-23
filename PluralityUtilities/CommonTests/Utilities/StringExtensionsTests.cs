@@ -18,7 +18,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_GetDirectory ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_GetDirectory ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_GetDirectory( string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
@@ -33,7 +35,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_GetFileName ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_GetFileName ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_GetFileName( string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
@@ -48,7 +52,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_RemoveExtension ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_RemoveExtension ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_RemoveFileExtension( string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
@@ -63,7 +69,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 
-		private static IEnumerable<object[]> GetCasesFor_GetDirectory()
+		private static IEnumerable<object[]> Data_GetDirectory()
 		{
 			yield return new TestData.DataContainer_AllMethods_AllCases
 			{
@@ -72,7 +78,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_GetFileName()
+		private static IEnumerable<object[]> Data_GetFileName()
 		{
 			yield return new TestData.DataContainer_AllMethods_AllCases
 			{
@@ -81,7 +87,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_RemoveExtension()
+		private static IEnumerable<object[]> Data_RemoveExtension()
 		{
 			yield return new TestData.DataContainer_AllMethods_AllCases
 			{

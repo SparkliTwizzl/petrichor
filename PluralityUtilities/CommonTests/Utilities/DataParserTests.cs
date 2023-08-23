@@ -20,7 +20,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_ParseRawData_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ParseRawData_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ParseRawData_Success( Token expected, string[] inputData )
 		{
 			var actual = dataParser.ParseRawData( inputData );
@@ -29,7 +31,9 @@ namespace PluralityUtilities.Common.Utilities.Tests
 
 		[ TestMethod ]
 		[ ExpectedException( typeof( IndentImbalanceException ) ) ]
-		[ DynamicData( nameof( GetCasesFor_ParseRawData_ThrowsIndentImbalanceException ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ParseRawData_ThrowsIndentImbalanceException ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ParseRawData_ThrowsIndentImbalanceException( Token expected, string[] inputData )
 		{
 			var actual = dataParser.ParseRawData( inputData );
@@ -37,7 +41,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 
-		private static IEnumerable<object[]> GetCasesFor_ParseRawData_Success()
+		private static IEnumerable<object[]> Data_ParseRawData_Success()
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{
@@ -46,7 +50,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ParseRawData_ThrowsIndentImbalanceException()
+		private static IEnumerable<object[]> Data_ParseRawData_ThrowsIndentImbalanceException()
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{

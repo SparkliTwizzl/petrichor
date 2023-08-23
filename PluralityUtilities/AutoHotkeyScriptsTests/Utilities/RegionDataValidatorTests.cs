@@ -16,7 +16,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_RejectDuplicateTokenValues_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_RejectDuplicateTokenValues_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_RejectDuplicateTokenValues_Success( Token[] input )
 		{
 			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
@@ -24,14 +26,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[ TestMethod ]
 		[ ExpectedException( typeof( DuplicateValueException ) ) ]
-		[ DynamicData( nameof( GetCasesFor_RejectDuplicateTokenValues_ThrowsDuplicateValueException ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_RejectDuplicateTokenValues_ThrowsDuplicateValueException ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_RejectDuplicateTokenValues_ThrowsDuplicateValueException( Token[] input )
 		{
 			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
 		}
 
 		[TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_ValidateBasicRegionData_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ValidateBasicRegionData_Success( Token[] input )
 		{
 			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
@@ -39,7 +45,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[TestMethod ]
 		[ ExpectedException( typeof( InvalidNameException ) ) ]
-		[ DynamicData( nameof( GetCasesFor_ValidateBasicRegionData_ThrowsInvalidNameException ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_ThrowsInvalidNameException ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ValidateBasicRegionData_ThrowsInvalidNameException( Token[] input )
 		{
 			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
@@ -47,14 +55,16 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 		[TestMethod ]
 		[ ExpectedException( typeof( MissingValueException ) ) ]
-		[ DynamicData( nameof( GetCasesFor_ValidateBasicRegionData_ThrowsMissingValueException ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_ThrowsMissingValueException ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ValidateBasicRegionData_ThrowsMissingValueException( Token[] input )
 		{
 			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
 		}
 
 
-		private static IEnumerable<object[]> GetCasesFor_RejectDuplicateTokenValues_Success()
+		private static IEnumerable<object[]> Data_RejectDuplicateTokenValues_Success()
 		{
 			yield return new TestData.DataContainer_RejectDuplicateTokenValues()
 			{
@@ -62,7 +72,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_RejectDuplicateTokenValues_ThrowsDuplicateValueException()
+		private static IEnumerable<object[]> Data_RejectDuplicateTokenValues_ThrowsDuplicateValueException()
 		{
 			yield return new TestData.DataContainer_RejectDuplicateTokenValues()
 			{
@@ -70,7 +80,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ValidateBasicRegionData_Success()
+		private static IEnumerable<object[]> Data_ValidateBasicRegionData_Success()
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
@@ -83,7 +93,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ValidateBasicRegionData_ThrowsInvalidNameException()
+		private static IEnumerable<object[]> Data_ValidateBasicRegionData_ThrowsInvalidNameException()
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
@@ -91,7 +101,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
-		private static IEnumerable<object[]> GetCasesFor_ValidateBasicRegionData_ThrowsMissingValueException()
+		private static IEnumerable<object[]> Data_ValidateBasicRegionData_ThrowsMissingValueException()
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
@@ -211,7 +221,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			{
 				public Token[] Input { get; set; }
 
-
 				public object[] ToObjectArray()
 				{
 					return new object[] { Input };
@@ -221,7 +230,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public struct DataContainer_ValidateBasicRegionData
 			{
 				public Token[] Input { get; set; }
-
 
 				public object[] ToObjectArray()
 				{

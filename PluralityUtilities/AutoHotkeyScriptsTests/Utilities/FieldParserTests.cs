@@ -16,7 +16,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 		[ TestMethod ]
-		[ DynamicData( nameof( GetCasesFor_ParseFieldData_Success ), DynamicDataSourceType.Method ) ]
+		[ DynamicData(
+			nameof( Data_ParseFieldData_Success ),
+			DynamicDataSourceType.Method ) ]
 		public void Test_ParseFieldData_Success( Dictionary<string, string[]> expected, Token input )
 		{
 			var actual = FieldParser.ParseFieldData( input );
@@ -48,7 +50,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		private static IEnumerable<object[]> GetCasesFor_ParseFieldData_Success()
+		private static IEnumerable<object[]> Data_ParseFieldData_Success()
 		{
 			yield return new TestData.DataContainer_ParseFieldData_Success()
 			{
@@ -99,7 +101,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			{
 				public Dictionary<string, string[]> Expected { get; set; }
 				public Token Input { get; set; }
-
 
 				public object[] ToObjectArray()
 				{
