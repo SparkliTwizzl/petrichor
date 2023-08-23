@@ -2,7 +2,7 @@
 
 every line is either:
 	- whitespace
-	- token				[[ token-type: token-name ]]
+	- token				[[ token-name:token-value ]]
 	- open brace		[[ { ]]
 	- close brace		[[ } ]]
 
@@ -17,44 +17,44 @@ tokens with no open brace between them and the following token are assumed to be
 ========== ↓ example ↓ ==========
 
 
-region: fields
+region:fields
 {
-	field: group-duplicate
+	field:group-duplicate
 	{
-		field: field-unique
-		field: group-unique
+		field:field-unique
+		field:group-unique
 		{
-			field: field-duplicate
+			field:field-duplicate
 		}
 	}
 }
 
-region: templates
+region:templates
 {
-	template: {prefix-char}{replace-field}::{replacement-string}
-	template-manual: ::{replace-string}::{replacement-string}
+	template:{prefix-char}{replace-field}::{replacement-string}
+	template-manual:::{replace-string}::{replacement-string}
 }
 
-region: entries
+region:entries
 {
-	entry: entry-name
+	entry:entry-name
 	{
-		group-duplicate: value-1A
+		group-duplicate:value-1A
 		{
-			field-unique: value-1B
-			group-unique: value-1C
+			field-unique:value-1B
+			group-unique:value-1C
 			{
-				field-duplicate: value-1D
-				field-duplicate: value-1E
+				field-duplicate:value-1D
+				field-duplicate:value-1E
 			}
 		}
-		group-duplicate: value-2A
+		group-duplicate:value-2A
 		{
-			field-unique: value-2B
-			group-unique: value-2C
+			field-unique:value-2B
+			group-unique:value-2C
 			{
-				field-duplicate: value-2D
-				field-duplicate: value-2E
+				field-duplicate:value-2D
+				field-duplicate:value-2E
 			}
 		}
 	}
