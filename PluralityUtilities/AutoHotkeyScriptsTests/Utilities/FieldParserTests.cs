@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.Common.Containers;
 using PluralityUtilities.Logging;
 using PluralityUtilities.TestCommon.Utilities;
@@ -50,26 +51,45 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
+		[ TestMethod ]
+		[ ExpectedException( typeof( DuplicateValueException ) ) ]
+		[ DynamicData(
+			nameof( Data_ParseFieldData_ThrowsDuplicateValueException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseFieldData_ThrowsDuplicateValueException( Token input )
+		{
+			_ = FieldParser.ParseFieldData( input );
+		}
+
+
 		private static IEnumerable<object[]> Data_ParseFieldData_Success()
 		{
 			yield return new TestData.DataContainer_ParseFieldData_Success()
 			{
-				Expected = TestData.ValidFieldDictionary,
-				Input = TestData.ValidInputToken,
+				Expected = TestData.ParsedFieldDictionary,
+				Input = TestData.FieldRegionToken_Standard,
+			}.ToObjectArray();
+		}
+
+		private static IEnumerable<object[]> Data_ParseFieldData_ThrowsDuplicateValueException()
+		{
+			yield return new TestData.DataContainer_ParseFieldData_ThrowsException()
+			{
+				Input = TestData.FieldRegionToken_ContainsDuplicateValues,
 			}.ToObjectArray();
 		}
 
 
 		private static class TestData
 		{
-			public static Dictionary<string, string[]> ValidFieldDictionary => new()
+			public static Dictionary<string, string[]> ParsedFieldDictionary => new()
 			{
 				{ "fields", new string[] { "a0-value", "a1-value" } },
 				{ "a0-value", new string[] { "b0-value" } },
 				{ "a1-value", Array.Empty<string>() },
 				{ "b0-value", Array.Empty<string>() },
 			};
-			public static Token ValidInputToken => new()
+			public static Token FieldRegionToken_Standard => new()
 			{
 				Name = "region",
 				Value = "fields",
@@ -95,6 +115,24 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 					},
 				},
 			};
+			public static Token FieldRegionToken_ContainsDuplicateValues => new()
+			{
+				Name = "region",
+				Value = "fields",
+				Body = new()
+				{
+					new()
+					{
+						Name = "field",
+						Value = "duplicate",
+					},
+					new()
+					{
+						Name = "field",
+						Value = "duplicate",
+					},
+				},
+			};
 
 
 			public struct DataContainer_ParseFieldData_Success
@@ -105,6 +143,16 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				public object[] ToObjectArray()
 				{
 					return new object[] { Expected, Input };
+				}
+			}
+
+			public struct DataContainer_ParseFieldData_ThrowsException
+			{
+				public Token Input { get; set; }
+
+				public object[] ToObjectArray()
+				{
+					return new object[] { Input };
 				}
 			}
 		}

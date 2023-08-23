@@ -125,36 +125,36 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				AllowedTokenName1,
 			};
 			public const string RegionName = "region-name";
-			public static Token TokenWithInvalidName => new()
+			public static Token Token_InvalidName => new()
 			{
 				Name = "invalid",
 				Value = "value",
 			};
-			public static Token TokenWithDuplicateValue0 => new()
+			public static Token Token_DuplicateValue0 => new()
 			{
 				Name = AllowedTokenName0,
 				Value = "duplicate",
 			};
-			public static Token TokenWithDuplicateValue1 => new()
+			public static Token Token_DuplicateValue1 => new()
 			{
 				Name = AllowedTokenName1,
 				Value = "duplicate",
 			};
-			public static Token TokenWithValidDataA0 => new()
+			public static Token Token_ValidDataA0 => new()
 			{
 				Name = AllowedTokenName0,
 				Value = "a0-value",
 				Body = new()
 				{
-					TokenWithValidDataB0,
+					Token_ValidDataB0,
 				},
 			};
-			public static Token TokenWithValidDataA1 => new()
+			public static Token Token_ValidDataA1 => new()
 			{
 				Name = AllowedTokenName1,
 				Value = "a1-value",
 			};
-			public static Token TokenWithValidDataB0 => new()
+			public static Token Token_ValidDataB0 => new()
 			{
 				Name = AllowedTokenName0,
 				Value = "b0-value",
@@ -167,12 +167,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 					Value = RegionName,
 					Body = new()
 					{
-						TokenWithDuplicateValue0,
-						TokenWithDuplicateValue1,
+						Token_DuplicateValue0,
+						Token_DuplicateValue1,
 					},
 				},
-				TokenWithDuplicateValue0,
-				TokenWithDuplicateValue1,
+				Token_DuplicateValue0,
+				Token_DuplicateValue1,
 			};
 			public static Token[] TokenList_ContainsInvalidTokenName { get; } =
 			{
@@ -182,10 +182,10 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 					Value = RegionName,
 					Body = new()
 					{
-						TokenWithInvalidName,
+						Token_InvalidName,
 					},
 				},
-				TokenWithInvalidName,
+				Token_InvalidName,
 			};
 			public static Token[] TokenList_ContainsUniqueValues { get; } =
 			{
@@ -195,13 +195,13 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 					Value = RegionName,
 					Body = new()
 					{
-						TokenWithValidDataA0,
-						TokenWithValidDataA1,
+						Token_ValidDataA0,
+						Token_ValidDataA1,
 					},
 				},
-				TokenWithValidDataA0,
-				TokenWithValidDataA1,
-				TokenWithValidDataB0,
+				Token_ValidDataA0,
+				Token_ValidDataA1,
+				Token_ValidDataB0,
 			};
 			public static Token[] TokenList_HasNoDefinitionTokens { get; } =
 			{
@@ -213,7 +213,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			};
 			public static Token[] TokenList_HasNoRegionToken { get; } =
 			{
-				TokenWithValidDataA0,
+				Token_ValidDataA0,
 			};
 
 

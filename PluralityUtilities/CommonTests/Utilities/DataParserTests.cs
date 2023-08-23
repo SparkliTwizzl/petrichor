@@ -45,8 +45,8 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{
-				Expected = TestData.ValidParsedData,
-				InputData = TestData.ValidRawData,
+				Expected = TestData.ParsedData,
+				InputData = TestData.RawData_Standard,
 			}.ToObjectArray();
 		}
 
@@ -54,24 +54,14 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{
-				InputData = TestData.InvalidRawData_ImbalancedOpenBracket,
+				InputData = TestData.RawData_ImbalancedOpenBracket,
 			}.ToObjectArray();
 		}
 
 
 		private static class TestData
 		{
-			public static string[] InvalidRawData_ImbalancedOpenBracket => new string[]
-			{
-				"a0-name:a0-value",
-				"{",
-			};
-			public static string[] InvalidRawData_ImbalancedCloseBracket => new string[]
-			{
-				"a0-name:a0-value",
-				"}",
-			};
-			public static Token ValidParsedData => new Token()
+			public static Token ParsedData => new Token()
 			{
 				Name = "",
 				Value = "",
@@ -115,7 +105,17 @@ namespace PluralityUtilities.Common.Utilities.Tests
 					},
 				},
 			};
-			public static string[] ValidRawData => new string[]
+			public static string[] RawData_ImbalancedCloseBracket => new string[]
+			{
+				"a0-name:a0-value",
+				"}",
+			};
+			public static string[] RawData_ImbalancedOpenBracket => new string[]
+			{
+				"a0-name:a0-value",
+				"{",
+			};
+			public static string[] RawData_Standard => new string[]
 			{
 				"a0-name:a0-value",
 				"{",
