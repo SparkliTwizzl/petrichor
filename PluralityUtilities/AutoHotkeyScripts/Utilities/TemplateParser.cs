@@ -1,87 +1,72 @@
-﻿using System.Text;
-using PluralityUtilities.AutoHotkeyScripts.Exceptions;
-using PluralityUtilities.AutoHotkeyScripts.LookUpTables;
-using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
+﻿using PluralityUtilities.Common.Containers;
 using PluralityUtilities.Common.Utilities;
 using PluralityUtilities.Logging;
 
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class TemplateParser : ITemplateParser
+	public class TemplateParser
 	{
-		private readonly TokenParser TokenParser = new();
-
-
-		public string[] ParseTemplatesFromData( string[] data, ref int i )
+		private const string RegionName = "templates";
+		private static string[] ValidTokenNames { get; } = new string[]
 		{
-			//Log.Info( "started parsing templates from data" );
-			var templates = new List< string >();
-			//var expectedTokens = Array.Empty< string >();
-			//for ( ; i < data.Length; ++i )
-			//{
-			//	var token = TokenParser.ParseToken( data[ i ], expectedTokens);
-			//	var isParsingFinished = false;
-			//	switch (token.Qualifier)
-			//	{
-			//		case TokenQualifiers.BlankLine:
-			//			break;
-			//		case TokenQualifiers.OpenBracket:
-			//			break;
-			//		case TokenQualifiers.CloseBracket:
-			//			if ( TokenParser.IndentLevel < 1 )
-			//			{
-			//				isParsingFinished = true;
-			//			}
-			//			break;
-			//		default:
-			//			templates.Add( ParseTemplateFromInputLine( token.Value ) );
-			//			break;
-			//	}
-			//	if ( isParsingFinished )
-			//	{
-			//		break;
-			//	}
-			//}
-			//Log.Info( "finished parsing templates from data" );
-			return templates.ToArray();
+			"template",
+			"template-manual",
+		};
+
+
+		public static string[] ParseTemplateData( Token regionToken )
+		{
+			var tokenList = TokenParser.FlattenTokenTree( regionToken );
+			RegionDataValidator.ValidateBasicRegionData( tokenList, RegionName, ValidTokenNames );
+			ValidateTemplateStrings( tokenList );
+			var result = BuildTemplateList( tokenList );
+			return result;
 		}
 
 
-		private static string ParseTemplateFromInputLine( string input )
+		private static string[] BuildTemplateList( Token[] tokens )
 		{
-			StringBuilder template = new();
-			input = input.Trim();
-			for ( int i = 0; i < input.Length; ++i )
+			throw new NotImplementedException();
+		}
+
+		private static void ValidateTemplateStrings( Token[] tokens )
+		{
+			for ( var i = 1; i < tokens.Length; ++i )
 			{
-				var c = input[ i ];
-				if ( c == '\\' )
+				var token = tokens[ i ];
+				switch ( token.Name )
 				{
-					try
-					{
-						template.Append( input[ i + 1 ] );
-						++i;
-						continue;
-					}
-					catch ( Exception e )
-					{
-						var rethrow = new EscapeCharacterMismatchException( "a template contained a trailing escape character ('\\') with no following character to escape", e );
-						Log.Exception( rethrow );
-						throw rethrow;
-					}
-				}
-				if ( TemplateMarkers.LookUpTable.TryGetValue( c, out var value ) )
-				{
-					template.Append( $"`{ value }`" );
-				}
-				else
-				{
-					template.Append( c );
+					case "template":
+						ValidateStandardTemplateString(token.Value);
+						break;
+
+					case "template-manual":
+						ValidateManualTemplateString( token.Value );
+						break;
+
+					default:
+						var e = new InvalidDataException( $"token was found with unrecognized name while parsing templates. THIS SHOULD NOT BE POSSIBLE, REPORT THIS! [[ '{ token.Name }' ]]" );
+						Log.Exception( e );
+						throw e;
 				}
 			}
-			var result = template.ToString();
-			Log.Info( $"parsed template: { result }" );
-			return result;
+		}
+
+		private static void ValidateManualTemplateString( string rawTemplate )
+		{
+			throw new NotImplementedException();
+			//TODO ensure leading divider is present
+			//TODO ensure trailing divider is present
+			//TODO ensure replace string is present
+		}
+
+		private static void ValidateStandardTemplateString( string rawTemplate )
+		{
+			throw new NotImplementedException();
+			//TODO ensure prefix char is present
+			//TODO ensure replace field is present
+			//TODO ensure divider is present
 		}
 	}
 }
