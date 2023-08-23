@@ -1,17 +1,23 @@
-﻿using PluralityUtilities.AutoHotkeyScripts.Exceptions;
-using PluralityUtilities.Common.Containers;
+﻿using PluralityUtilities.Common.Containers;
 using PluralityUtilities.Common.Utilities;
-using PluralityUtilities.Logging;
 
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
 	public class FieldParser
 	{
+		private const string RegionName = "fields";
+		private static string[] ValidTokenNames { get; } = new string[]
+		{
+			"field",
+		};
+
+
 		public static Dictionary<string, string[]> ParseFieldData( Token regionToken )
 		{
 			var tokenList = TokenParser.FlattenTokenTree( regionToken );
-			ValidateInputData( tokenList );
+			RegionDataValidator.ValidateBasicRegionData( tokenList, RegionName, ValidTokenNames );
+			RegionDataValidator.RejectDuplicateTokenValues( tokenList, RegionName );
 			var result = BuildFieldDictionary( tokenList );
 			return result;
 		}
@@ -32,38 +38,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			}
 
 			return result;
-		}
-
-		private static void ValidateInputData( Token[] tokens )
-		{
-			var shouldBeRegion = tokens[ 0 ];
-			if ( shouldBeRegion.Name != "region" || shouldBeRegion.Value != "fields" )
-			{
-				var e = new MissingRegionException( "input file must contain a fields region (ie, 'region:fields') to contain field definitions" );
-				Log.Exception( e );
-				throw e;
-			}
-
-			var values = new List<string>();
-			for ( var i = 1; i < tokens.Length; ++i )
-			{
-				var token = tokens[ i ];
-				if ( token.Name != "field" )
-				{
-					var e = new InvalidNameException( $"'fields' region contained a parent with an invalid name [[ { token.Name } ]]" );
-					Log.Exception( e );
-					throw e;
-				}
-
-				if ( values.Contains( token.Value ) )
-				{
-					var e = new DuplicateValueException( $"'fields' region contained a parent with a duplicate name [[ { token.Value } ]]" );
-					Log.Exception( e );
-					throw e;
-				}
-
-				values.Add( token.Value );
-			}
 		}
 	}
 }
