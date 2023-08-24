@@ -5,13 +5,8 @@ using System.Text.RegularExpressions;
 
 namespace PluralityUtilities.Common.Utilities
 {
-	public partial class TokenParser
+	public static partial class TokenParser
 	{
-
-
-		public TokenParser() { }
-
-
 		public static Token[] FlattenTokenTree( Token token)
 		{
 			var result = new List<Token>()

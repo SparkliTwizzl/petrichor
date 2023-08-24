@@ -2,7 +2,6 @@
 using PluralityUtilities.AutoHotkeyScripts.Enums;
 using PluralityUtilities.AutoHotkeyScripts.Exceptions;
 using PluralityUtilities.AutoHotkeyScripts.Utilities.Interfaces;
-using PluralityUtilities.Common.Utilities;
 using PluralityUtilities.Logging;
 
 
@@ -10,9 +9,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
 	public class EntryParser : IEntryParser
 	{
-		private readonly TokenParser TokenParser = new();
-
-
 		public EntryParser() { }
 
 

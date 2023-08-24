@@ -10,9 +10,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		public static void RejectDuplicateTokenValues( Token[] tokens, string regionName )
 		{
 			var values = new List<string>();
-			for ( var i = 1; i < tokens.Length; ++i )
+			foreach ( var token in tokens )
 			{
-				var token = tokens[ i ];
+				if ( token.Value == regionName )
+				{
+					continue;
+				}
 				if ( values.Contains( token.Value ) )
 				{
 					var e = new DuplicateValueException( $"region '{ regionName }' contained a token with a duplicate value, but values in this region must be unique [[ { token.Value } ]]" );
@@ -20,6 +23,23 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 					throw e;
 				}
 				values.Add( token.Value );
+			}
+		}
+
+		public static void RejectNestedTokens( Token[] tokens, string regionName )
+		{
+			foreach ( var token in tokens )
+			{
+				if ( token.Value == regionName )
+				{
+					continue;
+				}
+				if ( token.Body.Count > 0 )
+				{
+					var e = new InvalidDataException( $"a token with name '{ token.Name }' within region '{ regionName }' had subtokens, which is not allowed in this region" );
+					Log.Exception( e );
+					throw e;
+				}
 			}
 		}
 

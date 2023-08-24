@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PluralityUtilities.Common.Containers;
+using PluralityUtilities.Logging;
 using PluralityUtilities.TestCommon.Utilities;
 
 
@@ -22,6 +23,21 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		public void ParseTemplateData_Success( string[] expected, Token input )
 		{
 			var actual = TemplateParser.ParseTemplateData( input );
+			Log.Separator();
+			Log.Info( "expected = [[" );
+			foreach ( var item in expected )
+			{
+				Log.Info( item );
+			}
+			Log.Info( "]]" );
+			Log.Separator();
+			Log.Info( "actual = [[" );
+			foreach ( var item in actual )
+			{
+				Log.Info( item );
+			}
+			Log.Info( "]]" );
+			Log.Separator();
 			CollectionAssert.AreEqual( expected, actual );
 		}
 

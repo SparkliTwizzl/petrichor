@@ -7,16 +7,16 @@ using PluralityUtilities.TestCommon.Utilities;
 namespace PluralityUtilities.Common.Utilities.Tests
 {
 	[ TestClass ]
-	public class DataParserTests
+	public class RawDataParserTests
 	{
-		DataParser dataParser { get; set; } = new DataParser();
+		RawDataParser RawDataParser { get; set; } = new RawDataParser();
 
 
 		[ TestInitialize ]
 		public void Setup()
 		{
 			TestUtilities.InitializeLoggingForTests();
-			dataParser = new DataParser();
+			RawDataParser = new RawDataParser();
 		}
 
 		[ TestMethod ]
@@ -25,7 +25,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseRawData_Success( Token expected, string[] inputData )
 		{
-			var actual = dataParser.ParseRawData( inputData );
+			var actual = RawDataParser.ParseRawData( inputData );
 			Assert.AreEqual( expected, actual );
 		}
 
@@ -36,7 +36,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseRawData_ThrowsIndentImbalanceException( Token expected, string[] inputData )
 		{
-			var actual = dataParser.ParseRawData( inputData );
+			var actual = RawDataParser.ParseRawData( inputData );
 			Assert.AreEqual( expected, actual );
 		}
 

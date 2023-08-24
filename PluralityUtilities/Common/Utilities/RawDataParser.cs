@@ -4,7 +4,7 @@ using PluralityUtilities.Logging;
 
 namespace PluralityUtilities.Common.Utilities
 {
-	public class DataParser
+	public class RawDataParser
 	{
 		public int Indent { get; set; } = 0;
 
@@ -16,7 +16,7 @@ namespace PluralityUtilities.Common.Utilities
 		}
 
 
-		public DataParser() { }
+		public RawDataParser() { }
 
 
 		public Token ParseRawData( string[] rawData )

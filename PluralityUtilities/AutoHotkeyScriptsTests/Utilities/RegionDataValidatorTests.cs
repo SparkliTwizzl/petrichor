@@ -34,6 +34,26 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
 		}
 
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_RejectNestedTokens_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectNestedTokens_Success( Token[] input )
+		{
+			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
+		}
+
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( InvalidDataException ) ) ]
+		[ DynamicData(
+			nameof( Data_RejectNestedTokens_ThrowsInvalidDataException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectNestedTokens_ThrowsInvalidDataException( Token[] input )
+		{
+			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
+		}
+
 		[TestMethod ]
 		[ DynamicData(
 			nameof( Data_ValidateBasicRegionData_Success ),
@@ -68,7 +88,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_RejectDuplicateTokenValues()
 			{
-				Input = TestData.TokenList_ContainsUniqueValues,
+				Input = TestData.TokenList_HasUniqueValues,
 			}.ToObjectArray();
 		}
 
@@ -76,7 +96,23 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_RejectDuplicateTokenValues()
 			{
-				Input = TestData.TokenList_ContainsDuplicateValues,
+				Input = TestData.TokenList_HasDuplicateValues,
+			}.ToObjectArray();
+		}
+
+		private static IEnumerable<object[]> Data_RejectNestedTokens_Success()
+		{
+			yield return new TestData.DataContainer_RejectNestedTokens()
+			{
+				Input = TestData.TokenList_HasNoNestedTokens,
+			}.ToObjectArray();
+		}
+
+		private static IEnumerable<object[]> Data_RejectNestedTokens_ThrowsInvalidDataException()
+		{
+			yield return new TestData.DataContainer_RejectNestedTokens()
+			{
+				Input = TestData.TokenList_HasNestedTokens,
 			}.ToObjectArray();
 		}
 
@@ -84,12 +120,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
-				Input = TestData.TokenList_ContainsUniqueValues,
+				Input = TestData.TokenList_HasUniqueValues,
 			}.ToObjectArray();
 
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
-				Input = TestData.TokenList_ContainsDuplicateValues,
+				Input = TestData.TokenList_HasDuplicateValues,
 			}.ToObjectArray();
 		}
 
@@ -97,7 +133,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
 			{
-				Input = TestData.TokenList_ContainsInvalidTokenName,
+				Input = TestData.TokenList_HasInvalidTokenName,
 			}.ToObjectArray();
 		}
 
@@ -159,7 +195,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Name = AllowedTokenName0,
 				Value = "b0-value",
 			};
-			public static Token[] TokenList_ContainsDuplicateValues { get; } =
+			public static Token[] TokenList_HasDuplicateValues { get; } =
 			{
 				new()
 				{
@@ -174,7 +210,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Token_DuplicateValue0,
 				Token_DuplicateValue1,
 			};
-			public static Token[] TokenList_ContainsInvalidTokenName { get; } =
+			public static Token[] TokenList_HasInvalidTokenName { get; } =
 			{
 				new()
 				{
@@ -187,7 +223,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				},
 				Token_InvalidName,
 			};
-			public static Token[] TokenList_ContainsUniqueValues { get; } =
+			public static Token[] TokenList_HasUniqueValues { get; } =
 			{
 				new()
 				{
@@ -215,9 +251,45 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			{
 				Token_ValidDataA0,
 			};
+			public static Token[] TokenList_HasNestedTokens { get; } =
+			{
+				new()
+				{
+					Name = "region",
+					Value = RegionName,
+					Body = new()
+					{
+						Token_ValidDataA0,
+					},
+				},
+				Token_ValidDataA0,
+			};
+			public static Token[] TokenList_HasNoNestedTokens { get; } =
+			{
+				new()
+				{
+					Name = "region",
+					Value = RegionName,
+					Body = new()
+					{
+						Token_ValidDataA1,
+					},
+				},
+				Token_ValidDataA1,
+			};
 
 
 			public struct DataContainer_RejectDuplicateTokenValues
+			{
+				public Token[] Input { get; set; }
+
+				public object[] ToObjectArray()
+				{
+					return new object[] { Input };
+				}
+			}
+
+			public struct DataContainer_RejectNestedTokens
 			{
 				public Token[] Input { get; set; }
 
