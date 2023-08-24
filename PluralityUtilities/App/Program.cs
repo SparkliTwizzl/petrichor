@@ -41,10 +41,7 @@ namespace PluralityUtilities.App
 		{
 			try
 			{
-				var fieldParser = new FieldDataParser();
-				var templateParser = new TemplateDataParser();
-				var entryParser = new EntryParser();
-				var inputParser = new InputParser( fieldParser, templateParser, entryParser );
+				var inputParser = new InputParser();
 				var scriptGenerator = new AutoHotkeyScriptGenerator( inputParser );
 
 				scriptGenerator.GenerateScriptFromInputFile( InputFilePath, OutputFilePath );

@@ -16,13 +16,23 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
+		private static IEnumerable<object[]> Data_ParseRegionData_Success()
+		{
+			yield return new TestData.DataContainer_ParseRegionData_Success
+			{
+				Expected = TestData.ParsedTemplateList,
+				Input = TestData.TemplateRegionToken_Standard,
+			}.ToObjectArray();
+		}
+
 		[ TestMethod ]
 		[ DynamicData(
-			nameof( Data_ParseTemplateData_Success ),
+			nameof( Data_ParseRegionData_Success ),
 			DynamicDataSourceType.Method ) ]
-		public void ParseTemplateData_Success( string[] expected, Token input )
+		public void Test_ParseRegionData_Success(
+			string[] expected, Token input )
 		{
-			var actual = TemplateDataParser.ParseTemplateData( input );
+			var actual = TemplateDataParser.ParseRegionData( input );
 			Log.Separator();
 			Log.Info( "expected = [[" );
 			foreach ( var item in expected )
@@ -41,57 +51,49 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
-		[ TestMethod ]
-		[ ExpectedException( typeof( InvalidDataException ) ) ]
-		[ DynamicData(
-			nameof( Data_ParseTemplateData_ThrowsInvalidDataException ),
-			DynamicDataSourceType.Method ) ]
-		public void ParseTemplateData_ThrowsInvalidDataException( Token input )
-		{
-			_ = TemplateDataParser.ParseTemplateData( input );
-		}
 
-
-		private static IEnumerable<object[]> Data_ParseTemplateData_Success()
+		private static IEnumerable<object[]> Data_ParseRegionData_ThrowsInvalidDataException()
 		{
-			yield return new TestData.DataContainer_ParseTemplateData_Success
-			{
-				Expected = TestData.ParsedTemplateList,
-				Input = TestData.TemplateRegionToken_Standard,
-			}.ToObjectArray();
-		}
-
-		private static IEnumerable<object[]> Data_ParseTemplateData_ThrowsInvalidDataException()
-		{
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidManualTemplate_NoLeadingDivider,
 			}.ToObjectArray();
 
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidManualTemplate_NoReplaceString,
 			}.ToObjectArray();
 
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidManualTemplate_NoTrailingDivider,
 			}.ToObjectArray();
 
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidTemplate_NoDivider,
 			}.ToObjectArray();
 
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidTemplate_NoPrefixChar,
 			}.ToObjectArray();
 
-			yield return new TestData.DataContainer_ParseTemplateData_ThrowsException
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException
 			{
 				Input = TestData.TemplateRegionToken_ContainsInvalidTemplate_NoReplaceField,
 			}.ToObjectArray();
+		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( InvalidDataException ) ) ]
+		[ DynamicData(
+			nameof( Data_ParseRegionData_ThrowsInvalidDataException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseRegionData_ThrowsInvalidDataException(
+			Token input )
+		{
+			_ = TemplateDataParser.ParseRegionData( input );
 		}
 
 
@@ -200,7 +202,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			};
 
 
-			public struct DataContainer_ParseTemplateData_Success
+			public struct DataContainer_ParseRegionData_Success
 			{
 				public string[] Expected { get; set; }
 				public Token Input { get; set; }
@@ -212,7 +214,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				};
 			}
 
-			public struct DataContainer_ParseTemplateData_ThrowsException
+			public struct DataContainer_ParseRegionData_ThrowsException
 			{
 				public Token Input { get; set; }
 

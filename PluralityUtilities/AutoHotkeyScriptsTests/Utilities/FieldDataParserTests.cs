@@ -16,13 +16,24 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			TestUtilities.InitializeLoggingForTests();
 		}
 
+
+		private static IEnumerable<object[]> Data_ParseRegionData_Success()
+		{
+			yield return new TestData.DataContainer_ParseRegionData_Success()
+			{
+				Expected = TestData.ParsedFieldDictionary,
+				Input = TestData.FieldRegionToken_Standard,
+			}.ToObjectArray();
+		}
+
 		[ TestMethod ]
 		[ DynamicData(
-			nameof( Data_ParseFieldData_Success ),
+			nameof( Data_ParseRegionData_Success ),
 			DynamicDataSourceType.Method ) ]
-		public void Test_ParseFieldData_Success( Dictionary<string, string[]> expected, Token input )
+		public void Test_ParseRegionData_Success(
+			Dictionary<string, string[]> expected, Token input )
 		{
-			var actual = FieldDataParser.ParseFieldData( input );
+			var actual = FieldDataParser.ParseRegionData( input );
 			Assert.AreEqual( expected.Count, actual.Count );
 			for ( var i = 0; i < actual.Count; ++i )
 			{
@@ -51,32 +62,23 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		}
 
 
-		[ TestMethod ]
-		[ ExpectedException( typeof( DuplicateValueException ) ) ]
-		[ DynamicData(
-			nameof( Data_ParseFieldData_ThrowsDuplicateValueException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ParseFieldData_ThrowsDuplicateValueException( Token input )
+		private static IEnumerable<object[]> Data_ParseRegionData_ThrowsDuplicateValueException()
 		{
-			_ = FieldDataParser.ParseFieldData( input );
-		}
-
-
-		private static IEnumerable<object[]> Data_ParseFieldData_Success()
-		{
-			yield return new TestData.DataContainer_ParseFieldData_Success()
-			{
-				Expected = TestData.ParsedFieldDictionary,
-				Input = TestData.FieldRegionToken_Standard,
-			}.ToObjectArray();
-		}
-
-		private static IEnumerable<object[]> Data_ParseFieldData_ThrowsDuplicateValueException()
-		{
-			yield return new TestData.DataContainer_ParseFieldData_ThrowsException()
+			yield return new TestData.DataContainer_ParseRegionData_ThrowsException()
 			{
 				Input = TestData.FieldRegionToken_ContainsDuplicateValues,
 			}.ToObjectArray();
+		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( DuplicateValueException ) ) ]
+		[ DynamicData(
+			nameof( Data_ParseRegionData_ThrowsDuplicateValueException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseRegionData_ThrowsDuplicateValueException(
+			Token input )
+		{
+			_ = FieldDataParser.ParseRegionData( input );
 		}
 
 
@@ -135,7 +137,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			};
 
 
-			public struct DataContainer_ParseFieldData_Success
+			public struct DataContainer_ParseRegionData_Success
 			{
 				public Dictionary<string, string[]> Expected { get; set; }
 				public Token Input { get; set; }
@@ -146,7 +148,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				}
 			}
 
-			public struct DataContainer_ParseFieldData_ThrowsException
+			public struct DataContainer_ParseRegionData_ThrowsException
 			{
 				public Token Input { get; set; }
 

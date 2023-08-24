@@ -19,27 +19,6 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			RawDataParser = new RawDataParser();
 		}
 
-		[ TestMethod ]
-		[ DynamicData(
-			nameof( Data_ParseRawData_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ParseRawData_Success( Token expected, string[] inputData )
-		{
-			var actual = RawDataParser.ParseRawData( inputData );
-			Assert.AreEqual( expected, actual );
-		}
-
-		[ TestMethod ]
-		[ ExpectedException( typeof( IndentImbalanceException ) ) ]
-		[ DynamicData(
-			nameof( Data_ParseRawData_ThrowsIndentImbalanceException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ParseRawData_ThrowsIndentImbalanceException( Token expected, string[] inputData )
-		{
-			var actual = RawDataParser.ParseRawData( inputData );
-			Assert.AreEqual( expected, actual );
-		}
-
 
 		private static IEnumerable<object[]> Data_ParseRawData_Success()
 		{
@@ -50,12 +29,36 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_ParseRawData_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseRawData_Success(
+			Token expected, string[] inputData )
+		{
+			var actual = RawDataParser.ParseRawData( inputData );
+			Assert.AreEqual( expected, actual );
+		}
+
+
 		private static IEnumerable<object[]> Data_ParseRawData_ThrowsIndentImbalanceException()
 		{
 			yield return new TestData.DataContainer_ParseRawData_Success
 			{
 				InputData = TestData.RawData_ImbalancedOpenBracket,
 			}.ToObjectArray();
+		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( IndentImbalanceException ) ) ]
+		[ DynamicData(
+			nameof( Data_ParseRawData_ThrowsIndentImbalanceException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseRawData_ThrowsIndentImbalanceException(
+			Token expected, string[] inputData )
+		{
+			var actual = RawDataParser.ParseRawData( inputData );
+			Assert.AreEqual( expected, actual );
 		}
 
 
@@ -128,7 +131,6 @@ namespace PluralityUtilities.Common.Utilities.Tests
 				"}",
 				"a1-name:a1-value",
 			};
-
 
 
 			public struct DataContainer_ParseRawData_Success

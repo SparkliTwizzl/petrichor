@@ -15,36 +15,6 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			TestUtilities.InitializeLoggingForTests();
 		}
 
-		[ TestMethod ]
-		[ DynamicData(
-			nameof( Data_FlattenTokenTree_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_FlattenTokenTree_Success( Token[] expected, Token input )
-		{
-			var actual = TokenDataParser.FlattenTokenTree( input );
-			CollectionAssert.AreEqual( expected, actual );
-		}
-
-		[ TestMethod ]
-		[ DynamicData(
-			nameof( Data_ParseTokenFromString_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ParseTokenFromString_Success( Token expected, string input )
-		{
-			var actual = TokenDataParser.ParseTokenFromString( input );
-			Assert.AreEqual( expected, actual );
-		}
-
-		[ TestMethod ]
-		[ ExpectedException( typeof( InvalidTokenException ) ) ]
-		[ DynamicData(
-			nameof( Data_ParseTokenFromString_ThrowsInvalidTokenException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ParseTokenFromString_ThrowsInvalidTokenException( string input )
-		{
-			_ = TokenDataParser.ParseTokenFromString( input );
-		}
-
 
 		private static IEnumerable<object[]> Data_FlattenTokenTree_Success()
 		{
@@ -54,6 +24,18 @@ namespace PluralityUtilities.Common.Utilities.Tests
 				Input = TestData.TokenTreeTierA,
 			}.ToObjectArray();
 		}
+
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_FlattenTokenTree_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_FlattenTokenTree_Success(
+			Token[] expected, Token input )
+		{
+			var actual = TokenDataParser.FlattenTokenTree( input );
+			CollectionAssert.AreEqual( expected, actual );
+		}
+
 
 		private static IEnumerable<object[]> Data_ParseTokenFromString_Success()
 		{
@@ -70,6 +52,18 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}.ToObjectArray();
 		}
 
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_ParseTokenFromString_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseTokenFromString_Success(
+			Token expected, string input )
+		{
+			var actual = TokenDataParser.ParseTokenFromString( input );
+			Assert.AreEqual( expected, actual );
+		}
+
+
 		private static IEnumerable<object[]> Data_ParseTokenFromString_ThrowsInvalidTokenException()
 		{
 			yield return new TestData.DataContainer_ParseTokenFromString_ThrowsException
@@ -81,6 +75,17 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			{
 				Input = TestData.RawTokenString_MissingTokenName,
 			}.ToObjectArray();
+		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( InvalidTokenException ) ) ]
+		[ DynamicData(
+			nameof( Data_ParseTokenFromString_ThrowsInvalidTokenException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ParseTokenFromString_ThrowsInvalidTokenException(
+			string input )
+		{
+			_ = TokenDataParser.ParseTokenFromString( input );
 		}
 
 

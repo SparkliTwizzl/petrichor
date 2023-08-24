@@ -4,7 +4,7 @@ using PluralityUtilities.Common.Utilities;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public class FieldDataParser
+	public static class FieldDataParser
 	{
 		private const string RegionName = "fields";
 		private static string[] ValidTokenNames { get; } = new string[]
@@ -13,7 +13,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		};
 
 
-		public static Dictionary<string, string[]> ParseFieldData( Token regionToken )
+		public static Dictionary<string, string[]> ParseRegionData( Token regionToken )
 		{
 			var tokenList = TokenDataParser.FlattenTokenTree( regionToken );
 			RegionDataValidator.ValidateBasicRegionData( tokenList, RegionName, ValidTokenNames );

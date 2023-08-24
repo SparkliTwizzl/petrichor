@@ -15,74 +15,6 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			TestUtilities.InitializeLoggingForTests();
 		}
 
-		[ TestMethod ]
-		[ DynamicData(
-			nameof( Data_RejectDuplicateTokenValues_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_RejectDuplicateTokenValues_Success( Token[] input )
-		{
-			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
-		}
-
-		[ TestMethod ]
-		[ ExpectedException( typeof( DuplicateValueException ) ) ]
-		[ DynamicData(
-			nameof( Data_RejectDuplicateTokenValues_ThrowsDuplicateValueException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_RejectDuplicateTokenValues_ThrowsDuplicateValueException( Token[] input )
-		{
-			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
-		}
-
-		[ TestMethod ]
-		[ DynamicData(
-			nameof( Data_RejectNestedTokens_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_RejectNestedTokens_Success( Token[] input )
-		{
-			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
-		}
-
-
-		[ TestMethod ]
-		[ ExpectedException( typeof( InvalidDataException ) ) ]
-		[ DynamicData(
-			nameof( Data_RejectNestedTokens_ThrowsInvalidDataException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_RejectNestedTokens_ThrowsInvalidDataException( Token[] input )
-		{
-			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
-		}
-
-		[TestMethod ]
-		[ DynamicData(
-			nameof( Data_ValidateBasicRegionData_Success ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ValidateBasicRegionData_Success( Token[] input )
-		{
-			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
-		}
-
-		[TestMethod ]
-		[ ExpectedException( typeof( InvalidNameException ) ) ]
-		[ DynamicData(
-			nameof( Data_ValidateBasicRegionData_ThrowsInvalidNameException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ValidateBasicRegionData_ThrowsInvalidNameException( Token[] input )
-		{
-			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
-		}
-
-		[TestMethod ]
-		[ ExpectedException( typeof( MissingValueException ) ) ]
-		[ DynamicData(
-			nameof( Data_ValidateBasicRegionData_ThrowsMissingValueException ),
-			DynamicDataSourceType.Method ) ]
-		public void Test_ValidateBasicRegionData_ThrowsMissingValueException( Token[] input )
-		{
-			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
-		}
-
 
 		private static IEnumerable<object[]> Data_RejectDuplicateTokenValues_Success()
 		{
@@ -92,6 +24,17 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_RejectDuplicateTokenValues_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectDuplicateTokenValues_Success(
+			Token[] input )
+		{
+			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
+		}
+
+
 		private static IEnumerable<object[]> Data_RejectDuplicateTokenValues_ThrowsDuplicateValueException()
 		{
 			yield return new TestData.DataContainer_RejectDuplicateTokenValues()
@@ -99,6 +42,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Input = TestData.TokenList_HasDuplicateValues,
 			}.ToObjectArray();
 		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( DuplicateValueException ) ) ]
+		[ DynamicData(
+			nameof( Data_RejectDuplicateTokenValues_ThrowsDuplicateValueException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectDuplicateTokenValues_ThrowsDuplicateValueException(
+			Token[] input )
+		{
+			RegionDataValidator.RejectDuplicateTokenValues( input, TestData.RegionName );
+		}
+
 
 		private static IEnumerable<object[]> Data_RejectNestedTokens_Success()
 		{
@@ -108,6 +63,17 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
+		[ TestMethod ]
+		[ DynamicData(
+			nameof( Data_RejectNestedTokens_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectNestedTokens_Success(
+			Token[] input )
+		{
+			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
+		}
+
+
 		private static IEnumerable<object[]> Data_RejectNestedTokens_ThrowsInvalidDataException()
 		{
 			yield return new TestData.DataContainer_RejectNestedTokens()
@@ -115,6 +81,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Input = TestData.TokenList_HasNestedTokens,
 			}.ToObjectArray();
 		}
+
+		[ TestMethod ]
+		[ ExpectedException( typeof( InvalidDataException ) ) ]
+		[ DynamicData(
+			nameof( Data_RejectNestedTokens_ThrowsInvalidDataException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_RejectNestedTokens_ThrowsInvalidDataException(
+			Token[] input )
+		{
+			RegionDataValidator.RejectNestedTokens( input, TestData.RegionName );
+		}
+
 
 		private static IEnumerable<object[]> Data_ValidateBasicRegionData_Success()
 		{
@@ -129,6 +107,17 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			}.ToObjectArray();
 		}
 
+		[TestMethod ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_Success ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ValidateBasicRegionData_Success(
+			Token[] input )
+		{
+			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
+		}
+
+
 		private static IEnumerable<object[]> Data_ValidateBasicRegionData_ThrowsInvalidNameException()
 		{
 			yield return new TestData.DataContainer_ValidateBasicRegionData()
@@ -136,6 +125,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Input = TestData.TokenList_HasInvalidTokenName,
 			}.ToObjectArray();
 		}
+
+		[TestMethod ]
+		[ ExpectedException( typeof( InvalidNameException ) ) ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_ThrowsInvalidNameException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ValidateBasicRegionData_ThrowsInvalidNameException(
+			Token[] input )
+		{
+			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
+		}
+
 
 		private static IEnumerable<object[]> Data_ValidateBasicRegionData_ThrowsMissingValueException()
 		{
@@ -149,6 +150,18 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				Input = TestData.TokenList_HasNoRegionToken,
 			}.ToObjectArray();
 		}
+
+		[TestMethod ]
+		[ ExpectedException( typeof( MissingValueException ) ) ]
+		[ DynamicData(
+			nameof( Data_ValidateBasicRegionData_ThrowsMissingValueException ),
+			DynamicDataSourceType.Method ) ]
+		public void Test_ValidateBasicRegionData_ThrowsMissingValueException(
+			Token[] input )
+		{
+			RegionDataValidator.ValidateBasicRegionData( input, TestData.RegionName, TestData.AllowedTokenNames );
+		}
+
 
 
 		private static class TestData

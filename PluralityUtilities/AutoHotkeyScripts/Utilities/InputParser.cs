@@ -10,17 +10,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		private const string EntriesToken = "entries";
 		private const string FieldsToken = "fields";
 		private const string TemplatesToken = "templates";
-		private IEntryParser EntryParser { get; set; }
-		private FieldDataParser FieldDataParser { get; set; }
-		private TemplateDataParser TemplateDataParser { get; set; }
 
 
-		public InputParser( FieldDataParser fieldParser, TemplateDataParser templateParser, IEntryParser entryParser )
-		{
-			FieldDataParser = fieldParser;
-			TemplateDataParser = templateParser;
-			EntryParser = entryParser;
-		}
+		public InputParser() { }
 
 
 		public Input ParseInputFile( string inputFilePath )
@@ -55,7 +47,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			//			if ( string.Compare( qualifiedToken.Value, EntriesToken ) == 0 )
 			//			{
 			//				++i;
-			//				input.Entries = EntryParser.ParseEntriesFromData( data, ref i );
+			//				input.Entries = EntryDataParser.ParseEntriesFromData( data, ref i );
 			//			}
 			//			else if ( string.Compare( qualifiedToken.Value, FieldsToken ) == 0 )
 			//			{

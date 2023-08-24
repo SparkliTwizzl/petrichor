@@ -17,11 +17,21 @@ namespace PluralityUtilities.Common.Utilities.Tests
 		}
 
 
+		private static IEnumerable<object[]> Data_GetDirectory_Success()
+		{
+			yield return new TestData.DataContainer_AllMethods_AllCases
+			{
+				Expected = TestData.Expected_GetDirectory,
+				InputData = TestData.InputData,
+			}.ToObjectArray();
+		}
+
 		[ TestMethod ]
 		[ DynamicData(
-			nameof( Data_GetDirectory ),
+			nameof( Data_GetDirectory_Success ),
 			DynamicDataSourceType.Method ) ]
-		public void Test_GetDirectory( string[] expected, string[] inputData )
+		public void Test_GetDirectory_Success(
+			string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
 			foreach ( var line in inputData )
@@ -34,11 +44,22 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
+
+		private static IEnumerable<object[]> Data_GetFileName_Success()
+		{
+			yield return new TestData.DataContainer_AllMethods_AllCases
+			{
+				Expected = TestData.Expected_GetFileName,
+				InputData = TestData.InputData,
+			}.ToObjectArray();
+		}
+
 		[ TestMethod ]
 		[ DynamicData(
-			nameof( Data_GetFileName ),
+			nameof( Data_GetFileName_Success ),
 			DynamicDataSourceType.Method ) ]
-		public void Test_GetFileName( string[] expected, string[] inputData )
+		public void Test_GetFileName_Success(
+			string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
 			foreach ( var line in inputData )
@@ -51,11 +72,22 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
+
+		private static IEnumerable<object[]> Data_RemoveFileExtension_Success()
+		{
+			yield return new TestData.DataContainer_AllMethods_AllCases
+			{
+				Expected = TestData.Expected_RemoveExtension,
+				InputData = TestData.InputData,
+			}.ToObjectArray();
+		}
+
 		[ TestMethod ]
 		[ DynamicData(
-			nameof( Data_RemoveExtension ),
+			nameof( Data_RemoveFileExtension_Success ),
 			DynamicDataSourceType.Method ) ]
-		public void Test_RemoveFileExtension( string[] expected, string[] inputData )
+		public void Test_RemoveFileExtension_Success(
+			string[] expected, string[] inputData )
 		{
 			var outputData = new List<string>();
 			foreach ( var line in inputData )
@@ -66,34 +98,6 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			}
 			var actual = outputData.ToArray();
 			CollectionAssert.AreEqual( expected, actual );
-		}
-
-
-		private static IEnumerable<object[]> Data_GetDirectory()
-		{
-			yield return new TestData.DataContainer_AllMethods_AllCases
-			{
-				Expected = TestData.Expected_GetDirectory,
-				InputData = TestData.InputData,
-			}.ToObjectArray();
-		}
-
-		private static IEnumerable<object[]> Data_GetFileName()
-		{
-			yield return new TestData.DataContainer_AllMethods_AllCases
-			{
-				Expected = TestData.Expected_GetFileName,
-				InputData = TestData.InputData,
-			}.ToObjectArray();
-		}
-
-		private static IEnumerable<object[]> Data_RemoveExtension()
-		{
-			yield return new TestData.DataContainer_AllMethods_AllCases
-			{
-				Expected = TestData.Expected_RemoveExtension,
-				InputData = TestData.InputData,
-			}.ToObjectArray();
 		}
 
 
