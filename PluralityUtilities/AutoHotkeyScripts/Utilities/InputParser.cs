@@ -11,14 +11,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		private const string FieldsToken = "fields";
 		private const string TemplatesToken = "templates";
 		private IEntryParser EntryParser { get; set; }
-		private FieldParser FieldParser { get; set; }
-		private TemplateParser TemplateParser { get; set; }
+		private FieldDataParser FieldDataParser { get; set; }
+		private TemplateDataParser TemplateDataParser { get; set; }
 
 
-		public InputParser( FieldParser fieldParser, TemplateParser templateParser, IEntryParser entryParser )
+		public InputParser( FieldDataParser fieldParser, TemplateDataParser templateParser, IEntryParser entryParser )
 		{
-			FieldParser = fieldParser;
-			TemplateParser = templateParser;
+			FieldDataParser = fieldParser;
+			TemplateDataParser = templateParser;
 			EntryParser = entryParser;
 		}
 
@@ -60,12 +60,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			//			else if ( string.Compare( qualifiedToken.Value, FieldsToken ) == 0 )
 			//			{
 			//				++i;
-			//				//input.Templates = TemplateParser.ParseTemplatesFromData( data, ref i );
+			//				//input.Templates = TemplateDataParser.ParseTemplatesFromData( data, ref i );
 			//			}
 			//			else if ( string.Compare( qualifiedToken.Value, TemplatesToken ) == 0 )
 			//			{
 			//				++i;
-			//				input.Templates = TemplateParser.ParseTemplatesFromData( data, ref i );
+			//				input.Templates = TemplateDataParser.ParseTemplatesFromData( data, ref i );
 			//			}
 			//			if ( tokenParser.IndentLevel > 0 )
 			//			{

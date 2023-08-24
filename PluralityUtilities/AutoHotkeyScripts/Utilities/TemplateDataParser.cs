@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
-	public partial class TemplateParser
+	public partial class TemplateDataParser
 	{
 		private const string RegionName = "templates";
 		private const string BasicTemplateTokenName = "template";
@@ -19,7 +19,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 		public static string[] ParseTemplateData( Token regionToken )
 		{
-			var tokenList = TokenParser.FlattenTokenTree( regionToken );
+			var tokenList = TokenDataParser.FlattenTokenTree( regionToken );
 			RegionDataValidator.ValidateBasicRegionData( tokenList, RegionName, ValidTokenNames );
 			RegionDataValidator.RejectNestedTokens( tokenList, RegionName );
 			ValidateTemplateStrings( tokenList );

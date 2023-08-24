@@ -31,9 +31,9 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 
 
 		public Mock< IEntryParser >? EntryParserMock { get; set; }
-		public Mock< FieldParser >? FieldParserMock { get; set; }
+		public Mock< FieldDataParser >? FieldDataParserMock { get; set; }
 		public IInputParser? InputParser { get; set; }
-		public Mock< TemplateParser >? TemplateParserMock { get; set; }
+		public Mock< TemplateDataParser >? TemplateDataParserMock { get; set; }
 		int i;
 
 
@@ -47,12 +47,12 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			EntryParserMock = new Mock< IEntryParser >();
 			EntryParserMock.Setup( m => m.ParseEntriesFromData( It.IsAny< string[] >(), ref i ) ).Returns( TestData.Entries );
 
-			FieldParserMock = new Mock< FieldParser >();
+			FieldDataParserMock = new Mock< FieldDataParser >();
 
-			TemplateParserMock = new Mock< TemplateParser >();
-			//TemplateParserMock.Setup( m => m.ParseTemplatesFromData( It.IsAny< string[] >(), ref i ) ).Returns( TestData.Templates );
+			TemplateDataParserMock = new Mock< TemplateDataParser >();
+			//TemplateDataParserMock.Setup( m => m.ParseTemplatesFromData( It.IsAny< string[] >(), ref i ) ).Returns( TestData.Templates );
 
-			InputParser = new InputParser( FieldParserMock.Object, TemplateParserMock.Object, EntryParserMock.Object );
+			InputParser = new InputParser( FieldDataParserMock.Object, TemplateDataParserMock.Object, EntryParserMock.Object );
 		}
 
 

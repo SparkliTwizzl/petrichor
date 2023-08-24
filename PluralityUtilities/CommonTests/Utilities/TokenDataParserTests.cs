@@ -7,7 +7,7 @@ using PluralityUtilities.TestCommon.Utilities;
 namespace PluralityUtilities.Common.Utilities.Tests
 {
 	[ TestClass ]
-	public class TokenParserTests
+	public class TokenDataParserTests
 	{
 		[ TestInitialize ]
 		public void Setup()
@@ -21,7 +21,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_FlattenTokenTree_Success( Token[] expected, Token input )
 		{
-			var actual = TokenParser.FlattenTokenTree( input );
+			var actual = TokenDataParser.FlattenTokenTree( input );
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
@@ -31,7 +31,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseTokenFromString_Success( Token expected, string input )
 		{
-			var actual = TokenParser.ParseTokenFromString( input );
+			var actual = TokenDataParser.ParseTokenFromString( input );
 			Assert.AreEqual( expected, actual );
 		}
 
@@ -42,7 +42,7 @@ namespace PluralityUtilities.Common.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseTokenFromString_ThrowsInvalidTokenException( string input )
 		{
-			_ = TokenParser.ParseTokenFromString( input );
+			_ = TokenDataParser.ParseTokenFromString( input );
 		}
 
 

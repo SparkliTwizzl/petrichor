@@ -7,7 +7,7 @@ using PluralityUtilities.TestCommon.Utilities;
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 {
 	[ TestClass ]
-	public class TemplateParserTests
+	public class TemplateDataParserTests
 	{
 		[ TestInitialize ]
 		public void Setup()
@@ -22,7 +22,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void ParseTemplateData_Success( string[] expected, Token input )
 		{
-			var actual = TemplateParser.ParseTemplateData( input );
+			var actual = TemplateDataParser.ParseTemplateData( input );
 			Log.Separator();
 			Log.Info( "expected = [[" );
 			foreach ( var item in expected )
@@ -48,7 +48,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void ParseTemplateData_ThrowsInvalidDataException( Token input )
 		{
-			_ = TemplateParser.ParseTemplateData( input );
+			_ = TemplateDataParser.ParseTemplateData( input );
 		}
 
 

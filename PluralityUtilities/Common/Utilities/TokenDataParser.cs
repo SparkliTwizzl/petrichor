@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace PluralityUtilities.Common.Utilities
 {
-	public static partial class TokenParser
+	public static partial class TokenDataParser
 	{
 		public static Token[] FlattenTokenTree( Token token)
 		{

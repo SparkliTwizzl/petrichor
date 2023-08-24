@@ -8,7 +8,7 @@ using PluralityUtilities.TestCommon.Utilities;
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 {
 	[TestClass]
-	public class FieldParserTests
+	public class FieldDataParserTests
 	{
 		[ TestInitialize ]
 		public void Setup()
@@ -22,7 +22,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseFieldData_Success( Dictionary<string, string[]> expected, Token input )
 		{
-			var actual = FieldParser.ParseFieldData( input );
+			var actual = FieldDataParser.ParseFieldData( input );
 			Assert.AreEqual( expected.Count, actual.Count );
 			for ( var i = 0; i < actual.Count; ++i )
 			{
@@ -58,7 +58,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			DynamicDataSourceType.Method ) ]
 		public void Test_ParseFieldData_ThrowsDuplicateValueException( Token input )
 		{
-			_ = FieldParser.ParseFieldData( input );
+			_ = FieldDataParser.ParseFieldData( input );
 		}
 
 

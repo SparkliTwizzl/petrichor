@@ -52,7 +52,7 @@ namespace PluralityUtilities.Common.Utilities
 						return result;
 
 					default:
-						result.TokenToPopulate.Body.Add( TokenParser.ParseTokenFromString( line ) );
+						result.TokenToPopulate.Body.Add( TokenDataParser.ParseTokenFromString( line ) );
 						break;
 				}
 			}
