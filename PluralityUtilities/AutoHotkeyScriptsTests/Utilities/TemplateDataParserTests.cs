@@ -104,10 +104,11 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				"::!{replace-field}::replacement string {replacement-field}",
 				"::{replace-field-0}-{replace-field-1}::replacement string {replacement-field}",
 			};
+			public const string TemplateRegionName = "templates";
 			public static Token TemplateRegionToken_Standard => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -125,7 +126,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidManualTemplate_NoLeadingDivider => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -138,7 +139,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidManualTemplate_NoReplaceString => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -151,7 +152,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidManualTemplate_NoTrailingDivider => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -164,7 +165,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidTemplate_NoDivider => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -177,7 +178,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidTemplate_NoPrefixChar => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()
@@ -190,7 +191,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token TemplateRegionToken_ContainsInvalidTemplate_NoReplaceField => new()
 			{
 				Name = "region",
-				Value = "templates",
+				Value = TemplateRegionName,
 				Body = new()
 				{
 					new()

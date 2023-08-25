@@ -91,10 +91,11 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				{ "a1-value", Array.Empty<string>() },
 				{ "b0-value", Array.Empty<string>() },
 			};
+			public const string FieldRegionName = "fields";
 			public static Token FieldRegionToken_Standard => new()
 			{
 				Name = "region",
-				Value = "fields",
+				Value = FieldRegionName,
 				Body = new()
 				{
 					new()
@@ -120,7 +121,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static Token FieldRegionToken_ContainsDuplicateValues => new()
 			{
 				Name = "region",
-				Value = "fields",
+				Value = FieldRegionName,
 				Body = new()
 				{
 					new()

@@ -11,6 +11,11 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		public Dictionary<string, string[]> FieldDictionary { get; set; }
 
 
+		public EntryDataParser()
+		{
+			AllowedFieldNames = Array.Empty<string>();
+			FieldDictionary = new Dictionary<string, string[]>();
+		}
 		public EntryDataParser( Dictionary<string, string[]> fieldDictionary )
 		{
 			FieldDictionary = fieldDictionary;
@@ -28,15 +33,14 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 			var tokenList = TokenDataParser.FlattenTokenTree( regionToken );
 			RegionDataValidator.ValidateBasicRegionData( tokenList, RegionName, AllowedFieldNames );
 			ValidateFieldStructure( tokenList );
-			throw new NotImplementedException();
+			return tokenList[ 1 .. ];
 		}
 
 
 		private void ValidateFieldStructure( Token[] tokens )
 		{
-			for ( var i = 1; i < tokens.Length; ++i )
+			foreach ( var token in tokens )
 			{
-				var token = tokens[ i ];
 				var allowedChildFieldNames = FieldDictionary[ token.Name ];
 				foreach ( var childToken in token.Body )
 				{
@@ -53,7 +57,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 
 					if ( !isChildNameAnAllowedField )
 					{
-						var e = new InvalidDataException( $"a token with name '{ token.Name }' in region '{ RegionName }' contained a subtoken with a name that did not match field definitions [[ { childToken.Name } ]]" );
+						var e = new InvalidDataException( $"a token with name '{ token.Name }' in region '{ RegionName }' contained a subtoken with a name that did not match field definitions [[ '{ childToken.Name }' ]]" );
 						Log.Exception( e );
 						throw e;
 					}
