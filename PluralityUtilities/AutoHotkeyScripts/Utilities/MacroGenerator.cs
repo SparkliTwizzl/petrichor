@@ -1,5 +1,5 @@
 ﻿using PluralityUtilities.Common.Containers;
-
+using PluralityUtilities.Common.Utilities;
 
 namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 {
@@ -30,44 +30,41 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		}
 
 
-		private Dictionary<string, int> CountFieldInstancesInEntry( Token entry )
-		{
-			var result = new Dictionary<string, int>();
-			//TODO trawl token, count how many times each field name appears
-			return result;
-		}
-
-		private Dictionary<string, string> CreateFindAndReplaceTableForToken( Token entry )
+		private Dictionary<string, string> CreateFindAndReplaceTableForToken( Token token )
 		{
 			var result = new Dictionary<string, string>();
-			//TODO build token field dictionary (key = field name, value = field value)
+			var flattenedToken = TokenDataParser.FlattenTokenTree( token );
+			foreach ( var field in flattenedToken )
+			{
+				result.Add( field.Name, field.Value );
+			}
 			return result;
 		}
 
-		private Token[] FlattenEntryFields( Token entry )
+		private Token[] SeparateFieldInstances( Token entry )
 		{
 			var result = new List<Token>();
-			//TODO prep batches of token data to be parsed into macros
-			//TODO convert single token with duplicate fields into many copies with only one instance of each field, ie copy token and remove duplicates at every level
+			//TODO prep batches of field data to be parsed into macros
+			//TODO convert single field with duplicate fields into many copies with only one instance of each field, ie copy field and remove duplicates at every level
 			return result.ToArray();
 		}
 
 		private List<string> GenerateMacrosFromEntry( Token entry )
 		{
 			var result = new List<string>();
-			var flattenedEntry = FlattenEntryFields( entry );
-			result.AddRange( GenerateMacrosFromFields( flattenedEntry ) );
+			var separatedFields = SeparateFieldInstances( entry );
+			result.AddRange( GenerateMacrosFromFields( separatedFields ) );
 			return result;
 		}
 
 		private List<string> GenerateMacrosFromFields( Token[] flattenedEntry )
 		{
 			var result = new List<string>();
+			//TODO loop to create batches of macros
 			foreach ( var token in flattenedEntry )
 			{
 				var findAndReplaceTable = CreateFindAndReplaceTableForToken( token );
 			}
-			//TODO loop to create batches of macros
 			return result;
 		}
 	}
