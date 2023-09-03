@@ -33,29 +33,42 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities
 		private Dictionary<string, int> CountFieldInstancesInEntry( Token entry )
 		{
 			var result = new Dictionary<string, int>();
-			//TODO trawl entry, count how many times each field name appears
+			//TODO trawl token, count how many times each field name appears
 			return result;
 		}
 
-		private Dictionary<string, string> CreateFindAndReplaceTableForEntry( Token entry )
+		private Dictionary<string, string> CreateFindAndReplaceTableForToken( Token entry )
 		{
 			var result = new Dictionary<string, string>();
-			//TODO build entry field dictionary (key = field name, value = field value)
+			//TODO build token field dictionary (key = field name, value = field value)
 			return result;
+		}
+
+		private Token[] FlattenEntryFields( Token entry )
+		{
+			var result = new List<Token>();
+			//TODO prep batches of token data to be parsed into macros
+			//TODO convert single token with duplicate fields into many copies with only one instance of each field, ie copy token and remove duplicates at every level
+			return result.ToArray();
 		}
 
 		private List<string> GenerateMacrosFromEntry( Token entry )
 		{
 			var result = new List<string>();
-			var findAndReplaceTable = CreateFindAndReplaceTableForEntry( entry );
-			var fieldInstanceCounts = CountFieldInstancesInEntry( entry );
-			//TODO use field instance counts and field dictionary to determine how many batches of macros to create - one batch per instance of a field name, ie number of batches will be the highest count of field instances
-			//TODO prep batches of entry data to be parsed into macros
-			//TODO loop to create batches of macros
-
+			var flattenedEntry = FlattenEntryFields( entry );
+			result.AddRange( GenerateMacrosFromFields( flattenedEntry ) );
 			return result;
 		}
 
-
+		private List<string> GenerateMacrosFromFields( Token[] flattenedEntry )
+		{
+			var result = new List<string>();
+			foreach ( var token in flattenedEntry )
+			{
+				var findAndReplaceTable = CreateFindAndReplaceTableForToken( token );
+			}
+			//TODO loop to create batches of macros
+			return result;
+		}
 	}
 }
