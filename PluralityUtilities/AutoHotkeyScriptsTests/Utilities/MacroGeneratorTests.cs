@@ -8,7 +8,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 	[ TestClass ]
 	public class MacroGeneratorTests
 	{
-		private MacroGenerator? macroGenerator { get; set; }
+		private MacroGenerator? MacroGenerator { get; set; }
 
 
 		[ TestInitialize ]
@@ -36,8 +36,8 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 		public void Test_GenerateMacros_Success(
 			string[] expected, Dictionary<string, string[]> fields, string[] templates, Token[] entries )
 		{
-			macroGenerator = new MacroGenerator( fields: fields, templates: templates, entries: entries );
-			var actual = macroGenerator.GenerateMacros();
+			MacroGenerator = new MacroGenerator( fields: fields, templates: templates, entries: entries );
+			var actual = MacroGenerator.GenerateMacros();
 			CollectionAssert.AreEqual( expected, actual );
 		}
 
@@ -49,68 +49,68 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 				new()
 				{
 					Name = "a0",
-					Value = "a0-value",
+					Value = "a0_0",
 					Body = new()
 					{
 						new()
 						{
 							Name = "b0",
-							Value = "b0-value-0",
+							Value = "b0_0",
 							Body = new()
 							{
 								new()
 								{
 									Name = "c0",
-									Value = "c0-value-0",
+									Value = "c0_0",
 								},
 								new()
 								{
 									Name = "c0",
-									Value = "c0-value-1",
+									Value = "c0_1",
 								},
 							}
 						},
 						new()
 						{
 							Name = "b0",
-							Value = "b0-value-1",
+							Value = "b0_1",
 							Body = new()
 							{
 								new()
 								{
 									Name = "c0",
-									Value = "c0-value-2",
+									Value = "c0_2",
 								},
 								new()
 								{
 									Name = "c0",
-									Value = "c0-value-3",
+									Value = "c0_3",
 								},
 							}
 						},
 						new()
 						{
 							Name = "b1",
-							Value = "b1-value",
+							Value = "b1_0",
 						},
 					}
 				},
 				new()
 				{
 					Name = "a1",
-					Value = "a1-value",
+					Value = "a1_0",
 				},
 			};
 			public static string[] Expected { get; } = new string[]
 			{
-				"::!a0-value::b0-value-0 c0-value-0",
-				"::-a1-value-::b1-value c0-value-0",
-				"::!a0-value::b0-value-0 c0-value-1",
-				"::-a1-value-::b1-value c0-value-1",
-				"::!a0-value::b0-value-1 c0-value-2",
-				"::-a1-value-::b1-value c0-value-2",
-				"::!a0-value::b0-value-1 c0-value-3",
-				"::-a1-value-::b1-value c0-value-3",
+				"::!a0_0::b0_0 c0_0",
+				"::{a1}-a1_0::{b1}-b1_0 {b0}-c0_0",
+				"::!a0_0::b0_0 c0_1",
+				"::{a1}-a1_0::{b1}-b1_0 {b0}-c0_1",
+				"::!a0_0::b0_1 c0_2",
+				"::{a1}-a1_0::{b1}-b1_0 {b0}-c0_2",
+				"::!a0_0::b0_1 c0_3",
+				"::{a1}-a1_0::{b1}-b1_0 {b0}-c0_3",
 			};
 			public static Dictionary<string, string[]> Fields { get; } = new()
 			{
@@ -124,7 +124,7 @@ namespace PluralityUtilities.AutoHotkeyScripts.Utilities.Tests
 			public static string[] Templates { get; } = new string[]
 			{
 				"::!{a0}::{b0} {c0}",
-				"::-{a1}-::{b1} {c0}",
+				@"::\{a1\}-{a1}::\{b1\}-{b1} \{c0\}-{c0}",
 			};
 
 
