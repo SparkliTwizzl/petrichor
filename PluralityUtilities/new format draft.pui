@@ -5,6 +5,7 @@ every line is either:
 	- token				[[ token-name:token-value ]]
 	- open brace		[[ { ]]
 	- close brace		[[ } ]]
+	- comment			[[ ##text ]]
 
 indent level determined by [[ { open brace ]] vs [[ } close brace ]]
 tokens with no open brace between them and the following token are assumed to be self-closing
@@ -31,8 +32,7 @@ region:fields
 
 region:templates
 {
-	template:{prefix-char}{replace-field}::{replacement-string}
-	template-manual:::{replace-string}::{replacement-string}
+	template: ( replace string ) :: replacement string
 }
 
 region:entries
@@ -91,8 +91,8 @@ indent level determined by [[ <open> ]] vs [[ </close> ]] tokens ( [[ <self-clos
 </region>
 
 <region> templates
-	<template/> {prefix-char}{replace-field}::{replacement-string}
-	<template-manual/> ::{replace-string}::{replacement-string}
+	<template/> [[ prefix-char ]][[ replace-field ]]::[[ replacement-string ]]
+	<template-manual/> ::[[ replace-string ]]::[[ replacement-string ]]
 </region>
 
 <region> entries
