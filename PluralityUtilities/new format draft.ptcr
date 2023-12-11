@@ -1,0 +1,66 @@
+========== JSON-like option ==========
+ 
+every line is either:
+	- whitespace 
+	- token				[ token-name:token-value ]
+	- open brace		[ { ]
+	- close brace		[ } ]
+	- comment			[ ##text ]
+
+indent level determined by [ { open brace ] vs [ } close brace ]
+tokens with no open brace between them and the following token are assumed to be self-closing
+	pros:
+		- easy to modify
+	cons:
+		- easier to mess up
+		- easier to lose track of what braces go to what token
+
+========== ↓ example ↓ ==========
+
+requires: Petrichor v1.0
+type: AutoHotkey shortcut script builder
+logging-level: all
+logging-mode: all
+output-version: AutoHotkey v2.0
+
+region: fields
+{
+	field: top-level
+	{
+		field: solo
+		field: group
+		{
+			field: nested-solo
+		}
+	}
+}
+
+region: templates
+{
+	template: [replace-field]:: [insert-field]
+}
+
+region: entries
+{
+	top-level: value-1A
+	{
+		solo: value-1B
+		solo: value-1C
+		group: value-1D
+		{
+			nested: value-1E
+			nested: value-1F
+		}
+	}
+	
+	top-level: value-2A
+	{
+		solo: value-2B
+		solo: value-2C
+		group: value-2D
+		{
+			nested: value-2E
+			nested: value-2F
+		}
+	}
+}
