@@ -1,16 +1,19 @@
 .cr/
 .vs/
 __pycache__/
-build/
-log/
-output/
-results/
 bin/
 dist/
 obj/
 site/
 venv/
 
+[Bb]uild/
+[Ll]og/
+[Oo]utput/
+[Rr]esults/
+
 *.csproj.user
 *.log
 *.pypirc
+
+[Pp]etrichor.sln
