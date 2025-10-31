@@ -2,8 +2,6 @@
 <h1 align="center">Petrichor</h1>
 <h4 align="center">/ˈpɛtrɪˌkɔːr/ (noun) The scent of damp earth, particularly after rain.</h4>
 
-<div align="center">Part of the <a href="https://github.com/SparkliTwizzl/trioxichor">Trioxichor project</a>.</div>
-
 ---
 
 [User guide](https://sparklitwizzl.github.io/petrichor/)
