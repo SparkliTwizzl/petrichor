@@ -7,40 +7,40 @@
             "command": "dotnet",
             "args": [
                 "build",
-                "${workspaceRoot}/source/App/App.csproj"
-            ],
+                "${workspaceRoot}/Source/App/App.csproj"
+            ]
         },
         {
-            "label": "CommonTests",
+            "label": "Common.Test",
             "type": "shell",
             "command": "dotnet",
             "args": [
                 "test",
-                "${workspaceRoot}/source/CommonTests/CommonTests.csproj"
-            ],
+                "${workspaceRoot}/Test/Common.Test/Common.Test.csproj"
+            ]
         },
         {
-            "label": "ShortcutScriptGenerationTests",
+            "label": "ShortcutScriptGeneration.Test",
             "type": "shell",
             "command": "dotnet",
             "args": [
                 "test",
-                "${workspaceRoot}/source/ShortcutScriptGenerationTests/ShortcutScriptGenerationTests.csproj"
-            ],
+                "${workspaceRoot}/Test/ShortcutScriptGeneration.Test/ShortcutScriptGeneration.Test.csproj"
+            ]
         },
         {
             "label": "unit tests",
             "dependsOn": [
-                "CommonTests",
-                "ShortcutScriptGenerationTests",
-            ],
+                "Common.Test",
+                "ShortcutScriptGeneration.Test"
+            ]
         },
         {
-            "label": "build & test",
+            "label": "build & unit test",
             "dependsOn": [
                 "build",
-                "unit tests",
-            ],
+                "unit tests"
+            ]
         },
     ]
 }
