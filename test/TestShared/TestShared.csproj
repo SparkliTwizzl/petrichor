@@ -24,8 +24,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Common\Common.csproj" />
-	  <ProjectReference Include="..\Logging\Logging.csproj" />
+	  <ProjectReference Include="..\..\Source\Common\Common.csproj" />
+	  <ProjectReference Include="..\..\Source\Logging\Logging.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -33,14 +33,16 @@
             "dependsOn": [
                 "Common.Test",
                 "ShortcutScriptGeneration.Test"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "label": "build & unit test",
             "dependsOn": [
                 "build",
                 "unit tests"
-            ]
-        },
+            ],
+            "problemMatcher": []
+        }
     ]
 }
