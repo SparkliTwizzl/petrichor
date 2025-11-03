@@ -2,4 +2,8 @@
     <PropertyGroup>
         <BaseBuildDir>$(MSBuildThisFileDirectory)build\</BaseBuildDir>
     </PropertyGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)csharp.ruleset</CodeAnalysisRuleSet>
+    </PropertyGroup>
 </Project>
