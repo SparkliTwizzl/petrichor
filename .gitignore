@@ -8,6 +8,7 @@ site/
 venv/
 
 [Bb]uild/
+[Dd]ebug/
 [Ll]og/
 [Oo]utput/
 [Rr]esults/

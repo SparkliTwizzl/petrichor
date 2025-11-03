@@ -1,9 +1,33 @@
 <Project>
     <PropertyGroup>
-        <BaseBuildDir>$(MSBuildThisFileDirectory)build\</BaseBuildDir>
+        <SolutionName>Petrichor</SolutionName>
+        <Description>Petrichor</Description>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>SparkliTwizzl.Petrichor</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup>
-        <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)csharp.ruleset</CodeAnalysisRuleSet>
+        <RootDir>$(MSBuildThisFileDirectory)</RootDir>
+        <BaseBuildDir>$(RootDir)build\</BaseBuildDir>
+        <BuildDir>$(BaseBuildDir)$(Category)\</BuildDir>
+        <BaseLogDir>$(RootDir)logs\</BaseLogDir>
+        <LogDir>$(BaseLogDir)$(Category)\</LogDir>
+        <BaseOutputDir>$(RootDir)output\</BaseOutputDir>
+        <OutputDir>$(BaseOutputDir)$(Category)\</OutputDir>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <BaseIntermediateOutputPath>$(BuildDir)$(MSBuildProjectName)\obj\</BaseIntermediateOutputPath>
+        <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
+        <OutputPath>$(OutputDir)$(Configuration)\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(RootDir)csharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
 </Project>
