@@ -1,43 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <ApplicationIcon>app.ico</ApplicationIcon>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<AssemblyName>$(SolutionName)</AssemblyName>
-		<RootNamespace>$(SolutionName).$(MSBuildProjectName)</RootNamespace>
-		<ApplicationIcon>app.ico</ApplicationIcon>
-	</PropertyGroup>
+    <ItemGroup>
+        <Content Include="app.ico"/>
+    </ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <CodeAnalysisRuleSet />
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <CodeAnalysisRuleSet />
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <Content Include="app.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Include="..\.editorconfig" Link=".editorconfig" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	  <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\RandomStringGeneration\RandomStringGeneration.csproj" />
-		<ProjectReference Include="..\ShortcutScriptGeneration\ShortcutScriptGeneration.csproj" />
-		<ProjectReference Include="..\Logging\Logging.csproj" />
-	</ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="$(SourceDir)RandomStringGeneration\RandomStringGeneration.csproj"/>
+        <ProjectReference Include="$(SourceDir)ShortcutScriptGeneration\ShortcutScriptGeneration.csproj"/>
+        <ProjectReference Include="$(SourceDir)Logging\Logging.csproj"/>
+    </ItemGroup>
 </Project>

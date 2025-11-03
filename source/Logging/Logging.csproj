@@ -1,27 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<AssemblyName>$(SolutionName).$(MSBuildProjectName)</AssemblyName>
-		<RootNamespace>$(SolutionName).$(MSBuildProjectName)</RootNamespace>
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <CodeAnalysisRuleSet />
-	</PropertyGroup>
-
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-	  <CodeAnalysisRuleSet />
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="Pastel" Version="5.0.0" />
-	  <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	  </PackageReference>
-	</ItemGroup>
-
+    <ItemGroup>
+        <PackageReference Include="Pastel" Version="7.0.0"/>
+    </ItemGroup>
 </Project>

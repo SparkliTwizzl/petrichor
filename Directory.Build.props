@@ -1,33 +1,57 @@
 <Project>
     <PropertyGroup>
         <SolutionName>Petrichor</SolutionName>
-        <Description>Petrichor</Description>
+        <Description>A work-in-progress utility application.</Description>
+        <RootNamespace>SparkliTwizzl.$(SolutionName).$(MSBuildProjectName)</RootNamespace>
         <TargetFramework>net9.0</TargetFramework>
-        <RootNamespace>SparkliTwizzl.Petrichor</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     </PropertyGroup>
 
+    <!-- Base directories for all code files. -->
     <PropertyGroup>
         <RootDir>$(MSBuildThisFileDirectory)</RootDir>
+        <SourceDir>$(RootDir)Source\</SourceDir>
+        <TestDir>$(RootDir)Test\</TestDir>
+    </PropertyGroup>
+
+    <!-- Base directories for build/test/run files. -->
+    <PropertyGroup>
         <BaseBuildDir>$(RootDir)build\</BaseBuildDir>
-        <BuildDir>$(BaseBuildDir)$(Category)\</BuildDir>
         <BaseLogDir>$(RootDir)logs\</BaseLogDir>
-        <LogDir>$(BaseLogDir)$(Category)\</LogDir>
         <BaseOutputDir>$(RootDir)output\</BaseOutputDir>
+    </PropertyGroup>
+
+    <!-- Templates for build/test/run directories. Category must be defined in per-directory Directory.Build.props files. -->
+    <PropertyGroup>
+        <BuildDir>$(BaseBuildDir)$(Category)\</BuildDir>
+        <LogDir>$(BaseLogDir)$(Category)\</LogDir>
         <OutputDir>$(BaseOutputDir)$(Category)\</OutputDir>
     </PropertyGroup>
 
+    <!-- Templates for build file locations. -->
     <PropertyGroup>
         <BaseIntermediateOutputPath>$(BuildDir)$(MSBuildProjectName)\obj\</BaseIntermediateOutputPath>
         <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
         <OutputPath>$(OutputDir)$(Configuration)\</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    </PropertyGroup>
-
+    <!-- Code and editor config. -->
     <PropertyGroup>
         <CodeAnalysisRuleSet>$(RootDir)csharp.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+    <ItemGroup>
+        <None Include=".editorconfig" Link=".editorconfig"/>
+    </ItemGroup>
+
+    <!-- Universally included packages. -->
+    <ItemGroup>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.16.0.82469">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta7.25380.108"/>
+    </ItemGroup>
 </Project>
